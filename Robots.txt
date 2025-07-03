@@ -1,4 +1,0 @@
-User-agent: *
-Disallow:
-Disallow: /cgi-bin/
-Sitemap: https://jordanjoecooper.dev/sitemap.xml

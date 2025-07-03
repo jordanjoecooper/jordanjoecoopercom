@@ -1,0 +1,23 @@
+{
+  "name": "jordan",
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.js",
+  "devDependencies": {},
+  "dependencies": {
+    "clean-css": "^5.3.3",
+    "fs-extra": "^11.3.0",
+    "gray-matter": "^4.0.3",
+    "html-minifier-terser": "^7.2.0",
+    "marked": "^16.0.0",
+    "rss": "^1.2.2"
+  },
+  "scripts": {
+    "build": "node scripts/build.js",
+    "dev": "node scripts/build.js && python3 -m http.server 8000 --directory dist",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": ""
+}

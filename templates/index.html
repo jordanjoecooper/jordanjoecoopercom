@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jordan's Blog</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="description" content="Personal blog about technology, thoughts, and experiences">
+    <meta name="author" content="Jordan">
+    <meta name="keywords" content="blog, technology, thoughts, personal">
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{baseUrl}}">
+    <meta property="og:title" content="Jordan's Blog">
+    <meta property="og:description" content="Personal blog about technology, thoughts, and experiences">
+    <meta property="og:image" content="{{baseUrl}}/images/og-image.png">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{baseUrl}}">
+    <meta property="twitter:title" content="Jordan's Blog">
+    <meta property="twitter:description" content="Personal blog about technology, thoughts, and experiences">
+    <meta property="twitter:image" content="{{baseUrl}}/images/og-image.png">
+    
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Blog",
+        "name": "Jordan's Blog",
+        "description": "Personal blog about technology, thoughts, and experiences",
+        "url": "{{baseUrl}}",
+        "author": {
+            "@type": "Person",
+            "name": "Jordan"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Jordan's Blog",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{baseUrl}}/images/logo.png"
+            }
+        }
+    }
+    </script>
+    
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link rel="alternate" type="application/rss+xml" title="Jordan's Blog RSS Feed" href="rss.xml">
+</head>
+<body>
+    <header class="header">
+        <nav class="nav">
+            <div class="nav-container">
+                <a href="index.html" class="nav-logo">Jordan's Blog</a>
+                <ul class="nav-menu">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header>
+
+    <main class="main">
+        <section class="hero">
+            <div class="container">
+                <h1 class="hero-title">Welcome to My Blog</h1>
+                <p class="hero-subtitle">Thoughts on technology, life, and everything in between</p>
+            </div>
+        </section>
+
+        <section class="blog-section">
+            <div class="container">
+                <h2 class="section-title">Latest Posts</h2>
+                <div class="blog-grid">
+                    {{#each posts}}
+                    <article class="blog-card">
+                        {{#if img}}
+                        <div class="blog-thumbnail">
+                            <img src="{{img}}" alt="{{title}}" loading="lazy">
+                        </div>
+                        {{/if}}
+                        <div class="blog-content">
+                            <h3 class="blog-title">
+                                <a href="posts/{{slug}}.html">{{title}}</a>
+                            </h3>
+                            <div class="blog-meta">
+                                <time datetime="{{date}}" class="blog-date">{{formattedDate}}</time>
+                                {{#if readTime}}<span class="blog-read-time">{{readTime}} min read</span>{{/if}}
+                            </div>
+                            <div class="blog-excerpt">
+                                <p>{{description}}</p>
+                            </div>
+                            <a href="posts/{{slug}}.html" class="button">Read More</a>
+                        </div>
+                    </article>
+                    {{/each}}
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Jordan. All rights reserved.</p>
+            <nav class="footer-nav">
+                <a href="sitemap.xml">Sitemap</a>
+                <a href="rss.xml">RSS</a>
+            </nav>
+        </div>
+    </footer>
+</body>
+</html> 
