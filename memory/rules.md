@@ -1,0 +1,1 @@
+All code must be well named, clean and follow DRY principles. SEO should be prioritised and we should aim to keep data required to load the site to a minimum whiklst ensuring things look beautiful.
