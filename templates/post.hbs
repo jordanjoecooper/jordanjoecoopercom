@@ -1,0 +1,24 @@
+{{> header title=title description=description baseUrl=baseUrl url=url isPost=true image=image keywords=keywords date=date}}
+
+<main>
+  <article>
+    <header>
+      <h1>{{title}}</h1>
+      <div class="post-meta">
+        <time datetime="{{date}}">{{formattedDate}}</time>
+        {{#if readTime}}<span> · {{readTime}} min read</span>{{/if}}
+      </div>
+      {{#if img}}
+      <div class="post-image">
+        <img src="{{img}}" alt="{{title}}" loading="lazy">
+      </div>
+      {{/if}}
+    </header>
+
+    <div class="post-content">
+      {{{content}}}
+    </div>
+  </article>
+</main>
+
+{{> footer baseUrl=baseUrl}} 

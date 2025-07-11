@@ -3,11 +3,11 @@
   "version": "1.0.0",
   "type": "module",
   "main": "index.js",
-  "devDependencies": {},
   "dependencies": {
     "clean-css": "^5.3.3",
     "fs-extra": "^11.3.0",
     "gray-matter": "^4.0.3",
+    "handlebars": "^4.7.8",
     "html-minifier-terser": "^7.2.0",
     "marked": "^16.0.0",
     "rss": "^1.2.2"

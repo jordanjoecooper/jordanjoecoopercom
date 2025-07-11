@@ -5,6 +5,7 @@ import { marked } from 'marked';
 import { minify } from 'html-minifier-terser';
 import CleanCSS from 'clean-css';
 import RSS from 'rss';
+import Handlebars from 'handlebars';
 import { fileURLToPath } from 'url';
 
 const __filename = fileURLToPath(import.meta.url);
@@ -12,6 +13,7 @@ const __dirname = path.dirname(__filename);
 
 const CONTENT_DIR = path.join(__dirname, '../content/posts');
 const TEMPLATE_DIR = path.join(__dirname, '../templates');
+const PARTIALS_DIR = path.join(__dirname, '../templates/partials');
 const DIST_DIR = path.join(__dirname, '../dist');
 const STATIC_FILES = ['../styles.css', '../images'];
 
@@ -126,10 +128,20 @@ async function build() {
       await fs.copy(imagesPath, path.join(DIST_DIR, 'images'));
     }
 
-    // Read templates
+    // Read templates and partials
     console.log('📋 Reading templates...');
-    const postTemplate = await fs.readFile(path.join(TEMPLATE_DIR, 'post.html'), 'utf8');
-    const indexTemplate = await fs.readFile(path.join(TEMPLATE_DIR, 'index.html'), 'utf8');
+    const postTemplate = await fs.readFile(path.join(TEMPLATE_DIR, 'post.hbs'), 'utf8');
+    const indexTemplate = await fs.readFile(path.join(TEMPLATE_DIR, 'index.hbs'), 'utf8');
+    const headerPartial = await fs.readFile(path.join(PARTIALS_DIR, 'header.hbs'), 'utf8');
+    const footerPartial = await fs.readFile(path.join(PARTIALS_DIR, 'footer.hbs'), 'utf8');
+
+    // Register Handlebars partials
+    Handlebars.registerPartial('header', headerPartial);
+    Handlebars.registerPartial('footer', footerPartial);
+
+    // Compile templates
+    const postTemplateCompiled = Handlebars.compile(postTemplate);
+    const indexTemplateCompiled = Handlebars.compile(indexTemplate);
 
     // Read and process posts
     console.log('📄 Processing posts...');
@@ -158,19 +170,19 @@ async function build() {
       const postUrl = `${siteMeta.url}/posts/${slug}.html`;
       const imageUrl = data.img ? `${siteMeta.url}/${data.img.replace('../', '')}` : '';
 
-      // Render and minify post HTML
-      let html = postTemplate
-        .replace(/{{title}}/g, post.title)
-        .replace(/{{description}}/g, post.description)
-        .replace(/{{date}}/g, post.date)
-        .replace(/{{formattedDate}}/g, post.formattedDate)
-        .replace(/{{img}}/g, data.img || '')
-        .replace(/{{content}}/g, post.content)
-        .replace(/{{url}}/g, postUrl)
-        .replace(/{{image}}/g, imageUrl)
-        .replace(/{{keywords}}/g, post.keywords)
-        .replace(/{{baseUrl}}/g, siteMeta.url)
-        .replace(/{{readTime}}/g, readTime);
+      // Render post HTML using Handlebars
+      const postData = {
+        ...post,
+        url: postUrl,
+        image: imageUrl,
+        baseUrl: siteMeta.url,
+        cssPath: '../styles.css',
+        faviconPath: '../favicon.ico',
+        homePath: '../index.html',
+        aboutPath: '../about.html'
+      };
+
+      let html = postTemplateCompiled(postData);
 
       html = await minify(html, { 
         collapseWhitespace: true, 
@@ -188,41 +200,17 @@ async function build() {
 
     // Generate index.html
     console.log('🏠 Generating index page...');
-    const postsHtml = posts.map(post => `
-      <article class="blog-card">
-        ${post.img ? `<div class="blog-thumbnail">
-          <img src="${post.img}" alt="${post.title}" loading="lazy">
-        </div>` : ''}
-        <div class="blog-content">
-          <h3 class="blog-title">
-            <a href="posts/${post.slug}.html">${post.title}</a>
-          </h3>
-          <div class="blog-meta">
-            <time datetime="${post.date}" class="blog-date">${post.formattedDate}</time>
-            ${post.readTime ? `<span class="blog-read-time">${post.readTime} min read</span>` : ''}
-          </div>
-          <div class="blog-excerpt">
-            <p>${post.description}</p>
-          </div>
-          <a href="posts/${post.slug}.html" class="button">Read More</a>
-        </div>
-      </article>
-    `).join('\n');
+    
+    const indexData = {
+      posts: posts,
+      baseUrl: siteMeta.url,
+      cssPath: 'styles.css',
+      faviconPath: 'favicon.ico',
+      homePath: 'index.html',
+      aboutPath: 'about.html'
+    };
 
-    let indexHtml = indexTemplate
-      .replace(/{{baseUrl}}/g, siteMeta.url)
-      .replace(/{{#each posts}}([\s\S]*?){{\/each}}/g, (match, template) => {
-        return posts.map(post => {
-          return template
-            .replace(/{{slug}}/g, post.slug)
-            .replace(/{{title}}/g, post.title)
-            .replace(/{{description}}/g, post.description)
-            .replace(/{{date}}/g, post.date)
-            .replace(/{{formattedDate}}/g, post.formattedDate)
-            .replace(/{{img}}/g, post.img || '')
-            .replace(/{{readTime}}/g, post.readTime || '');
-        }).join('\n');
-      });
+    let indexHtml = indexTemplateCompiled(indexData);
 
     indexHtml = await minify(indexHtml, { 
       collapseWhitespace: true, 
@@ -243,11 +231,28 @@ async function build() {
     const rssFeed = generateRSSFeed(posts);
     await fs.writeFile(path.join(DIST_DIR, 'rss.xml'), rssFeed);
 
-    // Copy about page if it exists
-    const aboutPath = path.join(__dirname, '../about.html');
-    if (await fs.pathExists(aboutPath)) {
-      await fs.copy(aboutPath, path.join(DIST_DIR, 'about.html'));
-    }
+    // Generate about page
+    console.log('📄 Generating about page...');
+    const aboutTemplate = await fs.readFile(path.join(TEMPLATE_DIR, 'about.hbs'), 'utf8');
+    const aboutTemplateCompiled = Handlebars.compile(aboutTemplate);
+    
+    const aboutData = {
+      baseUrl: siteMeta.url,
+      cssPath: 'styles.css',
+      faviconPath: 'favicon.ico',
+      homePath: 'index.html',
+      aboutPath: 'about.html'
+    };
+    
+    let aboutHtml = aboutTemplateCompiled(aboutData);
+    aboutHtml = await minify(aboutHtml, { 
+      collapseWhitespace: true, 
+      minifyCSS: true, 
+      removeComments: true,
+      minifyJS: true
+    });
+    
+    await fs.writeFile(path.join(DIST_DIR, 'about.html'), aboutHtml);
 
     console.log('✅ Build completed successfully!');
     console.log(`📊 Generated ${posts.length} posts`);

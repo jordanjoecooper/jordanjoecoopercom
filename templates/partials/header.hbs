@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{title}}</title>
+    
+    <!-- Primary Meta Tags -->
+    <meta name="description" content="{{description}}">
+    <meta name="author" content="Jordan Joe Cooper">
+    {{#if keywords}}<meta name="keywords" content="{{keywords}}">{{/if}}
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="{{#if isPost}}article{{else}}website{{/if}}">
+    <meta property="og:url" content="{{url}}">
+    <meta property="og:title" content="{{title}}">
+    <meta property="og:description" content="{{description}}">
+    {{#if image}}<meta property="og:image" content="{{image}}">{{/if}}
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{url}}">
+    <meta property="twitter:title" content="{{title}}">
+    <meta property="twitter:description" content="{{description}}">
+    {{#if image}}<meta property="twitter:image" content="{{image}}">{{/if}}
+    
+    {{#if isPost}}
+    <!-- Structured Data -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "BlogPosting",
+        "headline": "{{title}}",
+        "description": "{{description}}",
+        {{#if image}}"image": "{{image}}",{{/if}}
+        "author": {
+            "@type": "Person",
+            "name": "Jordan Joe Cooper"
+        },
+        "publisher": {
+            "@type": "Organization",
+            "name": "Jordan Joe Cooper's Blog",
+            "logo": {
+                "@type": "ImageObject",
+                "url": "{{baseUrl}}/images/logo.png"
+            }
+        },
+        "datePublished": "{{date}}",
+        "dateModified": "{{date}}",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "{{url}}"
+        }
+    }
+    </script>
+    {{/if}}
+    
+    <link rel="stylesheet" href="{{cssPath}}">
+    <link rel="icon" type="image/x-icon" href="{{faviconPath}}">
+    {{#unless isPost}}<link rel="alternate" type="application/rss+xml" title="Jordan Joe Cooper's Blog RSS Feed" href="{{baseUrl}}/rss.xml">{{/unless}}
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="nav-container">
+                <a href="{{homePath}}" class="logo">J</a>
+                <ul class="nav-menu">
+                    <li><a href="{{homePath}}">Home</a></li>
+                    <li><a href="{{aboutPath}}">About</a></li>
+                </ul>
+            </div>
+        </nav>
+    </header> 
