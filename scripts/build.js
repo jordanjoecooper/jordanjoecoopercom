@@ -20,7 +20,7 @@ const STATIC_FILES = ['../styles.css', '../images'];
 const siteMeta = {
   title: "Jordan's Blog",
   description: 'Personal blog about technology, thoughts, and experiences',
-  url: 'https://yourdomain.com', // Change to your domain!
+  url: 'https://jordanjoecooper.com', // Updated to your real domain
   author: 'Jordan'
 };
 
