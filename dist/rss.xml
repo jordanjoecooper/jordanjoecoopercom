@@ -9,16 +9,16 @@
             <link>https://jordanjoecooper.com</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sat, 12 Jul 2025 12:06:58 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 12 Jul 2025 12:11:21 GMT</lastBuildDate>
         <atom:link href="https://jordanjoecooper.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Sat, 12 Jul 2025 12:06:58 GMT</pubDate>
+        <pubDate>Sat, 12 Jul 2025 12:11:21 GMT</pubDate>
         <copyright><![CDATA[2025 Jordan Joe Cooper]]></copyright>
         <language><![CDATA[en]]></language>
         <managingEditor><![CDATA[Jordan Joe Cooper]]></managingEditor>
         <webMaster><![CDATA[Jordan Joe Cooper]]></webMaster>
         <ttl>60</ttl>
         <item>
-            <title><![CDATA[Aphorisms]]></title>
+            <title><![CDATA[Quotes / Aphorisms]]></title>
             <description><![CDATA[Collection of aphorisms some mine and some from others]]></description>
             <link>https://jordanjoecooper.com/posts/aphorisms.html</link>
             <guid isPermaLink="false">aphorisms</guid>
@@ -26,40 +26,6 @@
             <category><![CDATA[Wisdom]]></category>
             <dc:creator><![CDATA[Jordan Joe Cooper]]></dc:creator>
             <pubDate>Mon, 30 Dec 2024 00:00:00 GMT</pubDate>
-        </item>
-        <item>
-            <title><![CDATA[Poor Charlie's Almanack]]></title>
-            <description><![CDATA[Charlie is a modern Ben Franklin.]]></description>
-            <link>https://jordanjoecooper.com/posts/poor-charlies-almanack.html</link>
-            <guid isPermaLink="false">poor-charlies-almanack</guid>
-            <dc:creator><![CDATA[Jordan Joe Cooper]]></dc:creator>
-            <pubDate>Mon, 30 Dec 2024 00:00:00 GMT</pubDate>
-        </item>
-        <item>
-            <title><![CDATA[The Hard Thing About Hard Things]]></title>
-            <description><![CDATA[Building a Business When There Are No Easy Answers]]></description>
-            <link>https://jordanjoecooper.com/posts/the-hard-thing-about-hard-things.html</link>
-            <guid isPermaLink="false">the-hard-thing-about-hard-things</guid>
-            <dc:creator><![CDATA[Jordan Joe Cooper]]></dc:creator>
-            <pubDate>Mon, 30 Dec 2024 00:00:00 GMT</pubDate>
-        </item>
-        <item>
-            <title><![CDATA[Tuesdays With Morrie]]></title>
-            <description><![CDATA[Lessons we can all learn from.]]></description>
-            <link>https://jordanjoecooper.com/posts/tuesdays-with-morrie.html</link>
-            <guid isPermaLink="false">tuesdays-with-morrie</guid>
-            <dc:creator><![CDATA[Jordan Joe Cooper]]></dc:creator>
-            <pubDate>Mon, 30 Dec 2024 00:00:00 GMT</pubDate>
-        </item>
-        <item>
-            <title><![CDATA[The Age of Artificial Intelligence]]></title>
-            <description><![CDATA[Reflections on the rapid advancement of AI and its impact on work, society and existing technology.]]></description>
-            <link>https://jordanjoecooper.com/posts/age-of-ai.html</link>
-            <guid isPermaLink="false">age-of-ai</guid>
-            <category><![CDATA[Technology]]></category>
-            <category><![CDATA[AI]]></category>
-            <dc:creator><![CDATA[Jordan Joe Cooper]]></dc:creator>
-            <pubDate>Sun, 01 Dec 2024 00:00:00 GMT</pubDate>
         </item>
     </channel>
 </rss>
