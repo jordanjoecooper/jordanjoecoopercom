@@ -21,11 +21,11 @@ const DIST_DIR = path.join(__dirname, '../dist');
 const STATIC_FILES = ['../styles.css', '../images'];
 
 const siteMeta = {
-  title: process.env.SITE_TITLE || "Your Blog",
-  description: process.env.SITE_DESCRIPTION || 'Personal blog about technology, thoughts, and experiences',
-  url: process.env.SITE_URL || 'https://yourdomain.com',
-  author: process.env.SITE_AUTHOR || 'Your Name',
-  logoText: process.env.SITE_LOGO_TEXT || 'Y'
+  title: process.env.SITE_TITLE || "Jordan Joe Cooper",
+  description: process.env.SITE_DESCRIPTION || 'Personal blog about technology, products, coding, general thoughts, and experiences',
+  url: process.env.SITE_URL || 'https://jordanjoecooper.com',
+  author: process.env.SITE_AUTHOR || 'Jordan Joe Cooper',
+  logoText: process.env.SITE_LOGO_TEXT || 'J'
 };
 
 function formatDate(date) {
