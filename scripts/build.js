@@ -7,6 +7,9 @@ import CleanCSS from 'clean-css';
 import RSS from 'rss';
 import Handlebars from 'handlebars';
 import { fileURLToPath } from 'url';
+import dotenv from 'dotenv';
+
+dotenv.config();
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,10 +21,11 @@ const DIST_DIR = path.join(__dirname, '../dist');
 const STATIC_FILES = ['../styles.css', '../images'];
 
 const siteMeta = {
-  title: "Jordan's Blog",
-  description: 'Personal blog about technology, thoughts, and experiences',
-  url: 'https://jordanjoecooper.com', // Updated to your real domain
-  author: 'Jordan'
+  title: process.env.SITE_TITLE || "Your Blog",
+  description: process.env.SITE_DESCRIPTION || 'Personal blog about technology, thoughts, and experiences',
+  url: process.env.SITE_URL || 'https://yourdomain.com',
+  author: process.env.SITE_AUTHOR || 'Your Name',
+  logoText: process.env.SITE_LOGO_TEXT || 'Y'
 };
 
 function formatDate(date) {
@@ -176,6 +180,8 @@ async function build() {
         url: postUrl,
         image: imageUrl,
         baseUrl: siteMeta.url,
+        author: siteMeta.author,
+        logoText: siteMeta.logoText,
         cssPath: '../styles.css',
         faviconPath: '../favicon.ico',
         homePath: '../index.html',
@@ -204,6 +210,8 @@ async function build() {
     const indexData = {
       posts: posts,
       baseUrl: siteMeta.url,
+      author: siteMeta.author,
+      logoText: siteMeta.logoText,
       cssPath: 'styles.css',
       faviconPath: 'favicon.ico',
       homePath: 'index.html',
@@ -238,6 +246,8 @@ async function build() {
     
     const aboutData = {
       baseUrl: siteMeta.url,
+      author: siteMeta.author,
+      logoText: siteMeta.logoText,
       cssPath: 'styles.css',
       faviconPath: 'favicon.ico',
       homePath: 'index.html',
