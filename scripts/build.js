@@ -346,5 +346,4 @@ async function build() {
   }
 }
 
-// Run the build
 build();

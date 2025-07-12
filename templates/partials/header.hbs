@@ -69,13 +69,14 @@
     {{#unless isPost}}<link rel="alternate" type="application/rss+xml" title="{{title}} RSS Feed" href="{{baseUrl}}/rss.xml">{{/unless}}
 </head>
 <body>
+    <a href="#main-content" class="skip-link">Skip to main content</a>
     <header>
-        <nav>
+        <nav aria-label="Main navigation">
             <div class="nav-container">
-                <a href="/index.html" class="logo">{{logoText}}</a>
+                <a href="/index.html" class="logo" aria-label="Home">{{logoText}}</a>
                 <ul class="nav-menu">
-                    <li><a href="/writing.html">Writing</a></li>
-                    <li><a href="/about.html">About</a></li>
+                    <li><a href="/writing.html" {{#unless isPost}}{{#if (eq title "Writing - ")}}aria-current="page"{{/if}}{{/unless}}>Writing</a></li>
+                    <li><a href="/about.html" {{#unless isPost}}{{#if (eq title (concat "About - " author))}}aria-current="page"{{/if}}{{/unless}}>About</a></li>
                 </ul>
             </div>
         </nav>
