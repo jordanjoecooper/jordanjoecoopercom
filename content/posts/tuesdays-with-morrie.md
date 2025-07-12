@@ -5,6 +5,7 @@ author: "Mitch Albom"
 date: "2024-12-30"
 tags: ["life", "death", "wisdom", "philosophy"]
 type: "book"
+published: false
 ---
 
 I recently received this book as a present. Fortunately over Christmas I had time to read. As such I had read the book within 48 hours. For the first time in as long as I can remember the book had me in tears. Some may find it crass and 'same old' but I found it a strong reminder of what is important.

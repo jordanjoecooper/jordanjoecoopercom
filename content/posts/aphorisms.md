@@ -1,5 +1,5 @@
 ---
-title: "Aphorisms"
+title: "Quotes / Aphorisms"
 description: "Collection of aphorisms some mine and some from others"
 date: "2024-12-30"
 keywords: "wisdom, philosophy, thoughts, aphorisms"

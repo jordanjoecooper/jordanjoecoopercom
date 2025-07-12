@@ -4,6 +4,7 @@ description: "Reflections on the rapid advancement of AI and its impact on work,
 date: "2024-12-01"
 keywords: "AI, technology, future, society"
 categories: ["Technology", "AI"]
+published: false
 ---
 
 "AI is going to take your job" - glancing through X you will see this repeated across professions, particularly indie hackers seem prone to voicing such opinions. And in part they are right and in part wrong. In exactly the same way people were wrong when Henry Ford introduced the first cheap mass produced car. Innovation does take things away but equally it produces more.
