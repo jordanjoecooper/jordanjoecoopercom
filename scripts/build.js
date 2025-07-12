@@ -128,6 +128,13 @@ async function build() {
       await fs.copy(imagesPath, path.join(DIST_DIR, 'images'));
     }
 
+    // Copy site.webmanifest
+    console.log('📄 Copying site manifest...');
+    const manifestPath = path.join(__dirname, '../site.webmanifest');
+    if (await fs.pathExists(manifestPath)) {
+      await fs.copy(manifestPath, path.join(DIST_DIR, 'site.webmanifest'));
+    }
+
     // Read templates and partials
     console.log('📋 Reading templates...');
     const postTemplate = await fs.readFile(path.join(TEMPLATE_DIR, 'post.hbs'), 'utf8');
