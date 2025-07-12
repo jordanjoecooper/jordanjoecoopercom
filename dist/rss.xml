@@ -9,22 +9,14 @@
             <link>https://jordanjoecooper.com</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sat, 12 Jul 2025 11:28:02 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 12 Jul 2025 11:28:30 GMT</lastBuildDate>
         <atom:link href="https://jordanjoecooper.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Sat, 12 Jul 2025 11:28:02 GMT</pubDate>
+        <pubDate>Sat, 12 Jul 2025 11:28:30 GMT</pubDate>
         <copyright><![CDATA[2025 Jordan Joe Cooper]]></copyright>
         <language><![CDATA[en]]></language>
         <managingEditor><![CDATA[Jordan Joe Cooper]]></managingEditor>
         <webMaster><![CDATA[Jordan Joe Cooper]]></webMaster>
         <ttl>60</ttl>
-        <item>
-            <title><![CDATA[The War of the Worlds]]></title>
-            <description><![CDATA[Written in the late 1800s and focused on an invasion of earth from Martians. The avid imagination of technology that is closer to today is incredible.]]></description>
-            <link>https://jordanjoecooper.com/posts/the-war-of-the-worlds.html</link>
-            <guid isPermaLink="false">the-war-of-the-worlds</guid>
-            <dc:creator><![CDATA[Jordan Joe Cooper]]></dc:creator>
-            <pubDate>Tue, 31 Dec 2024 00:00:00 GMT</pubDate>
-        </item>
         <item>
             <title><![CDATA[Aphorisms]]></title>
             <description><![CDATA[Collection of aphorisms some mine and some from others]]></description>

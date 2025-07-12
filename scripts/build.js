@@ -192,6 +192,7 @@ async function build() {
     console.log('📄 Processing posts...');
     const files = (await fs.readdir(CONTENT_DIR)).filter(f => f.endsWith('.md'));
     let posts = [];
+    let allPosts = [];
     
     for (const file of files) {
       const filePath = path.join(CONTENT_DIR, file);
@@ -242,7 +243,12 @@ async function build() {
       });
       
       await fs.writeFile(path.join(DIST_DIR, 'posts', `${slug}.html`), html);
-      posts.push(post);
+      allPosts.push(post);
+      
+      // Only add published posts to the public posts array
+      if (data.published !== false) {
+        posts.push(post);
+      }
     }
 
     // Sort posts by date (newest first)
@@ -340,7 +346,7 @@ async function build() {
     await fs.writeFile(path.join(DIST_DIR, 'writing.html'), writingHtml);
 
     console.log('✅ Build completed successfully!');
-    console.log(`📊 Generated ${posts.length} posts`);
+    console.log(`📊 Generated ${allPosts.length} posts (${posts.length} published)`);
     console.log(`📁 Output directory: ${DIST_DIR}`);
     
   } catch (error) {
