@@ -1,30 +1,17 @@
 {{> header title=title description=description baseUrl=baseUrl url=baseUrl isPost=false}}
 
 <main>
-  <div class="container">
+  <div class="container home-container">
     <header>
-      <h1>Making things on the internet.</h1>
+      <h1>Jordan Joe Cooper</h1>
       <p class="bio">{{description}}</p>
+      <div class="profile-links">
+        <a href="https://github.com/jordanjoecooper" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://twitter.com/jordanjoecooper" target="_blank" rel="noopener">Twitter</a>
+        <a href="https://linkedin.com/in/jordanjoecooper" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
     </header>
   </div>
-  
-  <h2>Latest Posts</h2>
-  <ul class="post-list">
-    {{#each posts}}
-    <li>
-      <h3 class="post-title">
-        <a href="{{../baseUrl}}/posts/{{slug}}.html">{{title}}</a>
-      </h3>
-      <div class="post-meta">
-        <time datetime="{{date}}">{{formattedDate}}</time>
-        {{#if readTime}}<span> · {{readTime}} min read</span>{{/if}}
-      </div>
-      <div class="post-excerpt">
-        <p>{{description}}</p>
-      </div>
-    </li>
-    {{/each}}
-  </ul>
 </main>
 
 {{> footer baseUrl=baseUrl}} 

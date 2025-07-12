@@ -1,0 +1,19 @@
+{{> header title="Writing - " description=description baseUrl=baseUrl url=baseUrl isPost=false}}
+<main>
+  <div class="container writing-container">
+    <h1>Writing</h1>
+    <ul class="writing-list">
+      {{#each posts}}
+      <li class="writing-item">
+        <h2 class="writing-title"><a href="{{../baseUrl}}/posts/{{slug}}.html">{{title}}</a></h2>
+        <div class="writing-meta">
+          <time datetime="{{date}}">{{formattedDate}}</time>
+          {{#if readTime}}<span> · {{readTime}} min read</span>{{/if}}
+        </div>
+        <div class="writing-excerpt">{{description}}</div>
+      </li>
+      {{/each}}
+    </ul>
+  </div>
+</main>
+{{> footer baseUrl=baseUrl}} 

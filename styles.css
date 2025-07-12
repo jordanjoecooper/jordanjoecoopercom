@@ -310,3 +310,65 @@ footer .container {
     margin-left: 0.3rem;
   }
 }
+
+.home-container {
+  max-width: 600px;
+  margin: 80px auto 0 auto;
+  padding: 2rem;
+  text-align: center;
+}
+
+.profile-links {
+  margin-top: 2rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.5rem;
+}
+.profile-links a {
+  color: #0070f3;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1.1rem;
+  transition: color 0.2s;
+}
+.profile-links a:hover {
+  color: #0051a8;
+}
+
+.writing-container {
+  max-width: 700px;
+  margin: 60px auto 0 auto;
+  padding: 2rem;
+}
+
+.writing-list {
+  list-style: none;
+  padding: 0;
+  margin: 2rem 0 0 0;
+}
+.writing-item {
+  margin-bottom: 2.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid #eee;
+}
+.writing-title {
+  margin: 0 0 0.2rem 0;
+  font-size: 1.4rem;
+}
+.writing-title a {
+  color: #222;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.writing-title a:hover {
+  color: #0070f3;
+}
+.writing-meta {
+  color: #888;
+  font-size: 0.95rem;
+  margin-bottom: 0.5rem;
+}
+.writing-excerpt {
+  color: #444;
+  font-size: 1.05rem;
+}

@@ -273,6 +273,33 @@ async function build() {
     
     await fs.writeFile(path.join(DIST_DIR, 'about.html'), aboutHtml);
 
+    // Read and compile writing.hbs
+    const writingTemplate = await fs.readFile(path.join(TEMPLATE_DIR, 'writing.hbs'), 'utf8');
+    const writingTemplateCompiled = Handlebars.compile(writingTemplate);
+
+    // Generate writing.html
+    console.log('📝 Generating writing page...');
+    const writingData = {
+      posts: posts,
+      title: siteMeta.title,
+      description: siteMeta.description,
+      baseUrl: siteMeta.url,
+      author: siteMeta.author,
+      logoText: siteMeta.logoText,
+      cssPath: 'styles.css',
+      faviconPath: 'favicon.ico',
+      homePath: 'index.html',
+      aboutPath: 'about.html'
+    };
+    let writingHtml = writingTemplateCompiled(writingData);
+    writingHtml = await minify(writingHtml, { 
+      collapseWhitespace: true, 
+      minifyCSS: true, 
+      removeComments: true,
+      minifyJS: true
+    });
+    await fs.writeFile(path.join(DIST_DIR, 'writing.html'), writingHtml);
+
     console.log('✅ Build completed successfully!');
     console.log(`📊 Generated ${posts.length} posts`);
     console.log(`📁 Output directory: ${DIST_DIR}`);
