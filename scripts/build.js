@@ -3,7 +3,7 @@ import path from 'path';
 import matter from 'gray-matter';
 import { marked } from 'marked';
 import { minify } from 'html-minifier-terser';
-import CleanCSS from 'clean-css';
+
 import RSS from 'rss';
 import Handlebars from 'handlebars';
 import { fileURLToPath } from 'url';
@@ -112,12 +112,20 @@ async function build() {
     await fs.ensureDir(DIST_DIR);
     await fs.ensureDir(path.join(DIST_DIR, 'posts'));
 
-    // Copy and minify CSS
+    // Copy CSS
     console.log('📝 Processing CSS...');
     const cssPath = path.join(__dirname, STATIC_FILES[0]);
     if (await fs.pathExists(cssPath)) {
       const css = await fs.readFile(cssPath, 'utf8');
-      const minifiedCss = new CleanCSS().minify(css).styles;
+      // Simple CSS minification - remove comments and extra whitespace
+      const minifiedCss = css
+        .replace(/\/\*[\s\S]*?\*\//g, '') // Remove comments
+        .replace(/\s+/g, ' ') // Collapse whitespace
+        .replace(/;\s*}/g, '}') // Remove trailing semicolons
+        .replace(/:\s+/g, ':') // Remove space after colons
+        .replace(/\s*{\s*/g, '{') // Remove space around braces
+        .replace(/\s*}\s*/g, '}') // Remove space around braces
+        .trim();
       await fs.writeFile(path.join(DIST_DIR, 'styles.css'), minifiedCss);
     }
 
@@ -198,9 +206,14 @@ async function build() {
 
       html = await minify(html, { 
         collapseWhitespace: true, 
-        minifyCSS: true, 
         removeComments: true,
-        minifyJS: true
+        removeAttributeQuotes: true,
+        removeEmptyAttributes: true,
+        removeOptionalTags: true,
+        removeRedundantAttributes: true,
+        removeScriptTypeAttributes: true,
+        removeStyleLinkTypeAttributes: true,
+        useShortDoctype: true
       });
       
       await fs.writeFile(path.join(DIST_DIR, 'posts', `${slug}.html`), html);

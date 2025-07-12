@@ -4,7 +4,6 @@
   "type": "module",
   "main": "index.js",
   "dependencies": {
-    "clean-css": "^5.3.3",
     "dotenv": "^17.2.0",
     "fs-extra": "^11.3.0",
     "gray-matter": "^4.0.3",
