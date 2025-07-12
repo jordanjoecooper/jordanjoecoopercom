@@ -143,6 +143,11 @@ async function build() {
     Handlebars.registerPartial('header', headerPartial);
     Handlebars.registerPartial('footer', footerPartial);
 
+    // Register Handlebars helpers
+    Handlebars.registerHelper('concat', function() {
+      return Array.from(arguments).slice(0, -1).join('');
+    });
+
     // Compile templates
     const postTemplateCompiled = Handlebars.compile(postTemplate);
     const indexTemplateCompiled = Handlebars.compile(indexTemplate);
@@ -209,6 +214,8 @@ async function build() {
     
     const indexData = {
       posts: posts,
+      title: siteMeta.title,
+      description: siteMeta.description,
       baseUrl: siteMeta.url,
       author: siteMeta.author,
       logoText: siteMeta.logoText,
@@ -245,6 +252,8 @@ async function build() {
     const aboutTemplateCompiled = Handlebars.compile(aboutTemplate);
     
     const aboutData = {
+      title: siteMeta.title,
+      description: siteMeta.description,
       baseUrl: siteMeta.url,
       author: siteMeta.author,
       logoText: siteMeta.logoText,

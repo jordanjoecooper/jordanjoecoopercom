@@ -105,6 +105,14 @@ nav {
   margin: 0 auto;
 }
 
+/* Header and bio */
+.bio {
+  font-size: 1.25rem;
+  color: #666;
+  margin: 0;
+  line-height: 1.6;
+}
+
 /* Blog post list */
 .post-list {
   list-style: none;

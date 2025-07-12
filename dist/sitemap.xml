@@ -1,31 +1,31 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://yourdomain.com</loc>
+    <loc>https://jordanjoecooper.com</loc>
     <lastmod>2025-07-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://yourdomain.com/about.html</loc>
+    <loc>https://jordanjoecooper.com/about.html</loc>
     <lastmod>2025-07-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://yourdomain.com/posts/test-reorganization.html</loc>
+    <loc>https://jordanjoecooper.com/posts/test-reorganization.html</loc>
     <lastmod>2025-07-02</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://yourdomain.com/posts/aphorisms.html</loc>
+    <loc>https://jordanjoecooper.com/posts/aphorisms.html</loc>
     <lastmod>2024-12-30</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://yourdomain.com/posts/age-of-ai.html</loc>
+    <loc>https://jordanjoecooper.com/posts/age-of-ai.html</loc>
     <lastmod>2024-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

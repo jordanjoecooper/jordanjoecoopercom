@@ -1,49 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?><rss xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:content="http://purl.org/rss/1.0/modules/content/" xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
     <channel>
-        <title><![CDATA[Your Blog]]></title>
-        <description><![CDATA[Personal blog about technology, thoughts, and experiences]]></description>
-        <link>https://yourdomain.com</link>
+        <title><![CDATA[Jordan Joe Cooper]]></title>
+        <description><![CDATA[Personal blog and thoughts on technology, life, and everything in between.]]></description>
+        <link>https://jordanjoecooper.com</link>
         <image>
-            <url>https://yourdomain.com/images/logo.png</url>
-            <title>Your Blog</title>
-            <link>https://yourdomain.com</link>
+            <url>https://jordanjoecooper.com/images/logo.png</url>
+            <title>Jordan Joe Cooper</title>
+            <link>https://jordanjoecooper.com</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sat, 12 Jul 2025 09:46:44 GMT</lastBuildDate>
-        <atom:link href="https://yourdomain.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Sat, 12 Jul 2025 09:46:44 GMT</pubDate>
-        <copyright><![CDATA[2025 Your Name]]></copyright>
+        <lastBuildDate>Sat, 12 Jul 2025 09:53:59 GMT</lastBuildDate>
+        <atom:link href="https://jordanjoecooper.com/rss.xml" rel="self" type="application/rss+xml"/>
+        <pubDate>Sat, 12 Jul 2025 09:53:59 GMT</pubDate>
+        <copyright><![CDATA[2025 Jordan Joe Cooper]]></copyright>
         <language><![CDATA[en]]></language>
-        <managingEditor><![CDATA[Your Name]]></managingEditor>
-        <webMaster><![CDATA[Your Name]]></webMaster>
+        <managingEditor><![CDATA[Jordan Joe Cooper]]></managingEditor>
+        <webMaster><![CDATA[Jordan Joe Cooper]]></webMaster>
         <ttl>60</ttl>
         <item>
             <title><![CDATA[Test Reorganization]]></title>
             <description><![CDATA[Description for Test Reorganization]]></description>
-            <link>https://yourdomain.com/posts/test-reorganization.html</link>
+            <link>https://jordanjoecooper.com/posts/test-reorganization.html</link>
             <guid isPermaLink="false">test-reorganization</guid>
             <category><![CDATA[Test]]></category>
-            <dc:creator><![CDATA[Your Name]]></dc:creator>
+            <dc:creator><![CDATA[Jordan Joe Cooper]]></dc:creator>
             <pubDate>Wed, 02 Jul 2025 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[Aphorisms]]></title>
             <description><![CDATA[Collection of aphorisms some mine and some from others]]></description>
-            <link>https://yourdomain.com/posts/aphorisms.html</link>
+            <link>https://jordanjoecooper.com/posts/aphorisms.html</link>
             <guid isPermaLink="false">aphorisms</guid>
             <category><![CDATA[Philosophy]]></category>
             <category><![CDATA[Wisdom]]></category>
-            <dc:creator><![CDATA[Your Name]]></dc:creator>
+            <dc:creator><![CDATA[Jordan Joe Cooper]]></dc:creator>
             <pubDate>Mon, 30 Dec 2024 00:00:00 GMT</pubDate>
         </item>
         <item>
             <title><![CDATA[The Age of Artificial Intelligence]]></title>
             <description><![CDATA[Reflections on the rapid advancement of AI and its impact on work, society and existing technology.]]></description>
-            <link>https://yourdomain.com/posts/age-of-ai.html</link>
+            <link>https://jordanjoecooper.com/posts/age-of-ai.html</link>
             <guid isPermaLink="false">age-of-ai</guid>
             <category><![CDATA[Technology]]></category>
             <category><![CDATA[AI]]></category>
-            <dc:creator><![CDATA[Your Name]]></dc:creator>
+            <dc:creator><![CDATA[Jordan Joe Cooper]]></dc:creator>
             <pubDate>Sun, 01 Dec 2024 00:00:00 GMT</pubDate>
         </item>
     </channel>
