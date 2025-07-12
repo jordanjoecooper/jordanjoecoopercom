@@ -143,6 +143,24 @@ async function build() {
       await fs.copy(manifestPath, path.join(DIST_DIR, 'site.webmanifest'));
     }
 
+    // Copy favicon files
+    console.log('🎨 Copying favicon files...');
+    const faviconFiles = [
+      'favicon.ico',
+      'favicon-16x16.png',
+      'favicon-32x32.png',
+      'apple-touch-icon.png',
+      'android-chrome-192x192.png',
+      'android-chrome-512x512.png'
+    ];
+    
+    for (const file of faviconFiles) {
+      const sourcePath = path.join(__dirname, '..', file);
+      if (await fs.pathExists(sourcePath)) {
+        await fs.copy(sourcePath, path.join(DIST_DIR, file));
+      }
+    }
+
     // Read templates and partials
     console.log('📋 Reading templates...');
     const postTemplate = await fs.readFile(path.join(TEMPLATE_DIR, 'post.hbs'), 'utf8');
