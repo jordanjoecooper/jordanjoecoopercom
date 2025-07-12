@@ -180,6 +180,9 @@ async function build() {
     Handlebars.registerHelper('concat', function() {
       return Array.from(arguments).slice(0, -1).join('');
     });
+    Handlebars.registerHelper('eq', function(a, b) {
+      return a === b;
+    });
 
     // Compile templates
     const postTemplateCompiled = Handlebars.compile(postTemplate);
