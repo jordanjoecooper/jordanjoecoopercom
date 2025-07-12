@@ -1,25 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://yourdomain.com</loc>
-    <lastmod>2025-07-11</lastmod>
+    <loc>https://jordanjoecooper.com</loc>
+    <lastmod>2025-07-12</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://yourdomain.com/about.html</loc>
-    <lastmod>2025-07-11</lastmod>
+    <loc>https://jordanjoecooper.com/about.html</loc>
+    <lastmod>2025-07-12</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://yourdomain.com/posts/static-blog-system.html</loc>
+    <loc>https://jordanjoecooper.com/posts/static-blog-system.html</loc>
     <lastmod>2025-01-20</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
   <url>
-    <loc>https://yourdomain.com/posts/hello-world.html</loc>
+    <loc>https://jordanjoecooper.com/posts/hello-world.html</loc>
     <lastmod>2025-01-15</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>

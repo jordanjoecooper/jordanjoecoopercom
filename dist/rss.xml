@@ -2,16 +2,16 @@
     <channel>
         <title><![CDATA[Jordan's Blog]]></title>
         <description><![CDATA[Personal blog about technology, thoughts, and experiences]]></description>
-        <link>https://yourdomain.com</link>
+        <link>https://jordanjoecooper.com</link>
         <image>
-            <url>https://yourdomain.com/images/logo.png</url>
+            <url>https://jordanjoecooper.com/images/logo.png</url>
             <title>Jordan&apos;s Blog</title>
-            <link>https://yourdomain.com</link>
+            <link>https://jordanjoecooper.com</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Fri, 11 Jul 2025 14:00:23 GMT</lastBuildDate>
-        <atom:link href="https://yourdomain.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Fri, 11 Jul 2025 14:00:23 GMT</pubDate>
+        <lastBuildDate>Sat, 12 Jul 2025 09:41:18 GMT</lastBuildDate>
+        <atom:link href="https://jordanjoecooper.com/rss.xml" rel="self" type="application/rss+xml"/>
+        <pubDate>Sat, 12 Jul 2025 09:41:18 GMT</pubDate>
         <copyright><![CDATA[2025 Jordan]]></copyright>
         <language><![CDATA[en]]></language>
         <managingEditor><![CDATA[Jordan]]></managingEditor>
@@ -20,7 +20,7 @@
         <item>
             <title><![CDATA[Building a Custom Static Blog System]]></title>
             <description><![CDATA[How I built a lightweight, SEO-optimized static blog using JavaScript, Markdown, and HTML templates.]]></description>
-            <link>https://yourdomain.com/posts/static-blog-system.html</link>
+            <link>https://jordanjoecooper.com/posts/static-blog-system.html</link>
             <guid isPermaLink="false">static-blog-system</guid>
             <category><![CDATA[Technology]]></category>
             <category><![CDATA[Web Development]]></category>
@@ -30,7 +30,7 @@
         <item>
             <title><![CDATA[Hello World - My First Blog Post]]></title>
             <description><![CDATA[Welcome to my new blog! This is where I'll share my thoughts on technology, life, and everything in between.]]></description>
-            <link>https://yourdomain.com/posts/hello-world.html</link>
+            <link>https://jordanjoecooper.com/posts/hello-world.html</link>
             <guid isPermaLink="false">hello-world</guid>
             <category><![CDATA[Personal]]></category>
             <category><![CDATA[Introduction]]></category>
