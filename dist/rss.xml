@@ -9,14 +9,22 @@
             <link>https://jordanjoecooper.com</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sat, 12 Jul 2025 11:18:58 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 12 Jul 2025 11:27:13 GMT</lastBuildDate>
         <atom:link href="https://jordanjoecooper.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Sat, 12 Jul 2025 11:18:58 GMT</pubDate>
+        <pubDate>Sat, 12 Jul 2025 11:27:13 GMT</pubDate>
         <copyright><![CDATA[2025 Jordan Joe Cooper]]></copyright>
         <language><![CDATA[en]]></language>
         <managingEditor><![CDATA[Jordan Joe Cooper]]></managingEditor>
         <webMaster><![CDATA[Jordan Joe Cooper]]></webMaster>
         <ttl>60</ttl>
+        <item>
+            <title><![CDATA[The War of the Worlds]]></title>
+            <description><![CDATA[Written in the late 1800s and focused on an invasion of earth from Martians. The avid imagination of technology that is closer to today is incredible.]]></description>
+            <link>https://jordanjoecooper.com/posts/the-war-of-the-worlds.html</link>
+            <guid isPermaLink="false">the-war-of-the-worlds</guid>
+            <dc:creator><![CDATA[Jordan Joe Cooper]]></dc:creator>
+            <pubDate>Tue, 31 Dec 2024 00:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[Aphorisms]]></title>
             <description><![CDATA[Collection of aphorisms some mine and some from others]]></description>
@@ -24,6 +32,30 @@
             <guid isPermaLink="false">aphorisms</guid>
             <category><![CDATA[Philosophy]]></category>
             <category><![CDATA[Wisdom]]></category>
+            <dc:creator><![CDATA[Jordan Joe Cooper]]></dc:creator>
+            <pubDate>Mon, 30 Dec 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Poor Charlie's Almanack]]></title>
+            <description><![CDATA[Charlie is a modern Ben Franklin.]]></description>
+            <link>https://jordanjoecooper.com/posts/poor-charlies-almanack.html</link>
+            <guid isPermaLink="false">poor-charlies-almanack</guid>
+            <dc:creator><![CDATA[Jordan Joe Cooper]]></dc:creator>
+            <pubDate>Mon, 30 Dec 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[The Hard Thing About Hard Things]]></title>
+            <description><![CDATA[Building a Business When There Are No Easy Answers]]></description>
+            <link>https://jordanjoecooper.com/posts/the-hard-thing-about-hard-things.html</link>
+            <guid isPermaLink="false">the-hard-thing-about-hard-things</guid>
+            <dc:creator><![CDATA[Jordan Joe Cooper]]></dc:creator>
+            <pubDate>Mon, 30 Dec 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Tuesdays With Morrie]]></title>
+            <description><![CDATA[Lessons we can all learn from.]]></description>
+            <link>https://jordanjoecooper.com/posts/tuesdays-with-morrie.html</link>
+            <guid isPermaLink="false">tuesdays-with-morrie</guid>
             <dc:creator><![CDATA[Jordan Joe Cooper]]></dc:creator>
             <pubDate>Mon, 30 Dec 2024 00:00:00 GMT</pubDate>
         </item>
