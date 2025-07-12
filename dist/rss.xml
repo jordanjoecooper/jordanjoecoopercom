@@ -9,23 +9,14 @@
             <link>https://jordanjoecooper.com</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sat, 12 Jul 2025 09:57:45 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 12 Jul 2025 10:07:07 GMT</lastBuildDate>
         <atom:link href="https://jordanjoecooper.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Sat, 12 Jul 2025 09:57:45 GMT</pubDate>
+        <pubDate>Sat, 12 Jul 2025 10:07:07 GMT</pubDate>
         <copyright><![CDATA[2025 Jordan Joe Cooper]]></copyright>
         <language><![CDATA[en]]></language>
         <managingEditor><![CDATA[Jordan Joe Cooper]]></managingEditor>
         <webMaster><![CDATA[Jordan Joe Cooper]]></webMaster>
         <ttl>60</ttl>
-        <item>
-            <title><![CDATA[Test Reorganization]]></title>
-            <description><![CDATA[Description for Test Reorganization]]></description>
-            <link>https://jordanjoecooper.com/posts/test-reorganization.html</link>
-            <guid isPermaLink="false">test-reorganization</guid>
-            <category><![CDATA[Test]]></category>
-            <dc:creator><![CDATA[Jordan Joe Cooper]]></dc:creator>
-            <pubDate>Wed, 02 Jul 2025 00:00:00 GMT</pubDate>
-        </item>
         <item>
             <title><![CDATA[Aphorisms]]></title>
             <description><![CDATA[Collection of aphorisms some mine and some from others]]></description>
