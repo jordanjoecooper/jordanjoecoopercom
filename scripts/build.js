@@ -161,6 +161,13 @@ async function build() {
       }
     }
 
+    // Copy robots.txt
+    console.log('🤖 Copying robots.txt...');
+    const robotsPath = path.join(__dirname, '../robots.txt');
+    if (await fs.pathExists(robotsPath)) {
+      await fs.copy(robotsPath, path.join(DIST_DIR, 'robots.txt'));
+    }
+
     // Read templates and partials
     console.log('📋 Reading templates...');
     const postTemplate = await fs.readFile(path.join(TEMPLATE_DIR, 'post.hbs'), 'utf8');
