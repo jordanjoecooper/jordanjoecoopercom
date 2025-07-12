@@ -148,16 +148,13 @@ async function build() {
     const faviconFiles = [
       'favicon.ico',
       'favicon-16x16.png',
-      'favicon-32x32.png',
-      'apple-touch-icon.png',
-      'android-chrome-192x192.png',
-      'android-chrome-512x512.png'
+      'favicon-32x32.png'
     ];
     
     for (const file of faviconFiles) {
-      const sourcePath = path.join(__dirname, '..', file);
+      const sourcePath = path.join(__dirname, '../images', file);
       if (await fs.pathExists(sourcePath)) {
-        await fs.copy(sourcePath, path.join(DIST_DIR, file));
+        await fs.copy(sourcePath, path.join(DIST_DIR, 'images', file));
       }
     }
 
