@@ -36,11 +36,7 @@ function formatDate(date) {
   });
 }
 
-function calculateReadTime(content) {
-  const wordsPerMinute = 200;
-  const wordCount = content.split(/\s+/).length;
-  return Math.ceil(wordCount / wordsPerMinute);
-}
+
 
 function generateSitemap(posts) {
   const baseUrl = siteMeta.url;
@@ -162,14 +158,12 @@ async function build() {
       const { data, content } = matter(await fs.readFile(filePath, 'utf8'));
       const slug = file.replace(/\.md$/, '');
       const htmlContent = marked.parse(content);
-      const readTime = calculateReadTime(content);
       
       const post = {
         ...data,
         slug,
         content: htmlContent,
         date: data.date || new Date().toISOString().split('T')[0],
-        readTime,
         formattedDate: formatDate(data.date || new Date()),
         keywords: data.keywords || '',
         categories: data.categories || []
