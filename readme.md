@@ -46,15 +46,16 @@ cd jordan
 npm install
 ```
 
-3. Update site configuration in `scripts/build.js`:
-```javascript
-const siteMeta = {
-  title: "Jordan's Blog",
-  description: 'Personal blog about technology, thoughts, and experiences',
-  url: 'https://yourdomain.com', // Change to your domain!
-  author: 'Jordan'
-};
-```
+3. Configure your site settings:
+   - Copy `env.example` to `.env`
+   - Update the values in `.env` with your information:
+   ```bash
+   SITE_URL=https://yourdomain.com
+   SITE_TITLE=Your Blog Title
+   SITE_DESCRIPTION=Personal blog about technology, thoughts, and experiences
+   SITE_AUTHOR=Your Name
+   SITE_LOGO_TEXT=Y
+   ```
 
 ### Building the Site
 
