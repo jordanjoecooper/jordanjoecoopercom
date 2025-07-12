@@ -46,7 +46,7 @@ nav {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding-top: 1.2rem;
+  padding-top: 0.6rem;
 }
 
 .nav-container {
@@ -403,4 +403,21 @@ footer .social-links a:hover svg {
 .writing-excerpt {
   color: #444;
   font-size: 1.05rem;
+}
+
+.contact-bio {
+  margin-top: 1.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #444;
+}
+
+.contact-bio a {
+  color: #0070f3;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.contact-bio a:hover {
+  color: #0051a8;
 }
