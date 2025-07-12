@@ -5,7 +5,7 @@
     <ul class="writing-list">
       {{#each posts}}
       <li class="writing-item">
-        <h2 class="writing-title"><a href="{{../baseUrl}}/posts/{{slug}}.html">{{title}}</a></h2>
+        <h2 class="writing-title"><a href="posts/{{slug}}.html">{{title}}</a></h2>
         <div class="writing-meta">
           <time datetime="{{date}}">{{formattedDate}}</time>
           {{#if readTime}}<span> · {{readTime}} min read</span>{{/if}}

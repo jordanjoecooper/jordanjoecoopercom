@@ -240,3 +240,41 @@ If you have questions or need help:
 ---
 
 Built with ❤️ using JavaScript, Markdown, and HTML.
+
+## Automation
+
+### Local Git Hooks
+
+The project includes a `post-commit` git hook that automatically:
+
+1. Rebuilds the site after each commit
+2. Commits any changes to the `dist/` directory
+3. Provides feedback on build success/failure
+
+The hook is located at `.git/hooks/post-commit` and runs automatically when you commit changes.
+
+### GitHub Actions
+
+A GitHub Actions workflow (`.github/workflows/deploy.yml`) automatically:
+
+1. Builds the site on every push to `main`
+2. Deploys to GitHub Pages using the `gh-pages` branch
+3. Runs on both pushes and pull requests
+
+To enable GitHub Pages deployment:
+
+1. Go to your repository settings
+2. Navigate to "Pages" section
+3. Set source to "Deploy from a branch"
+4. Select `gh-pages` branch and `/ (root)` folder
+5. Save the settings
+
+The workflow will automatically deploy your site to `https://yourusername.github.io/your-repo-name/`
+
+### Manual Build
+
+You can still build manually anytime:
+
+```bash
+npm run build
+```
