@@ -6,8 +6,6 @@ keywords: "static site, blog, JavaScript, Handlebars, markdown, GitHub Pages, SE
 categories: ["Tech", "Meta"]
 ---
 
-# How This Site is Built
-
 This site is a lightweight, SEO-optimized static blog built with JavaScript, Markdown, and HTML templates. The goal is to provide all the essential features of a modern blog while keeping things simple, fast, and easy to maintain.
 
 ## Key Features
