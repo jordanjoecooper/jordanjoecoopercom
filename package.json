@@ -14,7 +14,8 @@
   },
   "scripts": {
     "build": "node scripts/build.js",
-    "serve": "npx serve dist"
+    "serve": "npx serve dist",
+    "start": "npx serve dist"
   },
   "author": "",
   "license": "ISC",
