@@ -22,7 +22,7 @@ const STATIC_FILES = ['../styles.css', '../images'];
 
 const siteMeta = {
   title: process.env.SITE_TITLE || "Jordan Joe Cooper",
-  description: process.env.SITE_DESCRIPTION || 'Personal blog about technology, products, coding, general thoughts, and experiences',
+  description: process.env.SITE_DESCRIPTION || 'Making things on the internet.',
   url: process.env.SITE_URL || 'https://jordanjoecooper.com',
   author: process.env.SITE_AUTHOR || 'Jordan Joe Cooper',
   logoText: process.env.SITE_LOGO_TEXT || 'J'
