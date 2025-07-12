@@ -83,6 +83,26 @@ npm run dev
 
 This will build the site and start a local server at `http://localhost:8000`.
 
+## Local Development & Preview
+
+To build the site:
+
+```sh
+npm run build
+```
+
+To preview the site locally with working navigation, run:
+
+```sh
+npm run serve
+```
+
+This will start a local server (using [serve](https://www.npmjs.com/package/serve)) and open your site at http://localhost:3000 (or another port if 3000 is in use).
+
+**Note:**
+- Navigation links use root-relative paths (e.g., `/writing.html`) for best compatibility in production and on GitHub Pages.
+- Opening HTML files directly in your browser (using the `file://` protocol) will break navigation. Always use a local server for previewing the site.
+
 ## Writing Posts
 
 ### Creating a New Post
