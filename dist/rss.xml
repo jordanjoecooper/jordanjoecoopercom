@@ -9,14 +9,24 @@
             <link>https://jordanjoecooper.com</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sat, 12 Jul 2025 14:33:47 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 12 Jul 2025 14:34:28 GMT</lastBuildDate>
         <atom:link href="https://jordanjoecooper.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Sat, 12 Jul 2025 14:33:47 GMT</pubDate>
+        <pubDate>Sat, 12 Jul 2025 14:34:28 GMT</pubDate>
         <copyright><![CDATA[2025 Jordan Joe Cooper]]></copyright>
         <language><![CDATA[en]]></language>
         <managingEditor><![CDATA[Jordan Joe Cooper]]></managingEditor>
         <webMaster><![CDATA[Jordan Joe Cooper]]></webMaster>
         <ttl>60</ttl>
+        <item>
+            <title><![CDATA[How This Site is Built]]></title>
+            <description><![CDATA[A behind-the-scenes look at the technology, structure, and workflow powering jordanjoecooper.com.]]></description>
+            <link>https://jordanjoecooper.com/posts/about-this-site.html</link>
+            <guid isPermaLink="false">about-this-site</guid>
+            <category><![CDATA[Tech]]></category>
+            <category><![CDATA[Meta]]></category>
+            <dc:creator><![CDATA[Jordan Joe Cooper]]></dc:creator>
+            <pubDate>Sat, 12 Jul 2025 00:00:00 GMT</pubDate>
+        </item>
         <item>
             <title><![CDATA[Quotes / Aphorisms]]></title>
             <description><![CDATA[Collection of aphorisms some mine and some from others]]></description>
