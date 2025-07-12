@@ -9,23 +9,42 @@
             <link>https://yourdomain.com</link>
         </image>
         <generator>RSS for Node</generator>
-        <lastBuildDate>Sat, 12 Jul 2025 09:45:54 GMT</lastBuildDate>
+        <lastBuildDate>Sat, 12 Jul 2025 09:46:44 GMT</lastBuildDate>
         <atom:link href="https://yourdomain.com/rss.xml" rel="self" type="application/rss+xml"/>
-        <pubDate>Sat, 12 Jul 2025 09:45:54 GMT</pubDate>
+        <pubDate>Sat, 12 Jul 2025 09:46:44 GMT</pubDate>
         <copyright><![CDATA[2025 Your Name]]></copyright>
         <language><![CDATA[en]]></language>
         <managingEditor><![CDATA[Your Name]]></managingEditor>
         <webMaster><![CDATA[Your Name]]></webMaster>
         <ttl>60</ttl>
         <item>
-            <title><![CDATA[Example Blog Post]]></title>
-            <description><![CDATA[This is an example blog post to demonstrate the static blog system.]]></description>
-            <link>https://yourdomain.com/posts/example-post.html</link>
-            <guid isPermaLink="false">example-post</guid>
-            <category><![CDATA[Example]]></category>
-            <category><![CDATA[Blog]]></category>
+            <title><![CDATA[Test Reorganization]]></title>
+            <description><![CDATA[Description for Test Reorganization]]></description>
+            <link>https://yourdomain.com/posts/test-reorganization.html</link>
+            <guid isPermaLink="false">test-reorganization</guid>
+            <category><![CDATA[Test]]></category>
             <dc:creator><![CDATA[Your Name]]></dc:creator>
-            <pubDate>Wed, 15 Jan 2025 00:00:00 GMT</pubDate>
+            <pubDate>Wed, 02 Jul 2025 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[Aphorisms]]></title>
+            <description><![CDATA[Collection of aphorisms some mine and some from others]]></description>
+            <link>https://yourdomain.com/posts/aphorisms.html</link>
+            <guid isPermaLink="false">aphorisms</guid>
+            <category><![CDATA[Philosophy]]></category>
+            <category><![CDATA[Wisdom]]></category>
+            <dc:creator><![CDATA[Your Name]]></dc:creator>
+            <pubDate>Mon, 30 Dec 2024 00:00:00 GMT</pubDate>
+        </item>
+        <item>
+            <title><![CDATA[The Age of Artificial Intelligence]]></title>
+            <description><![CDATA[Reflections on the rapid advancement of AI and its impact on work, society and existing technology.]]></description>
+            <link>https://yourdomain.com/posts/age-of-ai.html</link>
+            <guid isPermaLink="false">age-of-ai</guid>
+            <category><![CDATA[Technology]]></category>
+            <category><![CDATA[AI]]></category>
+            <dc:creator><![CDATA[Your Name]]></dc:creator>
+            <pubDate>Sun, 01 Dec 2024 00:00:00 GMT</pubDate>
         </item>
     </channel>
 </rss>

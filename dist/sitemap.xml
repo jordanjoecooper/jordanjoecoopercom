@@ -13,8 +13,20 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://yourdomain.com/posts/example-post.html</loc>
-    <lastmod>2025-01-15</lastmod>
+    <loc>https://yourdomain.com/posts/test-reorganization.html</loc>
+    <lastmod>2025-07-02</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yourdomain.com/posts/aphorisms.html</loc>
+    <lastmod>2024-12-30</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://yourdomain.com/posts/age-of-ai.html</loc>
+    <lastmod>2024-12-01</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
