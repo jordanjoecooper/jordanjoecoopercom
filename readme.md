@@ -1,5 +1,7 @@
 # Jordan's Static Blog
 
+[![pages-build-deployment](https://github.com/jordanjoecooper/jordanjoecoopercom/actions/workflows/pages/pages-build-deployment/badge.svg)](https://github.com/jordanjoecooper/jordanjoecoopercom/actions/workflows/pages/pages-build-deployment)
+
 A lightweight, SEO-optimized static blog built with JavaScript, Markdown, and HTML templates. This system provides all the essential features of a modern blog while maintaining simplicity and performance.
 
 ## Features
