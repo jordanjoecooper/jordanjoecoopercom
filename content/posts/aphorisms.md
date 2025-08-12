@@ -19,4 +19,7 @@ categories: ["Philosophy", "Wisdom"]
 > — Warren Buffet
 
 > "Without numerical fluency, in the part of life most of us inhibit, you are like a one-legged man in an ass-kicking contest."
-> — Charlie Munger 
+> — Charlie Munger
+
+> “There is no bad weather, only inappropriate clothing."
+> — Sir Ranulph Fiennes
