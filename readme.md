@@ -9,6 +9,22 @@ A fully static personal website. No build process, no dependencies, just pure HT
 - **Easy to Edit**: Just edit HTML files directly
 - **Fast**: No JavaScript, no frameworks, minimal CSS
 
+## Project Structure
+
+```
+├── index.html          # Homepage
+├── experience.html     # Work experience timeline
+├── post-template.html  # Template for new posts
+├── posts/             # Individual post HTML files
+│   ├── aphorisms.html
+│   └── about-this-site.html
+├── styles.css         # All CSS styles
+└── images/           # Static images
+    ├── companies/     # Company logos for timeline
+    ├── dp.jpg        # Profile image
+    └── enso.jpg      # Footer image
+```
+
 ## How to Add a New Post
 
 1. Copy `post-template.html` to `posts/your-post-name.html`
@@ -18,25 +34,9 @@ A fully static personal website. No build process, no dependencies, just pure HT
    - `YYYY-MM-DD` → Date in ISO format
    - `Month Day, Year` → Human-readable date
 3. Write your content in HTML (or copy from markdown and convert)
-4. Add a link to your new post in:
-   - `writing.html` (add to the list)
-   - `index.html` (add to recent posts if desired)
+4. Add a link to your new post in the "Writing" section of `index.html`
 
 That's it! No build step, no dependencies, just edit and deploy.
-
-## Project Structure
-
-```
-├── index.html          # Homepage
-├── writing.html        # All posts listing
-├── about.html          # About page
-├── post-template.html  # Template for new posts
-├── posts/             # Individual post HTML files
-│   ├── aphorisms.html
-│   └── about-this-site.html
-├── styles.css         # Minimal CSS
-└── images/            # Static images (if any)
-```
 
 ## Deployment
 
