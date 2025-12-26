@@ -189,6 +189,45 @@ nav a:hover {
   text-decoration: underline;
 }
 
+.current-role-section {
+  background: #f8f8f8;
+  padding: 1.5em;
+  border-radius: 8px;
+  margin: 2em 0;
+}
+
+.current-role-section p:first-child {
+  margin: 0 0 0.5em 0;
+  font-size: 1.3em;
+  color: #000;
+}
+
+.current-role-section h3 {
+  margin: 0 0 0.5em 0;
+  font-size: 0.95em;
+  color: #666;
+  font-weight: 500;
+}
+
+.current-role-section p {
+  margin: 0.5em 0;
+  color: #333;
+  font-size: 0.95em;
+}
+
+.current-role-section p:last-child {
+  margin-top: 1em;
+}
+
+.current-role-section a {
+  color: #0066cc;
+  text-decoration: none;
+}
+
+.current-role-section a:hover {
+  text-decoration: underline;
+}
+
 .projects-section {
   margin: 2em 0;
 }
@@ -461,6 +500,114 @@ nav a:hover {
   padding: 0 calc(50vw - 50% + 20px);
   color: #666;
   font-style: italic;
+}
+
+/* Vertical Timeline Styles */
+.timeline-container-vertical {
+  max-width: 800px;
+  margin: 3em auto;
+  padding: 2em 0;
+  position: relative;
+}
+
+.timeline-container-vertical::before {
+  content: '';
+  position: absolute;
+  left: 39px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #ddd;
+  z-index: 1;
+}
+
+.timeline-item-vertical {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  margin-bottom: 3em;
+  position: relative;
+  gap: 2em;
+  padding-left: 0;
+}
+
+.timeline-item-vertical .timeline-logo {
+  position: absolute;
+  left: 40px;
+  top: 0;
+  z-index: 3;
+  background: #fefefe;
+  border: 2px solid #ddd;
+  box-sizing: border-box;
+  transform: translateX(-50%);
+}
+
+.timeline-item-vertical:last-child {
+  margin-bottom: 0;
+}
+
+
+.timeline-content-vertical {
+  flex: 1;
+  margin-left: 100px;
+  text-align: left;
+}
+
+.timeline-year-vertical {
+  font-size: 0.9em;
+  color: #666;
+  font-weight: 500;
+  margin-bottom: 0.5em;
+}
+
+.timeline-content-vertical h3 {
+  font-size: 1.2em;
+  margin: 0 0 0.3em 0;
+  color: #000;
+}
+
+.timeline-content-vertical p {
+  margin: 0.3em 0;
+  font-size: 0.95em;
+  color: #333;
+  text-align: left;
+}
+
+.timeline-content-vertical p:first-of-type {
+  font-weight: 600;
+  color: #000;
+}
+
+.timeline-content-vertical .timeline-description {
+  font-size: 0.9em !important;
+  color: #666 !important;
+  line-height: 1.6;
+  max-width: 100%;
+  margin: 0.5em 0 0 0;
+  text-align: left;
+}
+
+@media (max-width: 768px) {
+  .timeline-container-vertical::before {
+    left: 29px;
+  }
+  
+  .timeline-item-vertical {
+    gap: 1.5em;
+  }
+  
+  .timeline-item-vertical .timeline-logo {
+    left: 30px;
+  }
+  
+  .timeline-content-vertical {
+    margin-left: 80px;
+  }
+  
+  .timeline-logo {
+    width: 60px;
+    height: 60px;
+  }
 }
 
 hr {
