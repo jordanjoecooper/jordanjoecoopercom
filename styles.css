@@ -279,6 +279,7 @@ nav a:hover {
   -webkit-overflow-scrolling: touch;
   scrollbar-width: thin;
   scrollbar-color: #ccc #f8f8f8;
+  scroll-snap-type: x proximity;
 }
 
 .timeline-container::-webkit-scrollbar {
@@ -300,6 +301,28 @@ nav a:hover {
   gap: 3em;
   padding: 0 calc(50vw - 50% + 20px);
   min-width: max-content;
+  position: relative;
+  padding-bottom: 3em;
+  /* Right padding to show edge of 3rd item when first two are visible */
+  padding-right: calc(50vw - 50% + 20px + 50px);
+}
+
+.timeline-scroll::before {
+  content: '';
+  position: absolute;
+  bottom: 1.5em;
+  left: calc(50vw - 50% + 20px);
+  right: calc(50vw - 50% + 20px);
+  height: 2px;
+  background: #ddd;
+  z-index: 1;
+}
+
+@media (max-width: 768px) {
+  .timeline-scroll {
+    /* Mobile: show edge of next item */
+    padding-right: calc(50vw - 50% + 20px + 50px);
+  }
 }
 
 .timeline-item {
@@ -308,6 +331,24 @@ nav a:hover {
   align-items: center;
   min-width: 250px;
   flex-shrink: 0;
+  scroll-snap-align: start;
+  position: relative;
+}
+
+.timeline-item:first-child {
+  scroll-snap-align: center;
+}
+
+.timeline-item::after {
+  content: '';
+  position: absolute;
+  bottom: -1.5em;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 2px;
+  height: 20px;
+  background: #ddd;
+  z-index: 2;
 }
 
 .timeline-logo {
@@ -377,10 +418,12 @@ nav a:hover {
   color: #666;
   font-weight: 500;
   margin-top: auto;
-  padding-top: 1em;
-  border-top: 2px solid #ddd;
+  padding-top: 0;
+  margin-bottom: 0.5em;
   width: 100%;
   text-align: center;
+  position: relative;
+  z-index: 3;
 }
 
 hr {
