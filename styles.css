@@ -184,6 +184,119 @@ nav a:hover {
   margin-top: 0;
 }
 
+.timeline-container {
+  margin: 3em calc(50% - 50vw) 3em calc(50% - 50vw);
+  padding: 2em 0;
+  background: #f8f8f8;
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  scrollbar-color: #ccc #f8f8f8;
+}
+
+.timeline-container::-webkit-scrollbar {
+  height: 8px;
+}
+
+.timeline-container::-webkit-scrollbar-track {
+  background: #f8f8f8;
+}
+
+.timeline-container::-webkit-scrollbar-thumb {
+  background: #ccc;
+  border-radius: 4px;
+}
+
+.timeline-scroll {
+  display: flex;
+  flex-direction: row;
+  gap: 3em;
+  padding: 0 calc(50vw - 50% + 20px);
+  min-width: max-content;
+}
+
+.timeline-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 250px;
+  flex-shrink: 0;
+}
+
+.timeline-logo {
+  width: 80px;
+  height: 80px;
+  margin-bottom: 1em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 10px;
+}
+
+.timeline-logo img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+
+.logo-placeholder {
+  width: 60px;
+  height: 60px;
+  background: #e0e0e0;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5em;
+  font-weight: 600;
+  color: #666;
+}
+
+.timeline-content {
+  text-align: center;
+  margin-bottom: 1em;
+}
+
+.timeline-content h3 {
+  font-size: 1.1em;
+  margin: 0 0 0.3em 0;
+  color: #000;
+}
+
+.timeline-content p {
+  margin: 0.3em 0;
+  font-size: 0.95em;
+  color: #333;
+}
+
+.timeline-content p:first-of-type {
+  font-weight: 600;
+  color: #000;
+}
+
+.timeline-description {
+  font-size: 0.85em !important;
+  color: #666 !important;
+  line-height: 1.5;
+  max-width: 220px;
+  margin: 0.5em auto 0 auto;
+}
+
+.timeline-year {
+  font-size: 0.9em;
+  color: #666;
+  font-weight: 500;
+  margin-top: auto;
+  padding-top: 1em;
+  border-top: 2px solid #ddd;
+  width: 100%;
+  text-align: center;
+}
+
 hr {
   border: none;
   border-top: 1px solid #e0e0e0;
