@@ -167,11 +167,80 @@ nav a:hover {
   font-weight: normal;
 }
 
+.main-nav {
+  margin-top: 1em;
+  text-align: center;
+}
+
+.main-nav a {
+  color: #0066cc;
+  text-decoration: none;
+  font-size: 0.95em;
+}
+
+.main-nav a:hover {
+  text-decoration: underline;
+}
+
 .projects-section {
   background: #f8f8f8;
   padding: 1.5em;
   border-radius: 8px;
   margin: 2em 0;
+}
+
+.project-list {
+  list-style: none;
+  padding: 0;
+  margin: 1.5em 0 0 0;
+}
+
+.project-item {
+  display: flex;
+  gap: 1.5em;
+  margin-bottom: 2em;
+  padding-bottom: 2em;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.project-item:last-child {
+  border-bottom: none;
+  margin-bottom: 0;
+  padding-bottom: 0;
+}
+
+.project-image {
+  width: 120px;
+  height: 120px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.project-content {
+  flex: 1;
+}
+
+.project-content h3 {
+  margin: 0 0 0.5em 0;
+  font-size: 1.2em;
+}
+
+.project-content h3 a {
+  color: #000;
+  text-decoration: none;
+}
+
+.project-content h3 a:hover {
+  color: #0066cc;
+  text-decoration: underline;
+}
+
+.project-content p {
+  margin: 0;
+  color: #666;
+  font-size: 0.95em;
+  line-height: 1.6;
 }
 
 .writing-section {
@@ -182,6 +251,16 @@ nav a:hover {
 
 .writing-section h2 {
   margin-top: 0;
+}
+
+.what-else-section {
+  margin: 3em 0;
+  text-align: center;
+}
+
+.what-else-section p {
+  margin: 0;
+  font-weight: bold;
 }
 
 .timeline-container {
