@@ -115,14 +115,12 @@ nav a:hover {
 }
 
 .post-content blockquote {
-  border-left: 3px solid #d0d0d0;
-  padding-left: 1em;
+  border-left: 3px solid #ccc;
+  padding: 1em 1em 1em 1.5em;
   margin: 1em 0;
   color: #444;
   font-style: italic;
   background: #f9f9f9;
-  padding: 1em 1em 1em 1.5em;
-  border-left: 3px solid #ccc;
 }
 
 .post-content code {
@@ -320,86 +318,6 @@ nav a:hover {
   font-weight: bold;
 }
 
-.timeline-container {
-  margin: 3em calc(50% - 50vw) 3em calc(50% - 50vw);
-  padding: 2em 0;
-  background: #f8f8f8;
-  overflow-x: auto;
-  overflow-y: hidden;
-  -webkit-overflow-scrolling: touch;
-  scrollbar-width: thin;
-  scrollbar-color: #ccc #f8f8f8;
-  scroll-snap-type: x proximity;
-}
-
-.timeline-container::-webkit-scrollbar {
-  height: 8px;
-}
-
-.timeline-container::-webkit-scrollbar-track {
-  background: #f8f8f8;
-}
-
-.timeline-container::-webkit-scrollbar-thumb {
-  background: #ccc;
-  border-radius: 4px;
-}
-
-.timeline-scroll {
-  display: flex;
-  flex-direction: row;
-  gap: 5em;
-  padding: 0 calc(50vw - 50% + 20px);
-  min-width: max-content;
-  position: relative;
-  padding-bottom: 3em;
-  /* Right padding to show edge of 3rd item when first two are visible */
-  padding-right: calc(50vw - 50% + 20px + 50px);
-}
-
-.timeline-scroll::before {
-  content: '';
-  position: absolute;
-  bottom: 1.5em;
-  left: calc(50vw - 50% + 20px);
-  right: calc(50vw - 50% + 20px);
-  height: 2px;
-  background: #ddd;
-  z-index: 1;
-}
-
-@media (max-width: 768px) {
-  .timeline-scroll {
-    /* Mobile: show edge of next item */
-    padding-right: calc(50vw - 50% + 20px + 50px);
-  }
-}
-
-.timeline-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  min-width: 320px;
-  flex-shrink: 0;
-  scroll-snap-align: start;
-  position: relative;
-}
-
-.timeline-item:first-child {
-  scroll-snap-align: center;
-}
-
-.timeline-item::after {
-  content: '';
-  position: absolute;
-  bottom: -1.5em;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 2px;
-  height: 20px;
-  background: #ddd;
-  z-index: 2;
-}
 
 .timeline-logo {
   width: 80px;
@@ -460,57 +378,13 @@ nav a:hover {
   color: #666;
 }
 
-.timeline-content {
-  text-align: center;
-  margin-bottom: 1em;
-}
-
-.timeline-content h3 {
-  font-size: 1.1em;
-  margin: 0 0 0.3em 0;
-  color: #000;
-}
-
-.timeline-content p {
-  margin: 0.3em 0;
-  font-size: 0.95em;
-  color: #333;
-  text-align: center;
-}
-
-.timeline-content p:first-of-type {
-  font-weight: 600;
-  color: #000;
-}
-
 .timeline-description {
-  font-size: 0.85em !important;
+  font-size: 0.9em !important;
   color: #666 !important;
-  line-height: 1.5;
-  max-width: 280px;
-  margin: 0.5em auto 0 auto;
-  text-align: center;
-}
-
-.timeline-year {
-  font-size: 0.9em;
-  color: #666;
-  font-weight: 500;
-  margin-top: auto;
-  padding-top: 0;
-  margin-bottom: 0.5em;
-  width: 100%;
-  text-align: center;
-  position: relative;
-  z-index: 3;
-}
-
-.timeline-footer {
-  text-align: center;
-  margin-top: 2em;
-  padding: 0 calc(50vw - 50% + 20px);
-  color: #666;
-  font-style: italic;
+  line-height: 1.6;
+  max-width: 100%;
+  margin: 0.5em 0 0 0;
+  text-align: left;
 }
 
 /* Vertical Timeline Styles */
