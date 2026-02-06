@@ -1,19 +1,59 @@
-/* Minimal CSS with beautiful off-white background */
+/* Zen Terminal — Japanese minimalism meets 1970s hacker aesthetic */
+
+:root {
+  /* Light mode: washi paper palette */
+  --accent: #c47a2a;
+  --accent-hover: #a86820;
+  --bg: #f5f0eb;
+  --text: #2a2a2a;
+  --text-secondary: #7a7268;
+  --text-muted: #5a5348;
+  --heading: #1a1a1a;
+  --border: #ddd5ca;
+  --surface: #ede7df;
+  --code-bg: #e8e0d6;
+  --code-text: #c47a2a;
+  --blockquote-bg: #ede7df;
+  --timeline-border: #ddd5ca;
+  --mono: 'SF Mono', 'Cascadia Code', 'Fira Mono', Menlo, Monaco, Consolas, monospace;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    /* Dark mode: amber terminal palette */
+    --accent: #d4a04a;
+    --accent-hover: #e0b060;
+    --bg: #1a1918;
+    --text: #dcd5ca;
+    --text-secondary: #8a8078;
+    --text-muted: #b0a898;
+    --heading: #ece5da;
+    --border: #333028;
+    --surface: #252322;
+    --code-bg: #2a2725;
+    --code-text: #d4a04a;
+    --blockquote-bg: #222120;
+    --timeline-border: #444038;
+  }
+}
+
 body {
-  max-width: 650px;
-  margin: 40px auto;
-  padding: 0 20px;
+  max-width: 620px;
+  margin: 50px auto;
+  padding: 0 24px;
   font: 18px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
-  color: #1a1a1a;
-  background: #fefefe;
+  color: var(--text);
+  background: var(--bg);
+  font-weight: 400;
 }
 
 h1, h2, h3 {
   line-height: 1.3;
   margin-top: 1.5em;
   margin-bottom: 0.5em;
-  color: #000;
+  color: var(--heading);
   font-weight: 600;
+  font-family: var(--mono);
 }
 
 h1 {
@@ -30,29 +70,77 @@ h3 {
 }
 
 a {
-  color: #0066cc;
+  color: var(--accent);
   text-decoration: none;
+  transition: color 0.2s;
 }
 
 a:hover {
   text-decoration: underline;
-  color: #0052a3;
+  color: var(--accent-hover);
 }
 
 nav {
   margin-bottom: 2em;
   padding-top: 0.5em;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border);
   padding-bottom: 0.5em;
 }
 
 nav a {
-  color: #666;
+  color: var(--text-secondary);
   margin-right: 1.5em;
 }
 
 nav a:hover {
-  color: #000;
+  color: var(--heading);
+}
+
+/* Main nav: monospace + path-style / separators */
+.main-nav {
+  margin-top: 1em;
+  text-align: center;
+  font-family: var(--mono);
+}
+
+.main-nav a {
+  color: var(--accent);
+  text-decoration: none;
+  font-size: 0.9em;
+  margin-right: 0;
+}
+
+.main-nav a:hover {
+  text-decoration: underline;
+}
+
+.main-nav a + a::before {
+  content: '/';
+  color: var(--text-secondary);
+  margin: 0 0.6em;
+  text-decoration: none;
+  display: inline-block;
+}
+
+/* Tagline with blinking cursor */
+.tagline {
+  color: var(--text-secondary);
+  font-size: 1em;
+  margin-top: 0.5em;
+  font-weight: normal;
+  font-family: var(--mono);
+}
+
+.tagline::after {
+  content: '\2588';
+  color: var(--accent);
+  animation: blink 1s step-end infinite;
+  margin-left: 0.1em;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 .post-list {
@@ -76,29 +164,30 @@ nav a:hover {
 }
 
 .post-title a {
-  color: #000;
+  color: var(--heading);
   font-weight: normal;
 }
 
 .post-title a:hover {
-  color: #0066cc;
+  color: var(--accent);
 }
 
 .post-date {
   font-size: 0.75em;
-  color: #666;
+  color: var(--text-secondary);
   font-weight: normal;
+  font-family: var(--mono);
 }
 
 .post-meta {
   font-size: 0.9em;
-  color: #666;
+  color: var(--text-secondary);
   margin-bottom: 0.5em;
 }
 
 .post-content {
   line-height: 1.8;
-  color: #1a1a1a;
+  color: var(--text);
 }
 
 .post-content p {
@@ -115,36 +204,36 @@ nav a:hover {
 }
 
 .post-content blockquote {
-  border-left: 3px solid #ccc;
+  border-left: 3px solid var(--accent);
   padding: 1em 1em 1em 1.5em;
   margin: 1em 0;
-  color: #444;
+  color: var(--text-muted);
   font-style: italic;
-  background: #f9f9f9;
+  background: var(--blockquote-bg);
 }
 
 .post-content code {
-  background: #f5f5f5;
+  background: var(--code-bg);
   padding: 0.2em 0.4em;
   border-radius: 3px;
-  font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, monospace;
+  font-family: var(--mono);
   font-size: 0.9em;
-  color: #c7254e;
+  color: var(--code-text);
 }
 
 .post-content pre {
-  background: #f5f5f5;
+  background: var(--code-bg);
   padding: 1em;
   border-radius: 6px;
   overflow-x: auto;
   margin: 1em 0;
-  border: 1px solid #e0e0e0;
+  border: 1px solid var(--border);
 }
 
 .post-content pre code {
   background: none;
   padding: 0;
-  color: #1a1a1a;
+  color: var(--text);
 }
 
 .profile-header {
@@ -159,7 +248,7 @@ nav a:hover {
   border-radius: 50%;
   object-fit: cover;
   margin-bottom: 1em;
-  border: 2px solid #000;
+  border: 2px solid var(--heading);
   display: block;
   margin-left: auto;
   margin-right: auto;
@@ -176,30 +265,8 @@ nav a:hover {
   margin-right: auto;
 }
 
-.tagline {
-  color: #666;
-  font-size: 1em;
-  margin-top: 0.5em;
-  font-weight: normal;
-}
-
-.main-nav {
-  margin-top: 1em;
-  text-align: center;
-}
-
-.main-nav a {
-  color: #0066cc;
-  text-decoration: none;
-  font-size: 0.95em;
-}
-
-.main-nav a:hover {
-  text-decoration: underline;
-}
-
 .current-role-section {
-  background: #f8f8f8;
+  background: var(--surface);
   padding: 1.5em;
   border-radius: 8px;
   margin: 2em 0;
@@ -208,19 +275,19 @@ nav a:hover {
 .current-role-section p:first-child {
   margin: 0 0 0.5em 0;
   font-size: 1.3em;
-  color: #000;
+  color: var(--heading);
 }
 
 .current-role-section h3 {
   margin: 0 0 0.5em 0;
   font-size: 0.95em;
-  color: #666;
+  color: var(--text-secondary);
   font-weight: 500;
 }
 
 .current-role-section p {
   margin: 0.5em 0;
-  color: #333;
+  color: var(--text);
   font-size: 0.95em;
 }
 
@@ -229,7 +296,7 @@ nav a:hover {
 }
 
 .current-role-section a {
-  color: #0066cc;
+  color: var(--accent);
   text-decoration: none;
 }
 
@@ -252,7 +319,7 @@ nav a:hover {
   gap: 1.5em;
   margin-bottom: 2em;
   padding-bottom: 2em;
-  border-bottom: 1px solid #e0e0e0;
+  border-bottom: 1px solid var(--border);
 }
 
 .project-item:last-child {
@@ -282,26 +349,26 @@ nav a:hover {
 }
 
 .project-content h3 a {
-  color: #000;
+  color: var(--heading);
   text-decoration: none;
 }
 
 .project-content h3 a:hover {
-  color: #0066cc;
+  color: var(--accent);
   text-decoration: underline;
 }
 
 .project-content p {
   margin: 0;
-  color: #666;
+  color: var(--text-secondary);
   font-size: 0.95em;
   line-height: 1.6;
 }
 
 .writing-section {
-  background: #f8f8f8;
+  background: var(--surface);
   margin: 2em calc(50% - 50vw) 0 calc(50% - 50vw);
-  padding: 2em calc(50vw - 50% + 20px);
+  padding: 2em calc(50vw - 50% + 24px);
 }
 
 .writing-section h2 {
@@ -317,7 +384,6 @@ nav a:hover {
   margin: 0;
   font-weight: bold;
 }
-
 
 .timeline-logo {
   width: 80px;
@@ -368,19 +434,19 @@ nav a:hover {
 .logo-placeholder {
   width: 60px;
   height: 60px;
-  background: #e0e0e0;
+  background: var(--border);
   border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.5em;
   font-weight: 600;
-  color: #666;
+  color: var(--text-secondary);
 }
 
 .timeline-description {
   font-size: 0.9em !important;
-  color: #666 !important;
+  color: var(--text-secondary) !important;
   line-height: 1.6;
   max-width: 100%;
   margin: 0.5em 0 0 0;
@@ -402,7 +468,8 @@ nav a:hover {
   top: 0;
   bottom: 0;
   width: 2px;
-  background: #ddd;
+  background: var(--accent);
+  opacity: 0.3;
   z-index: 1;
 }
 
@@ -421,16 +488,19 @@ nav a:hover {
   left: 40px;
   top: 0;
   z-index: 3;
-  background: #fefefe;
-  border: 2px solid #ddd;
+  background: var(--bg);
+  border: 2px solid var(--timeline-border);
   box-sizing: border-box;
   transform: translateX(-50%);
+}
+
+.timeline-item-vertical .timeline-logo.timeline-logo-zumi {
+  background: #fff;
 }
 
 .timeline-item-vertical:last-child {
   margin-bottom: 0;
 }
-
 
 .timeline-content-vertical {
   flex: 1;
@@ -440,32 +510,33 @@ nav a:hover {
 
 .timeline-year-vertical {
   font-size: 0.9em;
-  color: #666;
+  color: var(--text-secondary);
   font-weight: 500;
   margin-bottom: 0.5em;
+  font-family: var(--mono);
 }
 
 .timeline-content-vertical h3 {
   font-size: 1.2em;
   margin: 0 0 0.3em 0;
-  color: #000;
+  color: var(--heading);
 }
 
 .timeline-content-vertical p {
   margin: 0.3em 0;
   font-size: 0.95em;
-  color: #333;
+  color: var(--text);
   text-align: left;
 }
 
 .timeline-content-vertical p:first-of-type {
   font-weight: 600;
-  color: #000;
+  color: var(--heading);
 }
 
 .timeline-content-vertical .timeline-description {
   font-size: 0.9em !important;
-  color: #666 !important;
+  color: var(--text-secondary) !important;
   line-height: 1.6;
   max-width: 100%;
   margin: 0.5em 0 0 0;
@@ -476,19 +547,19 @@ nav a:hover {
   .timeline-container-vertical::before {
     left: 29px;
   }
-  
+
   .timeline-item-vertical {
     gap: 1.5em;
   }
-  
+
   .timeline-item-vertical .timeline-logo {
     left: 30px;
   }
-  
+
   .timeline-content-vertical {
     margin-left: 80px;
   }
-  
+
   .timeline-logo {
     width: 60px;
     height: 60px;
@@ -497,6 +568,6 @@ nav a:hover {
 
 hr {
   border: none;
-  border-top: 1px solid #e0e0e0;
+  border-top: 1px solid var(--border);
   margin: 2em 0;
 }
