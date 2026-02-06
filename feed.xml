@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Jordan Joe Cooper</title>
+    <link>https://jordanjoecooper.com</link>
+    <description>Writing about technology, engineering leadership, and turning intention into reality.</description>
+    <language>en</language>
+    <atom:link href="https://jordanjoecooper.com/feed.xml" rel="self" type="application/rss+xml"/>
+    <item>
+      <title>Quotes / Aphorisms</title>
+      <link>https://jordanjoecooper.com/posts/aphorisms.html</link>
+      <guid>https://jordanjoecooper.com/posts/aphorisms.html</guid>
+      <pubDate>Thu, 14 Aug 2025 00:00:00 +0000</pubDate>
+      <description>Collection of quotes and aphorisms from books, conversations, and podcasts. Wisdom from Charlie Munger, Warren Buffett, Marcus Aurelius, and others.</description>
+    </item>
+    <item>
+      <title>How This Site is Built</title>
+      <link>https://jordanjoecooper.com/posts/about-this-site.html</link>
+      <guid>https://jordanjoecooper.com/posts/about-this-site.html</guid>
+      <pubDate>Sat, 12 Jul 2025 00:00:00 +0000</pubDate>
+      <description>A behind-the-scenes look at the technology, structure, and workflow powering jordanjoecooper.com. Fully static HTML with no build process, no dependencies, just pure HTML and CSS.</description>
+    </item>
+  </channel>
+</rss>
