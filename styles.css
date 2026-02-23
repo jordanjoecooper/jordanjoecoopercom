@@ -146,13 +146,15 @@ nav a:hover {
 .post-list {
   list-style: none;
   padding: 0;
+  overflow-x: visible;
+  min-width: max-content;
 }
 
 .post-list li {
   margin: 0;
   padding: 0.75em 0;
   border-bottom: 1px dotted var(--border);
-  overflow-x: auto;
+  overflow-x: visible;
 }
 
 .post-list li:last-child {
@@ -163,13 +165,19 @@ nav a:hover {
   font-size: 1em;
   font-weight: normal;
   margin: 0;
-  display: flex;
+  display: inline-flex;
   align-items: baseline;
   gap: 0.25em;
   white-space: nowrap;
+  max-width: none;
 }
 
-/* Date – title on one line, no underline */
+/* Date – title on one line, no underline; don't shrink so full title always shows */
+.post-title .post-date,
+.post-title a {
+  flex-shrink: 0;
+}
+
 .post-title a {
   color: var(--text);
   font-weight: normal;
@@ -387,6 +395,7 @@ nav a:hover {
   background: var(--surface);
   margin: 2em calc(50% - 50vw) 0 calc(50% - 50vw);
   padding: 2em calc(50vw - 50% + 24px);
+  overflow-x: visible;
 }
 
 .writing-section h2 {
