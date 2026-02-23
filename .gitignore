@@ -1,6 +1,9 @@
 # Dependencies
 node_modules/
 
+# Go CLI binary (optional build)
+/postcli
+
 # OS files
 .DS_Store
 Thumbs.db
