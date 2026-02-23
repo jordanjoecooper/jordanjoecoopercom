@@ -169,9 +169,9 @@ nav a:hover {
   white-space: nowrap;
 }
 
-/* Date – title on one line, same grey, no underline */
+/* Date – title on one line, no underline */
 .post-title a {
-  color: var(--text-secondary);
+  color: var(--text);
   font-weight: normal;
   text-decoration: none;
 }
@@ -183,13 +183,13 @@ nav a:hover {
 
 .post-title a::before {
   content: " – ";
-  color: var(--text-secondary);
+  color: var(--text);
   font-weight: normal;
 }
 
 .post-date {
   font-size: 1em;
-  color: var(--text-secondary);
+  color: var(--text);
   font-weight: normal;
 }
 
