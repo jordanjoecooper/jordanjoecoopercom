@@ -19,6 +19,9 @@ A fully static personal website. No build process, no dependencies, just pure HT
 │   ├── aphorisms.html
 │   └── about-this-site.html
 ├── styles.css         # All CSS styles
+├── feed.xml           # RSS feed
+├── scripts/
+│   └── update-post-links.js  # Updates homepage + feed when you add a post
 └── images/           # Static images
     ├── companies/     # Company logos for timeline
     ├── dp.jpg        # Profile image
@@ -27,16 +30,15 @@ A fully static personal website. No build process, no dependencies, just pure HT
 
 ## How to Add a New Post
 
-1. Copy `post-template.html` to `posts/your-post-name.html`
-2. Replace the placeholders:
-   - `POST_TITLE` → Your post title
-   - `POST_DESCRIPTION` → Brief description
-   - `YYYY-MM-DD` → Date in ISO format
-   - `Month Day, Year` → Human-readable date
-3. Write your content in HTML (or copy from markdown and convert)
-4. Add a link to your new post in the "Writing" section of `index.html`
+**Quick way (CLI)**
+1. Run **`node scripts/new-post.js`** and answer the prompts (title, description, keywords, date, slug). This creates the post file with all meta fields filled and adds the new post to the top of the homepage and RSS feed.
+2. Edit the post body in `posts/{slug}.html`.
 
-That's it! No build step, no dependencies, just edit and deploy.
+**Manual way**
+1. Copy `post-template.html` to `posts/your-post-name.html` and replace all placeholders.
+2. Run **`node scripts/update-post-links.js posts/your-post-name.html`**.
+
+No build step, no npm install (scripts use Node only).
 
 ## Deployment
 
