@@ -16,18 +16,23 @@ Personal website for Jordan Joe Cooper. Fully static HTML — no build process, 
 - `posts/` — Blog posts (each is a standalone HTML file)
 - `post-template.html` — Template for new posts
 - `styles.css` — All styles, uses CSS custom properties for theming and dark mode
-- `feed.xml` — RSS feed (hand-maintained)
+- `feed.xml` — RSS feed (updated via script when adding posts)
+- `scripts/new-post.js` — Interactive CLI to create a new post (prompts for title, description, keywords, date, slug) and writes `posts/{slug}.html`
+- `scripts/update-post-links.js` — Updates index.html and feed.xml from a new post’s meta tags
 
 ## Adding a new post
 
-1. Copy `post-template.html` to `posts/your-post-name.html`
-2. Update the title, description, date, meta tags, and content
-3. Add a link in the "Writing" section of `index.html`
-4. **Update `feed.xml`** — add a new `<item>` entry with the post's title, link, publication date, and description
+**Option A — CLI (recommended)**
+1. Run **`node scripts/new-post.js`** and answer the prompts (title, description, keywords, date, slug). This creates `posts/{slug}.html` from the template, fills all meta fields, and adds the new post to the top of the homepage Writing section and to `feed.xml`.
+2. Edit the post body in the new file.
+
+**Option B — Manual**
+1. Copy `post-template.html` to `posts/your-post-name.html` and fill placeholders.
+2. Run **`node scripts/update-post-links.js posts/your-post-name.html`** to add to the homepage and feed.
 
 ## Important reminders
 
-- **Always update `feed.xml` when publishing new content.** The RSS feed is hand-maintained and must be updated manually whenever a new post is added or an existing post is modified.
+- **Run the script when publishing a new post** so the homepage and RSS stay in sync. If you add or edit a post manually in index.html or feed.xml, the script does not remove duplicates — run it only once per new post.
 - Styles use CSS custom properties (`:root` variables) — update these for theme changes rather than editing individual colour values throughout the file.
 - The site supports automatic dark mode via `prefers-color-scheme` media query.
 - The accent colour is a warm terracotta (`#b05a3a` light / `#d4775a` dark). To change it, update the `--accent` and `--accent-hover` values in both the `:root` and dark mode blocks in `styles.css`.
