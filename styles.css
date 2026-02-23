@@ -151,7 +151,8 @@ nav a:hover {
 .post-list li {
   margin: 0;
   padding: 0.75em 0;
-  border-bottom: 1px solid var(--border);
+  border-bottom: 1px dotted var(--border);
+  overflow-x: auto;
 }
 
 .post-list li:last-child {
@@ -161,27 +162,35 @@ nav a:hover {
 .post-title {
   font-size: 1em;
   font-weight: normal;
-  margin-bottom: 0.3em;
+  margin: 0;
   display: flex;
   align-items: baseline;
-  gap: 0.5em;
-  flex-wrap: wrap;
+  gap: 0.25em;
+  white-space: nowrap;
 }
 
+/* Date – title on one line, same grey, no underline */
 .post-title a {
-  color: var(--heading);
+  color: var(--text-secondary);
   font-weight: normal;
+  text-decoration: none;
 }
 
 .post-title a:hover {
   color: var(--accent);
+  text-decoration: none;
+}
+
+.post-title a::before {
+  content: " – ";
+  color: var(--text-secondary);
+  font-weight: normal;
 }
 
 .post-date {
-  font-size: 0.75em;
+  font-size: 1em;
   color: var(--text-secondary);
   font-weight: normal;
-  font-family: var(--mono);
 }
 
 .post-meta {
