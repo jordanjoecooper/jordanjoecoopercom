@@ -146,15 +146,14 @@ nav a:hover {
 .post-list {
   list-style: none;
   padding: 0;
-  overflow-x: visible;
-  min-width: max-content;
 }
 
 .post-list li {
   margin: 0;
   padding: 0.75em 0;
   border-bottom: 1px dotted var(--border);
-  overflow-x: visible;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .post-list li:last-child {
@@ -395,7 +394,7 @@ nav a:hover {
   background: var(--surface);
   margin: 2em calc(50% - 50vw) 0 calc(50% - 50vw);
   padding: 2em calc(50vw - 50% + 24px);
-  overflow-x: visible;
+  overflow-x: hidden;
 }
 
 .writing-section h2 {
