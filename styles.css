@@ -11,6 +11,7 @@
   --heading: #1a1a1a;
   --border: #ddd5ca;
   --surface: #ede7df;
+  --box-padding: 1.25em; /* inner padding for surface/blockquote boxes */
   --code-bg: #e8e0d6;
   --code-text: #c47a2a;
   --blockquote-bg: #ede7df;
@@ -37,8 +38,14 @@
   }
 }
 
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
 body {
-  max-width: 620px;
+  max-width: 720px;
   margin: 50px auto;
   padding: 0 24px;
   font: 18px/1.7 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
@@ -152,29 +159,30 @@ nav a:hover {
   margin: 0;
   padding: 0.75em 0;
   border-bottom: 1px dotted var(--border);
-  overflow-x: auto;
-  -webkit-overflow-scrolling: touch;
 }
 
 .post-list li:last-child {
   border-bottom: none;
 }
 
+/* Single line on desktop; wraps on narrow screens so content never overflows */
 .post-title {
   font-size: 1em;
   font-weight: normal;
   margin: 0;
-  display: inline-flex;
+  display: flex;
+  flex-wrap: wrap;
   align-items: baseline;
   gap: 0.25em;
-  white-space: nowrap;
-  max-width: none;
+  max-width: 100%;
 }
 
-/* Date – title on one line, no underline; don't shrink so full title always shows */
-.post-title .post-date,
-.post-title a {
+.post-title .post-date {
   flex-shrink: 0;
+}
+
+.post-title a {
+  min-width: 0; /* allows link text to wrap on narrow viewports */
 }
 
 .post-title a {
@@ -226,7 +234,7 @@ nav a:hover {
 
 .post-content blockquote {
   border-left: 3px solid var(--accent);
-  padding: 1em 1em 1em 1.5em;
+  padding: var(--box-padding) var(--box-padding) var(--box-padding) calc(var(--box-padding) + 0.25em);
   margin: 1em 0;
   color: var(--text-muted);
   font-style: italic;
@@ -288,7 +296,7 @@ nav a:hover {
 
 .current-role-section {
   background: var(--surface);
-  padding: 1.5em;
+  padding: 1.5em var(--box-padding);
   border-radius: 8px;
   margin: 2em 0;
 }
@@ -390,15 +398,22 @@ nav a:hover {
   line-height: 1.6;
 }
 
+/* Same width as rest of page — no full-bleed, avoids overflow/scrollbar issues */
 .writing-section {
   background: var(--surface);
-  margin: 2em calc(50% - 50vw) 0 calc(50% - 50vw);
-  padding: 2em calc(50vw - 50% + 24px);
-  overflow-x: hidden;
+  margin: 2em 0;
+  padding: 1.5em var(--box-padding);
+  border-radius: 8px;
 }
 
 .writing-section h2 {
   margin-top: 0;
+}
+
+/* Left-align article list and use full width (override .post-content ul indent) */
+.writing-section .post-list {
+  padding-left: 0;
+  margin-left: 0;
 }
 
 .what-else-section {
@@ -567,6 +582,17 @@ nav a:hover {
   max-width: 100%;
   margin: 0.5em 0 0 0;
   text-align: left;
+}
+
+/* Mobile: tighter padding, smaller post-title font so more fits on one line */
+@media (max-width: 600px) {
+  body {
+    padding: 0 16px;
+  }
+
+  .writing-section .post-title {
+    font-size: 0.9em;
+  }
 }
 
 @media (max-width: 768px) {

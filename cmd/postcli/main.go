@@ -34,8 +34,6 @@ const (
 	suffixStrip = " - Jordan Joe Cooper"     // stripped from titles in meta
 )
 
-var months = []string{"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"}
-
 // post is a single blog post we know about (from the posts/ directory).
 type post struct {
 	Slug     string // URL-safe name, no .html
@@ -85,14 +83,14 @@ func slugify(s string) string {
 	return regexp.MustCompile("-+").ReplaceAllString(regexp.MustCompile("^-|-$").ReplaceAllString(b.String(), ""), "-")
 }
 
-// formatDisplayDate converts YYYY-MM-DD to "Month Day, Year" (e.g. "February 23, 2026").
+// formatDisplayDate converts YYYY-MM-DD to DD/MM/YYYY (e.g. "23/02/2026").
 func formatDisplayDate(iso string) string {
 	var y, m, d int
 	_, _ = fmt.Sscanf(iso, "%d-%d-%d", &y, &m, &d)
-	if m < 1 || m > 12 {
+	if m < 1 || m > 12 || d < 1 || d > 31 {
 		return iso
 	}
-	return fmt.Sprintf("%s %d, %d", months[m-1], d, y)
+	return fmt.Sprintf("%02d/%02d/%d", d, m, y)
 }
 
 // formatRSSDate converts YYYY-MM-DD to RSS pubDate format (RFC-style, UTC).
@@ -325,7 +323,7 @@ func runNew(root string, args []string) error {
 	content = strings.ReplaceAll(content, "POST_KEYWORDS", escapeHTML(strings.TrimSpace(keywords)))
 	content = strings.ReplaceAll(content, "POST_SLUG", slug)
 	content = strings.ReplaceAll(content, "YYYY-MM-DD", dateArg)
-	content = strings.ReplaceAll(content, "Month Day, Year", displayDate)
+	content = strings.ReplaceAll(content, "DD/MM/YYYY", displayDate)
 	// Ensure RSS link exists in <head> for post pages.
 	if !strings.Contains(content, "application/rss+xml") {
 		content = strings.Replace(content,
