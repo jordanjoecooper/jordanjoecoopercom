@@ -337,8 +337,19 @@ nav a:hover {
   margin: 2em 0;
 }
 
-.projects-section.is-hidden {
-  display: none;
+.project-list-simple {
+  list-style: none;
+  padding: 0;
+}
+
+.project-list-simple li {
+  padding: 0.75em 0;
+  border-bottom: 1px dotted var(--border);
+  line-height: 1.6;
+}
+
+.project-list-simple li:last-child {
+  border-bottom: none;
 }
 
 .project-list {
