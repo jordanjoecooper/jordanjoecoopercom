@@ -18,7 +18,7 @@ A fully static personal website. No build process, no dependencies, just pure HT
 ├── post-template.html  # Template for new posts
 ├── posts/             # Individual post HTML files
 │   ├── aphorisms.html
-│   └── about-this-site.html
+│   └── ...
 ├── cmd/
 │   └── postcli/        # Go CLI for managing posts and links
 ├── styles.css         # All CSS styles

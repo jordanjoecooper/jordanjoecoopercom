@@ -36,11 +36,12 @@ const (
 
 // post is a single blog post we know about (from the posts/ directory).
 type post struct {
-	Slug     string // URL-safe name, no .html
-	File     string // filename, e.g. my-post.html
-	Title    string // from og:title or <title>
-	Date     string // YYYY-MM-DD from article:published_time
-	FullPath string // absolute path to the .html file
+	Slug        string // URL-safe name, no .html
+	File        string // filename, e.g. my-post.html
+	Title       string // from og:title or <title>
+	Date        string // YYYY-MM-DD from article:published_time
+	Description string // meta description (used in RSS)
+	FullPath    string // absolute path to the .html file
 }
 
 // --- Finding the repo ---
@@ -155,7 +156,7 @@ func extractTitle(html string) string {
 // --- Listing and prompting ---
 
 // getPosts reads the posts/ directory and returns one post per .html file,
-// with title and date parsed from meta. Sorted by date newest first.
+// with title/date/description parsed from meta. Sorted by date newest first.
 func getPosts(root string) ([]post, error) {
 	postsDir := filepath.Join(root, "posts")
 	entries, err := os.ReadDir(postsDir)
@@ -184,11 +185,149 @@ func getPosts(root string) ([]post, error) {
 		if date == "" {
 			date = extractMeta(html, "property", "article:published_time")
 		}
+		description := extractMeta(html, "name", "description")
+		if description == "" {
+			description = extractMeta(html, "property", "og:description")
+		}
 		slug := strings.TrimSuffix(e.Name(), ".html")
-		posts = append(posts, post{Slug: slug, File: e.Name(), Title: title, Date: date, FullPath: fullPath})
+		posts = append(posts, post{Slug: slug, File: e.Name(), Title: title, Date: date, Description: description, FullPath: fullPath})
 	}
 	sort.Slice(posts, func(i, j int) bool { return posts[i].Date > posts[j].Date })
 	return posts, nil
+}
+
+// --- Rebuild/sync: regenerate index.html Writing list + feed.xml from posts/ ---
+
+func buildIndexWritingList(posts []post) string {
+	var b strings.Builder
+	for _, p := range posts {
+		if p.Slug == "" || p.Title == "" || p.Date == "" {
+			continue
+		}
+		displayDate := formatDisplayDate(p.Date)
+		titleForHTML := strings.ReplaceAll(strings.ReplaceAll(p.Title, "&", "&amp;"), "<", "&lt;")
+		b.WriteString(fmt.Sprintf(`      <li>
+        <h2 class="post-title">
+          <span class="post-date">%s</span>
+          <a href="posts/%s.html">%s</a>
+        </h2>
+      </li>
+`, displayDate, p.Slug, titleForHTML))
+		b.WriteString("\n")
+	}
+	return strings.TrimRight(b.String(), "\n")
+}
+
+func rebuildIndex(root string, posts []post) error {
+	indexPath := filepath.Join(root, "index.html")
+	indexContent, err := os.ReadFile(indexPath)
+	if err != nil {
+		return err
+	}
+	s := string(indexContent)
+
+	start := strings.Index(s, listMarker)
+	if start == -1 {
+		return fmt.Errorf("could not find Writing list in index.html")
+	}
+	afterStart := start + len(listMarker)
+	end := strings.Index(s[afterStart:], "</ul>")
+	if end == -1 {
+		return fmt.Errorf("could not find closing </ul> for Writing list in index.html")
+	}
+	end = afterStart + end
+
+	newInner := "\n" + buildIndexWritingList(posts) + "\n"
+	out := s[:afterStart] + newInner + s[end:]
+	if err := os.WriteFile(indexPath, []byte(out), 0644); err != nil {
+		return err
+	}
+	fmt.Println("Rebuilt index.html (Writing section).")
+	return nil
+}
+
+func buildFeedItems(posts []post) (string, error) {
+	var b strings.Builder
+	for _, p := range posts {
+		if p.Slug == "" || p.Title == "" || p.Date == "" {
+			continue
+		}
+		rssDate, err := formatRSSDate(p.Date)
+		if err != nil {
+			continue
+		}
+		url := baseURL + "/posts/" + p.Slug + ".html"
+		titleEscaped := escapeXML(p.Title)
+		descEscaped := escapeXML(p.Description)
+		b.WriteString(fmt.Sprintf(`    <item>
+      <title>%s</title>
+      <link>%s</link>
+      <guid>%s</guid>
+      <pubDate>%s</pubDate>
+      <description>%s</description>
+    </item>
+`, titleEscaped, url, url, rssDate, descEscaped))
+		b.WriteString("\n")
+	}
+	return strings.TrimRight(b.String(), "\n"), nil
+}
+
+func rebuildFeed(root string, posts []post) error {
+	feedPath := filepath.Join(root, "feed.xml")
+	feedContent, err := os.ReadFile(feedPath)
+	if err != nil {
+		return err
+	}
+	s := string(feedContent)
+
+	re := regexp.MustCompile("(?m)^[ \t]*<item>")
+	loc := re.FindStringIndex(s)
+	if loc == nil {
+		// No items yet; insert before </channel>
+		chClose := strings.Index(s, "</channel>")
+		if chClose == -1 {
+			return fmt.Errorf("could not find </channel> in feed.xml")
+		}
+		items, err := buildFeedItems(posts)
+		if err != nil {
+			return err
+		}
+		out := s[:chClose] + items + "\n" + s[chClose:]
+		if err := os.WriteFile(feedPath, []byte(out), 0644); err != nil {
+			return err
+		}
+		fmt.Println("Rebuilt feed.xml.")
+		return nil
+	}
+
+	chClose := strings.Index(s, "</channel>")
+	if chClose == -1 {
+		return fmt.Errorf("could not find </channel> in feed.xml")
+	}
+	items, err := buildFeedItems(posts)
+	if err != nil {
+		return err
+	}
+	out := s[:loc[0]] + items + "\n" + s[chClose:]
+	if err := os.WriteFile(feedPath, []byte(out), 0644); err != nil {
+		return err
+	}
+	fmt.Println("Rebuilt feed.xml.")
+	return nil
+}
+
+func rebuildSiteLinks(root string) error {
+	posts, err := getPosts(root)
+	if err != nil {
+		return err
+	}
+	if err := rebuildIndex(root, posts); err != nil {
+		return err
+	}
+	if err := rebuildFeed(root, posts); err != nil {
+		return err
+	}
+	return nil
 }
 
 // readLine prints a prompt (and optional default in parentheses), reads one line
@@ -345,94 +484,19 @@ func runNew(root string, args []string) error {
 	return nil
 }
 
-// updateIndexAndFeed reads a post file, extracts title/description/date from meta,
-// and inserts a new entry at the top of the Writing list in index.html and at the
-// top of the item list in feed.xml. Use after creating a new post or when you've
-// manually added a post file.
+// updateIndexAndFeed keeps index.html + feed.xml in sync with the posts/ directory.
+// Historically this inserted a single post; now it performs a full rebuild so
+// deleted/renamed posts cannot leave stale links behind.
 func updateIndexAndFeed(root, postFullPath string) error {
-	body, err := os.ReadFile(postFullPath)
-	if err != nil {
+	if postFullPath != "" {
+		if _, err := os.Stat(postFullPath); err != nil {
+			return err
+		}
+	}
+	if err := rebuildSiteLinks(root); err != nil {
 		return err
 	}
-	html := string(body)
-	title := extractTitle(html)
-	description := extractMeta(html, "name", "description")
-	if description == "" {
-		description = extractMeta(html, "property", "og:description")
-	}
-	dateRaw := extractMeta(html, "name", "article:published_time")
-	if dateRaw == "" {
-		dateRaw = extractMeta(html, "property", "article:published_time")
-	}
-	if title == "" {
-		return fmt.Errorf("could not extract title from post")
-	}
-	if description == "" {
-		return fmt.Errorf("could not extract description from post")
-	}
-	if dateRaw == "" || !validateDate(dateRaw) {
-		return fmt.Errorf("could not extract date (article:published_time YYYY-MM-DD)")
-	}
-
-	slug := strings.TrimSuffix(filepath.Base(postFullPath), ".html")
-	displayDate := formatDisplayDate(dateRaw)
-	rssDate, err := formatRSSDate(dateRaw)
-	if err != nil {
-		return err
-	}
-	url := baseURL + "/posts/" + slug + ".html"
-	descEscaped := escapeXML(description)
-	titleEscaped := escapeXML(title)
-	titleForHTML := strings.ReplaceAll(strings.ReplaceAll(title, "&", "&amp;"), "<", "&lt;")
-
-	// Insert new <li> as first item in the Writing list.
-	indexPath := filepath.Join(root, "index.html")
-	indexContent, err := os.ReadFile(indexPath)
-	if err != nil {
-		return err
-	}
-	idx := strings.Index(string(indexContent), listMarker)
-	if idx == -1 {
-		return fmt.Errorf("could not find Writing list in index.html")
-	}
-	newLi := fmt.Sprintf(`      <li>
-        <h2 class="post-title">
-          <span class="post-date">%s</span>
-          <a href="posts/%s.html">%s</a>
-        </h2>
-      </li>
-      `, displayDate, slug, titleForHTML)
-	insertAt := idx + len(listMarker)
-	indexNew := string(indexContent)[:insertAt] + "\n" + newLi + string(indexContent)[insertAt:]
-	if err := os.WriteFile(indexPath, []byte(indexNew), 0644); err != nil {
-		return err
-	}
-	fmt.Println("Updated index.html (Writing section).")
-
-	// Insert new <item> before the first existing item in the RSS feed.
-	feedPath := filepath.Join(root, "feed.xml")
-	feedContent, err := os.ReadFile(feedPath)
-	if err != nil {
-		return err
-	}
-	feedIdx := strings.Index(string(feedContent), itemMarker)
-	if feedIdx == -1 {
-		return fmt.Errorf("could not find <item> in feed.xml")
-	}
-	newItem := fmt.Sprintf(`    <item>
-      <title>%s</title>
-      <link>%s</link>
-      <guid>%s</guid>
-      <pubDate>%s</pubDate>
-      <description>%s</description>
-    </item>
-    `, titleEscaped, url, url, rssDate, descEscaped)
-	feedNew := string(feedContent)[:feedIdx] + newItem + string(feedContent)[feedIdx:]
-	if err := os.WriteFile(feedPath, []byte(feedNew), 0644); err != nil {
-		return err
-	}
-	fmt.Println("Updated feed.xml.")
-	fmt.Println("Done. New post added to homepage and RSS:", title)
+	fmt.Println("Done. Homepage and RSS rebuilt from posts/.")
 	return nil
 }
 
@@ -539,6 +603,11 @@ func runUpdateLinks(root, postPath string) error {
 	return updateIndexAndFeed(root, fullPath)
 }
 
+// runRebuildLinks regenerates index.html + feed.xml from whatever exists in posts/.
+func runRebuildLinks(root string) error {
+	return rebuildSiteLinks(root)
+}
+
 // --- Interactive menu ---
 
 // runMenu shows the main menu in a loop until the user quits.
@@ -549,8 +618,9 @@ func runMenu(root string) error {
 		fmt.Println("  1) New post")
 		fmt.Println("  2) Edit post")
 		fmt.Println("  3) List posts")
+		fmt.Println("  4) Rebuild homepage + RSS")
 		fmt.Println("  q) Quit\n")
-		fmt.Print("  Choice (1-3 or q): ")
+		fmt.Print("  Choice (1-4 or q): ")
 		if !sc.Scan() {
 			return sc.Err()
 		}
@@ -568,8 +638,12 @@ func runMenu(root string) error {
 			}
 		case "3", "list", "l":
 			_ = runList(root)
+		case "4", "rebuild", "rebuild-links", "sync":
+			if err := runRebuildLinks(root); err != nil {
+				fmt.Fprintln(os.Stderr, err)
+			}
 		default:
-			fmt.Println("  Unknown option. Use 1-3 or q.")
+			fmt.Println("  Unknown option. Use 1-4 or q.")
 		}
 	}
 }
@@ -619,12 +693,18 @@ func main() {
 			fmt.Fprintln(os.Stderr, err)
 			os.Exit(1)
 		}
+	case args[0] == "rebuild-links" || args[0] == "rebuild":
+		if err := runRebuildLinks(root); err != nil {
+			fmt.Fprintln(os.Stderr, err)
+			os.Exit(1)
+		}
 	default:
-		fmt.Fprintln(os.Stderr, "Usage: postcli [new|edit|list|update-links] [args...]")
+		fmt.Fprintln(os.Stderr, "Usage: postcli [new|edit|list|update-links|rebuild-links] [args...]")
 		fmt.Fprintln(os.Stderr, "  new           create a new post (prompts for title, description, etc.)")
 		fmt.Fprintln(os.Stderr, "  edit [slug]   edit a post (pick from list or open by slug)")
 		fmt.Fprintln(os.Stderr, "  list          list all posts")
 		fmt.Fprintln(os.Stderr, "  update-links  update index.html and feed.xml from a post file")
+		fmt.Fprintln(os.Stderr, "  rebuild-links rebuild index.html and feed.xml from posts/")
 		os.Exit(1)
 	}
 }
