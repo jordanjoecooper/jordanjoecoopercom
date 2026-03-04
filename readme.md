@@ -14,14 +14,15 @@ A fully static personal website. No build process, no dependencies, just pure HT
 ```
 ├── index.html          # Homepage
 ├── experience.html     # Work experience timeline
+├── projects.html       # Projects page (currently hidden)
 ├── post-template.html  # Template for new posts
 ├── posts/             # Individual post HTML files
 │   ├── aphorisms.html
 │   └── about-this-site.html
+├── cmd/
+│   └── postcli/        # Go CLI for managing posts and links
 ├── styles.css         # All CSS styles
 ├── feed.xml           # RSS feed
-├── scripts/
-│   └── update-post-links.js  # Updates homepage + feed when you add a post
 └── images/           # Static images
     ├── companies/     # Company logos for timeline
     ├── dp.jpg        # Profile image
@@ -30,15 +31,33 @@ A fully static personal website. No build process, no dependencies, just pure HT
 
 ## How to Add a New Post
 
-**Quick way (CLI)**
-1. Run **`node scripts/new-post.js`** and answer the prompts (title, description, keywords, date, slug). This creates the post file with all meta fields filled and adds the new post to the top of the homepage and RSS feed.
-2. Edit the post body in `posts/{slug}.html`.
+**Recommended way (Go CLI)**
+
+From the repo root:
+
+- Build once (optional):
+  `go build -o postcli ./cmd/postcli`
+
+- Or run directly with Go:
+  `go run ./cmd/postcli`
+
+The CLI supports:
+
+- `./postcli` or `go run ./cmd/postcli` — interactive menu (New / Edit / List / Quit)
+- `./postcli new` or `go run ./cmd/postcli new` — create a new post (prompts for title, description, keywords, date, slug).
+  This creates `posts/{slug}.html` from `post-template.html` and updates **`index.html`** and **`feed.xml`**.
+- `./postcli edit` or `go run ./cmd/postcli edit` — pick a post to edit in `$EDITOR` (or `nano` by default).
+- `./postcli edit <slug>` — open that post directly.
+- `./postcli list` — list all posts.
+- `./postcli update-links posts/your-post.html` — add a manually created post to the homepage and RSS feed.
+
+After running `new`, edit the post body in `posts/{slug}.html`.
 
 **Manual way**
 1. Copy `post-template.html` to `posts/your-post-name.html` and replace all placeholders.
-2. Run **`node scripts/update-post-links.js posts/your-post-name.html`**.
+2. Run **`go run ./cmd/postcli update-links posts/your-post-name.html`** once to update the homepage and RSS feed.
 
-No build step, no npm install (scripts use Node only).
+No build step or npm install required for the site itself; the Go CLI uses only the standard library.
 
 ## Deployment
 
