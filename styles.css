@@ -129,7 +129,6 @@ nav a:hover {
   display: inline-block;
 }
 
-/* Tagline with blinking cursor */
 .tagline {
   color: var(--text-secondary);
   font-size: 1em;
@@ -138,6 +137,7 @@ nav a:hover {
   font-family: var(--mono);
 }
 
+/* Blinking cursor disabled
 .tagline::after {
   content: '\2588';
   color: var(--accent);
@@ -149,6 +149,7 @@ nav a:hover {
   0%, 100% { opacity: 1; }
   50% { opacity: 0; }
 }
+*/
 
 .post-list {
   list-style: none;
@@ -203,9 +204,28 @@ nav a:hover {
 }
 
 .post-date {
-  font-size: 1em;
-  color: var(--text);
+  font-size: 0.85em;
+  color: var(--text-secondary);
   font-weight: normal;
+}
+
+.post-category {
+  display: block;
+  font-size: 0.7rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 0.15rem;
+}
+
+.post-description {
+  margin: 0.2rem 0 0.4rem 0;
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+.post-title.no-date a::before {
+  content: none;
 }
 
 .post-meta {
