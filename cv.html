@@ -166,7 +166,28 @@
         font-style: normal;
       }
 
+      .cv-download {
+        display: inline-block;
+        margin-bottom: 1.5em;
+        padding: 0.5em 1em;
+        border: 1px solid var(--border);
+        border-radius: 4px;
+        font-size: 0.85em;
+        color: var(--text-secondary);
+        cursor: pointer;
+        background: none;
+        font-family: inherit;
+        transition: border-color 0.15s, color 0.15s;
+      }
+
+      .cv-download:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+      }
+
       @media print {
+        .cv-download { display: none !important; }
+      }
         body {
           background: #fff;
           color: #111;
@@ -234,6 +255,8 @@
           <a href="https://linkedin.com/in/jordanjoecooper" target="_blank" rel="noopener">LinkedIn</a>
         </p>
       </div>
+
+      <button class="cv-download" onclick="window.print()">Save as PDF</button>
 
       <div class="cv-section">
         <h3>Summary</h3>
