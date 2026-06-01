@@ -503,6 +503,23 @@ nav a:hover {
   flex-shrink: 0;
 }
 
+.timeline-logo-continuation {
+  width: 80px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  padding-top: 0.4em;
+}
+
+.timeline-logo-continuation::before {
+  content: '';
+  display: block;
+  width: 2px;
+  height: 100%;
+  background: var(--border);
+  border-radius: 1px;
+}
+
 .logo-placeholder {
   width: 60px;
   height: 60px;
