@@ -21,20 +21,27 @@
       .cv-header h2 {
         margin: 0 0 0.2em 0;
         font-size: 1.4em;
+        color: var(--text);
+        font-family: inherit;
       }
 
       .cv-contact {
-        color: var(--text-secondary);
+        color: var(--text);
         font-size: 0.9em;
         margin: 0.4em 0 0 0;
       }
 
       .cv-contact a {
-        color: var(--text-secondary);
+        color: var(--text);
       }
 
       .cv-section {
         margin-bottom: 2em;
+        color: var(--text);
+      }
+
+      .cv-section > p {
+        color: var(--text);
       }
 
       .cv-section h3 {
@@ -62,7 +69,7 @@
 
       .cv-role-title {
         font-weight: 600;
-        color: var(--heading);
+        color: var(--text);
         font-size: 1em;
         margin: 0;
       }
@@ -87,6 +94,7 @@
         margin: 0 0 0.5em 0;
         font-size: 0.95em;
         line-height: 1.7;
+        color: var(--text);
       }
 
       .cv-role ul {
@@ -380,20 +388,16 @@
       </div>
 
       <div class="cv-section">
-        <h3>Skills</h3>
+        <h3>Technology</h3>
         <div class="cv-skills-grid">
-          <span class="cv-skills-label">Languages</span>
-          <span>JavaScript, TypeScript, Node.js, CSS</span>
-          <span class="cv-skills-label">Frameworks</span>
-          <span>React.js, React Native, Express.js</span>
+          <span class="cv-skills-label">AI</span>
+          <span>LLMs (Claude, OpenAI GPT, Gemini/Vertex), Agentic Systems, Agent-to-Agent (A2A), MCP, AI Product Development, Prompt Engineering, ETL, Data Pipelines, Data Enrichment</span>
           <span class="cv-skills-label">Cloud &amp; Infra</span>
-          <span>AWS, GCP, Firebase, Docker, Microservices, Azure</span>
-          <span class="cv-skills-label">Data &amp; AI</span>
-          <span>LLMs (Claude, OpenAI GPT, Gemini/Vertex), Agentic Systems, Agent-to-Agent (A2A), MCP, AI Product Development, Prompt Engineering, ETL, Data Pipelines, Data Enrichment, Machine Learning</span>
+          <span>GCP, AWS, Azure, Firebase, Docker, Microservices</span>
+          <span class="cv-skills-label">Languages</span>
+          <span>JavaScript, TypeScript, Node.js</span>
           <span class="cv-skills-label">Domains</span>
           <span>FinTech, Open Banking, FAPI, Payments, SaaS, Hospitality</span>
-          <span class="cv-skills-label">Leadership</span>
-          <span>Engineering Management, Team Building, Technical Strategy, Hiring, Product Strategy</span>
         </div>
       </div>
 
