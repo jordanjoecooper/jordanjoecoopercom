@@ -12,6 +12,12 @@
     <link rel="stylesheet" href="styles.css">
 
     <style>
+      /* Force readable rendering in Safari */
+      .post-content {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
       .cv-header {
         margin-bottom: 2em;
         border-bottom: 1px solid var(--border);
@@ -21,8 +27,9 @@
       .cv-header h2 {
         margin: 0 0 0.2em 0;
         font-size: 1.4em;
-        color: var(--text);
+        color: #1a1a1a;
         font-family: inherit;
+        font-weight: 700;
       }
 
       .cv-contact {
@@ -37,11 +44,11 @@
 
       .cv-section {
         margin-bottom: 2em;
-        color: var(--text);
+        color: #2a2a2a;
       }
 
       .cv-section > p {
-        color: var(--text);
+        color: #2a2a2a;
       }
 
       .cv-section h3 {
@@ -69,7 +76,7 @@
 
       .cv-role-title {
         font-weight: 600;
-        color: var(--text);
+        color: #1a1a1a;
         font-size: 1em;
         margin: 0;
       }
@@ -94,7 +101,7 @@
         margin: 0 0 0.5em 0;
         font-size: 0.95em;
         line-height: 1.7;
-        color: var(--text);
+        color: #2a2a2a;
       }
 
       .cv-role ul {
@@ -102,7 +109,7 @@
         padding-left: 1.2em;
         font-size: 0.9em;
         line-height: 1.7;
-        color: var(--text);
+        color: #2a2a2a;
       }
 
       .cv-role ul li {
