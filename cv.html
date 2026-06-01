@@ -138,6 +138,34 @@
         border-left: 2px solid var(--border);
       }
 
+      .cv-recommendations {
+        display: flex;
+        flex-direction: column;
+        gap: 1.2em;
+      }
+
+      .cv-recommendation {
+        margin: 0;
+        padding: 1em 1.2em;
+        border-left: 3px solid var(--border);
+        background: var(--surface);
+        border-radius: 0 4px 4px 0;
+      }
+
+      .cv-recommendation p {
+        margin: 0 0 0.5em 0;
+        font-size: 0.95em;
+        line-height: 1.7;
+        font-style: italic;
+        color: var(--text);
+      }
+
+      .cv-recommendation footer {
+        font-size: 0.85em;
+        color: var(--text-secondary);
+        font-style: normal;
+      }
+
       @media print {
         body {
           background: #fff;
@@ -324,7 +352,7 @@
             <span class="cv-role-dates">2014 – 2017</span>
           </div>
           <p class="cv-role-company">Canterbury Christ Church University</p>
-          <p>Foundation degree in Computing followed by BSc (Hons) in Computing.</p>
+          <p>Foundation year followed by BSc (Hons) in Computing. Covered core computer science: algorithms, programming, data structures, databases, networking, and human-computer interaction.</p>
         </div>
       </div>
 
@@ -343,6 +371,28 @@
           <span>FinTech, Open Banking, FAPI, Payments, SaaS, Hospitality</span>
           <span class="cv-skills-label">Leadership</span>
           <span>Engineering Management, Team Building, Technical Strategy, Hiring, Product Strategy</span>
+        </div>
+      </div>
+
+      <div class="cv-section">
+        <h3>Recommendations</h3>
+        <div class="cv-recommendations">
+
+          <blockquote class="cv-recommendation">
+            <p>"RECOMMENDATION_QUOTE_1"</p>
+            <footer>NAME, ROLE, COMPANY</footer>
+          </blockquote>
+
+          <blockquote class="cv-recommendation">
+            <p>"RECOMMENDATION_QUOTE_2"</p>
+            <footer>NAME, ROLE, COMPANY</footer>
+          </blockquote>
+
+          <blockquote class="cv-recommendation">
+            <p>"RECOMMENDATION_QUOTE_3"</p>
+            <footer>NAME, ROLE, COMPANY</footer>
+          </blockquote>
+
         </div>
       </div>
 
