@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV - Jordan Joe Cooper</title>
+    <meta name="robots" content="noindex">
+    <meta name="author" content="Jordan Joe Cooper">
+
+    <link rel="icon" type="image/x-icon" href="images/favicon.ico">
+    <link rel="manifest" href="site.webmanifest">
+    <link rel="stylesheet" href="styles.css">
+
+    <style>
+      .post-content {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+      }
+
+      .cv-header {
+        margin-bottom: 2em;
+        border-bottom: 1px solid #ddd5ca;
+        padding-bottom: 1.5em;
+      }
+
+      .cv-header h2 {
+        margin: 0 0 0.2em 0;
+        font-size: 1.5em;
+        color: #1a1a1a;
+        font-family: inherit;
+        font-weight: 700;
+        font-family: 'SF Mono', 'Cascadia Code', 'Fira Mono', Menlo, Monaco, Consolas, monospace;
+      }
+
+      .cv-contact {
+        font-size: 0.9em;
+        color: #555;
+        margin: 0.4em 0 0 0;
+      }
+
+      .cv-contact a {
+        color: #555;
+        text-decoration: none;
+      }
+
+      .cv-section {
+        margin-bottom: 2.5em;
+      }
+
+      .cv-section-label {
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: #9a9088;
+        margin: 0 0 1em 0;
+        border-bottom: 1px dotted #ddd5ca;
+        padding-bottom: 0.4em;
+        font-family: 'SF Mono', 'Cascadia Code', 'Fira Mono', Menlo, Monaco, Consolas, monospace;
+        display: block;
+      }
+
+      .cv-role {
+        margin-bottom: 1.8em;
+      }
+
+      .cv-role-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: baseline;
+        flex-wrap: wrap;
+        gap: 0.4em;
+        margin-bottom: 0.3em;
+      }
+
+      .cv-role-title {
+        font-weight: 600;
+        color: #1a1a1a;
+        font-size: 1em;
+      }
+
+      .cv-role-dates {
+        font-size: 0.85em;
+        color: #9a9088;
+        white-space: nowrap;
+      }
+
+      .cv-role-company {
+        font-size: 0.88em;
+        color: #9a9088;
+        margin: 0 0 0.6em 0;
+      }
+
+      .cv-role-company a {
+        color: #9a9088;
+        text-decoration: none;
+      }
+
+      .cv-role p {
+        margin: 0 0 0.55em 0;
+        font-size: 0.95em;
+        line-height: 1.75;
+        color: #2a2a2a;
+      }
+
+      .cv-role p:last-child {
+        margin-bottom: 0;
+      }
+
+      .cv-company-group {
+        margin-bottom: 2em;
+      }
+
+      .cv-company-name {
+        font-size: 0.88em;
+        font-weight: 600;
+        color: #7a7268;
+        margin: 0 0 0.8em 0;
+        display: flex;
+        align-items: baseline;
+        gap: 0.5em;
+      }
+
+      .cv-company-tenure {
+        font-weight: normal;
+        font-size: 0.85em;
+        color: #9a9088;
+      }
+
+      .cv-company-group .cv-role {
+        margin-left: 0.8em;
+        padding-left: 1em;
+        border-left: 2px solid #ddd5ca;
+      }
+
+      .cv-skills-grid {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: 0.7em 1.2em;
+        font-size: 0.9em;
+        color: #2a2a2a;
+      }
+
+      .cv-skills-label {
+        color: #9a9088;
+        white-space: nowrap;
+      }
+
+      .cv-recommendations {
+        display: flex;
+        flex-direction: column;
+        gap: 1.4em;
+      }
+
+      .cv-recommendation {
+        margin: 0;
+        padding: 0.8em 1em;
+        border-left: 2px solid #ddd5ca;
+      }
+
+      .cv-recommendation p {
+        margin: 0 0 0.4em 0;
+        font-size: 0.92em;
+        line-height: 1.7;
+        font-style: italic;
+        color: #3a3a3a;
+      }
+
+      .cv-recommendation footer {
+        font-size: 0.82em;
+        color: #9a9088;
+      }
+
+      .cv-summary-text {
+        font-size: 0.95em;
+        line-height: 1.75;
+        color: #2a2a2a;
+        margin: 0 0 0.5em 0;
+      }
+
+      .cv-download {
+        display: inline-block;
+        margin-bottom: 2em;
+        padding: 0.45em 1em;
+        border: 1px solid #ddd5ca;
+        border-radius: 4px;
+        font-size: 0.82em;
+        color: #9a9088;
+        cursor: pointer;
+        background: none;
+        font-family: inherit;
+        transition: border-color 0.15s, color 0.15s;
+      }
+
+      .cv-download:hover {
+        border-color: #c47a2a;
+        color: #c47a2a;
+      }
+
+      @media (prefers-color-scheme: dark) {
+        .cv-header { border-bottom-color: #333028 !important; }
+        .cv-header h2 { color: #ece5da !important; }
+        .cv-contact, .cv-contact a { color: #8a8078 !important; }
+        .cv-section-label { color: #8a8078 !important; border-bottom-color: #333028 !important; }
+        .cv-role-title { color: #ece5da !important; }
+        .cv-role-dates { color: #8a8078 !important; }
+        .cv-role-company, .cv-role-company a { color: #8a8078 !important; }
+        .cv-role p { color: #dcd5ca !important; }
+        .cv-role ul { color: #dcd5ca !important; }
+        .cv-section > p { color: #dcd5ca !important; }
+        .cv-summary-text { color: #dcd5ca !important; }
+        .cv-summary-tldr { color: #8a8078 !important; }
+        .cv-skills-grid { color: #dcd5ca !important; }
+        .cv-skills-label { color: #8a8078 !important; }
+        .cv-company-name { color: #8a8078 !important; }
+        .cv-company-tenure { color: #8a8078 !important; }
+        .cv-section > ul { color: #dcd5ca !important; }
+        .cv-company-group .cv-role ul { color: #dcd5ca !important; }
+        .cv-company-group .cv-role { border-left-color: #333028 !important; }
+        .cv-recommendation { border-left-color: #333028 !important; }
+        .cv-recommendation p { color: #c0b8b0 !important; }
+        .cv-recommendation footer { color: #8a8078 !important; }
+        .cv-download { border-color: #333028 !important; color: #8a8078 !important; }
+      }
+
+      @media print {
+        body {
+          background: #fff;
+          color: #111;
+          font-size: 10pt;
+          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+        }
+
+        /* Strip monospace from all CV elements for print — reads professional, not terminal */
+        .cv-section-label,
+        .cv-company-name,
+        .cv-skills-label,
+        .cv-header h2,
+        .cv-print-header h2 {
+          font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif !important;
+          letter-spacing: 0.05em;
+        }
+
+        .profile-header,
+        .what-else-section,
+        .cv-download {
+          display: none !important;
+        }
+
+        .post-content {
+          padding: 0;
+          max-width: 100%;
+        }
+
+        .cv-print-header {
+          display: block !important;
+          margin-bottom: 1.5em;
+          border-bottom: 1px solid #ccc;
+          padding-bottom: 1em;
+        }
+
+        .cv-header {
+          display: none;
+        }
+
+        a {
+          color: inherit;
+          text-decoration: none;
+        }
+
+        .cv-role {
+          page-break-inside: avoid;
+        }
+
+        .cv-section-label,
+        .cv-role-dates,
+        .cv-role-company,
+        .cv-role-company a,
+        .cv-company-name,
+        .cv-company-tenure,
+        .cv-skills-label,
+        .cv-recommendation footer {
+          color: #555 !important;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="profile-header">
+      <a href="index.html"><img src="images/dp.jpg" alt="Jordan Joe Cooper" class="profile-image"></a>
+      <h1>Jordan Joe Cooper</h1>
+      <p class="tagline"><span class="tc-1">も</span><span class="tc-2">の</span><span class="tc-3">づ</span><span class="tc-4">く</span><span class="tc-5">り</span></p>
+      <nav class="main-nav">
+        <a href="index.html">Home</a>
+        <a href="writing.html">Writing</a>
+        <a href="about.html">About</a>
+      </nav>
+    </div>
+
+    <div class="cv-print-header" style="display:none;">
+      <h2 style="margin:0 0 0.2em 0; font-size:18pt; font-family:monospace;">Jordan Cooper</h2>
+      <p style="margin:0; color:#555; font-size:10pt;">jordancooper@hey.com &nbsp;·&nbsp; jordanjoecooper.com &nbsp;·&nbsp; github.com/jordanjoecooper &nbsp;·&nbsp; linkedin.com/in/jordanjoecooper</p>
+    </div>
+
+    <div class="post-content">
+
+      <div class="cv-header">
+        <h2>Jordan Cooper</h2>
+        <p class="cv-contact">
+          <a href="mailto:jordancooper@hey.com">jordancooper@hey.com</a> &nbsp;·&nbsp;
+          <a href="https://jordanjoecooper.com">jordanjoecooper.com</a> &nbsp;·&nbsp;
+          <a href="https://github.com/jordanjoecooper" target="_blank" rel="noopener">GitHub</a> &nbsp;·&nbsp;
+          <a href="https://linkedin.com/in/jordanjoecooper" target="_blank" rel="noopener">LinkedIn</a>
+        </p>
+      </div>
+
+      <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2em;">
+        <button class="cv-download" onclick="const t=document.title;document.title='Jordan Cooper';window.print();document.title=t;" style="margin-bottom:0;">Save as PDF</button>
+        <a href="cv-short.html" style="font-size:0.82em; color:#9a9088; text-decoration:none; border-bottom:1px dotted #ddd5ca;">View 1-page executive CV →</a>
+      </div>
+
+      <div class="cv-section">
+        <span class="cv-section-label">Summary</span>
+        <p class="cv-summary-text">Engineering leader with experience building products, teams and technology organisations from zero to scale. Currently Head of Engineering &amp; Technology (Acting CTO) at Zumi, responsible for technology strategy, architecture, security, compliance, hiring and delivery. Experienced in building engineering functions from scratch, scaling teams, establishing operating frameworks and partnering with founders, investors and executive leadership. Previously held engineering leadership, architecture and technical leadership roles at Moneyhub, helping scale products serving over 1.2 million users across fintech, open banking and payments.</p>
+      </div>
+
+      <div class="cv-section">
+        <span class="cv-section-label">Leadership Highlights</span>
+        <ul style="margin:0; padding-left:1.2em; font-size:0.95em; line-height:1.9; color:#2a2a2a;">
+          <li>Built engineering organisations from scratch at two companies</li>
+          <li>Built and scaled engineering function at Zumi from 0 to 8 engineers</li>
+          <li>Led hiring across engineering, product and design functions</li>
+          <li>Participated in recruitment, hiring and development of 25+ engineers, QA specialists and product consultants across Moneyhub and Zumi</li>
+          <li>Conducted 50+ technical and behavioural interviews across engineering, QA, product and consulting disciplines</li>
+          <li>Managed teams supporting products used by 1.2M+ consumers</li>
+          <li>Established security and compliance frameworks from scratch</li>
+          <li>Evaluated and managed technology vendors and strategic partners</li>
+          <li>Partnered with founders, investors and board stakeholders</li>
+          <li>Supported onboarding and delivery for 10+ enterprise customers, including tier-one financial institutions, pension providers and API partners</li>
+        </ul>
+      </div>
+
+
+      <div class="cv-section">
+        <span class="cv-section-label">Experience</span>
+
+        <div class="cv-role">
+          <div class="cv-role-header">
+            <span class="cv-role-title">Head of Engineering &amp; Technology (Acting CTO)</span>
+            <span class="cv-role-dates">Mar 2024 – Present</span>
+          </div>
+          <p class="cv-role-company"><a href="https://www.dvx.ventures/" target="_blank" rel="noopener">DVx Ventures</a> / Zumi &nbsp;·&nbsp; London, UK (Remote)</p>
+          <p>Reported directly to founders and served as the most senior technology leader within the business.</p>
+          <p>First employee, acting as CTO and owning engineering, architecture, infrastructure, security, compliance and technical strategy end to end.</p>
+          <p>Built and scaled the engineering organisation from 0 to 8 engineers, transitioning from an outsourced development model to an internal product and engineering function.</p>
+          <p>Created recruitment processes, interview frameworks and engineering standards from scratch, leading hiring across engineering, product and design functions and establishing the foundations of the internal organisation.</p>
+          <p>Designed and implemented security, compliance and operational frameworks supporting enterprise customer onboarding and investor due diligence.</p>
+          <p>Evaluated, selected and managed cloud providers, technology vendors and strategic partners across engineering, infrastructure, security and product operations.</p>
+          <p>Led multiple product pivots across AI, integrations and data platforms while maintaining delivery velocity.</p>
+          <p>Partnered directly with founders, investors and board stakeholders on company strategy, fundraising, technology investment, organisational planning and enterprise customer opportunities.</p>
+          <p>The first product iteration built at Zumi is referenced in <em>The Algorithm</em> by Jon McNeil (Amazon bestseller, 2025).</p>
+        </div>
+
+        <div class="cv-company-group">
+          <p class="cv-company-name">
+            Moneyhub
+            <span class="cv-company-tenure">Feb 2020 – Apr 2024 &nbsp;·&nbsp; 4 years 3 months</span>
+          </p>
+          <p style="font-size:0.88em; color:#7a7268; margin:0 0 0.8em 0.8em;">Held engineering leadership, architecture and customer-facing roles during a period of significant company growth.</p>
+
+          <div class="cv-role">
+            <div class="cv-role-header">
+              <span class="cv-role-title">Tech Lead &amp; Engineering Manager – Payments</span>
+              <span class="cv-role-dates">May 2023 – Apr 2024</span>
+            </div>
+            <p>Led a team of 5 engineers, 1 QA and 1 designer delivering open banking and payment products in a regulated fintech environment. Collaborated with the broader API and Data teams on cross-cutting platform projects.</p>
+            <p>Owned technical delivery, roadmap execution and stakeholder management across engineering, product, compliance and commercial teams.</p>
+            <p>Delivered payment infrastructure supporting tier-one financial institutions, pension providers and enterprise customers operating within regulated open banking environments.</p>
+            <p>Contributed to hiring, coaching and development of engineering talent across the wider organisation.</p>
+          </div>
+
+          <div class="cv-role">
+            <div class="cv-role-header">
+              <span class="cv-role-title">Lead Solutions Architect</span>
+              <span class="cv-role-dates">Oct 2022 – Jun 2023</span>
+            </div>
+            <p>Worked directly with enterprise customers, including major financial institutions, pension providers and API partners, designing solutions that maximised platform adoption and customer value.</p>
+            <p>Helped establish and scale the consultancy function while supporting onboarding and delivery across 10+ enterprise customers.</p>
+            <p>Bridged technical, commercial and product teams to support strategic growth opportunities and long-term customer success.</p>
+          </div>
+
+          <div class="cv-role">
+            <div class="cv-role-header">
+              <span class="cv-role-title">Tech Lead &amp; Engineering Manager – Mobile Apps &amp; Data</span>
+              <span class="cv-role-dates">Jan 2022 – Dec 2022</span>
+            </div>
+            <p>Led a multidisciplinary team of 6 engineers and 2 QA specialists responsible for 9 mobile applications and supporting data services used by over 1.2 million consumers across 10+ enterprise clients.</p>
+            <p>Reduced deployment lead times from 3 weeks to 2 days through automation, platform improvements and engineering process optimisation.</p>
+            <p>Supported hiring and development of engineering talent while driving improvements in delivery quality, reliability and operational efficiency.</p>
+          </div>
+
+          <div class="cv-role">
+            <div class="cv-role-header">
+              <span class="cv-role-title">Software Engineer</span>
+              <span class="cv-role-dates">Feb 2020 – Jan 2022</span>
+            </div>
+            <p>Worked across the core fintech platform: web applications, mobile, APIs, and data integration. Built ETL pipelines, financial institution integrations, and open finance solutions handling complex financial and pension data.</p>
+          </div>
+        </div>
+
+        <div class="cv-role">
+          <div class="cv-role-header">
+            <span class="cv-role-title">Software Developer</span>
+            <span class="cv-role-dates">Jun 2018 – Mar 2020</span>
+          </div>
+          <p class="cv-role-company">Nimble &nbsp;·&nbsp; Stonehouse, UK</p>
+          <p>Part of the team building V2 of the company's e-learning platform alongside the acting CTO. Contributed across backend services, APIs, integrations, and deployments.</p>
+        </div>
+
+        <div class="cv-role">
+          <div class="cv-role-header">
+            <span class="cv-role-title">Software Developer &amp; Data Protection Officer</span>
+            <span class="cv-role-dates">Feb 2017 – Jun 2018</span>
+          </div>
+          <p class="cv-role-company">Kappu &nbsp;·&nbsp; Folkestone, UK</p>
+          <p>First permanent engineering hire, partnering directly with founders to build and launch the platform from inception.</p>
+          <p>Owned architecture, engineering, delivery, GDPR compliance and operational processes.</p>
+          <p>Established engineering standards, ownership models and internal capability as the business transitioned away from contractor-led development.</p>
+          <p>Helped shape product direction and company operations during early-stage growth.</p>
+        </div>
+
+        <div class="cv-role">
+          <div class="cv-role-header">
+            <span class="cv-role-title">Various Roles &amp; Projects</span>
+            <span class="cv-role-dates">2007 – 2017</span>
+          </div>
+          <p>Various customer-facing and entrepreneurial roles while studying, including retail, hospitality, web hosting and small technology ventures.</p>
+        </div>
+      </div>
+
+      <div class="cv-section">
+        <span class="cv-section-label">Education</span>
+        <div class="cv-company-group">
+          <p class="cv-company-name">
+            Canterbury Christ Church University
+            <span class="cv-company-tenure">2014 – 2017</span>
+          </p>
+          <div class="cv-role">
+            <div class="cv-role-header">
+              <span class="cv-role-title">BSc (Hons) Computing</span>
+              <span class="cv-role-dates">2014 – 2017</span>
+            </div>
+            <p>BSc (Hons) Computing, with foundation year.</p>
+          </div>
+          <div class="cv-role">
+            <div class="cv-role-header">
+              <span class="cv-role-title">Work Placement, CGI GIS</span>
+              <span class="cv-role-dates">Apr 2016</span>
+            </div>
+            <p>Azure cloud platform project.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cv-section">
+        <span class="cv-section-label">Expertise</span>
+        <div class="cv-skills-grid">
+          <span class="cv-skills-label">Leadership</span>
+          <span>Engineering Leadership, Organisation Design, Hiring, Team Building, Technical Strategy, Delivery Management, Stakeholder Management</span>
+          <span class="cv-skills-label">Domains</span>
+          <span>Fintech, Open Banking, Payments, SaaS Platforms, Hospitality Technology</span>
+          <span class="cv-skills-label">Architecture</span>
+          <span>Distributed Systems, Cloud Platforms, Multi-Tenant SaaS, Data Platforms, Systems Integration</span>
+          <span class="cv-skills-label">Security</span>
+          <span>Security Programmes, Risk Management, GDPR, Compliance Frameworks</span>
+          <span class="cv-skills-label">AI &amp; Automation</span>
+          <span>LLM Applications, Agentic Systems, MCP, OpenAI, Claude, Gemini</span>
+        </div>
+      </div>
+
+
+    </div>
+  </body>
+</html>
