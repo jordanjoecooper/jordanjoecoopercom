@@ -238,38 +238,37 @@ func getPosts(root string) ([]post, error) {
 
 // --- Site rebuild ---
 
-func buildIndexWritingList(posts []post) string {
+func buildWritingListItems(posts []post) string {
 	var b strings.Builder
 	for _, p := range posts {
 		if p.Slug == "" || p.Title == "" || p.Date == "" || p.Draft {
 			continue
 		}
 		titleForHTML := strings.ReplaceAll(strings.ReplaceAll(p.Title, "&", "&amp;"), "<", "&lt;")
-		b.WriteString(fmt.Sprintf("        <li>\n          <h2 class=\"post-title\">\n            <span class=\"post-date\">%s</span>\n            <a href=\"posts/%s.html\">%s</a>\n          </h2>\n        </li>\n\n",
-			formatDisplayDate(p.Date), p.Slug, titleForHTML))
+		b.WriteString(fmt.Sprintf("        <li>\n          <h2 class=\"post-title\">\n            <a href=\"posts/%s.html\">%s</a>\n          </h2>\n        </li>\n\n",
+			p.Slug, titleForHTML))
 	}
 	return strings.TrimRight(b.String(), "\n")
 }
 
-func rebuildIndex(root string, posts []post) error {
-	indexPath := filepath.Join(root, "index.html")
-	data, err := os.ReadFile(indexPath)
+func rebuildHTMLList(path string, posts []post) error {
+	data, err := os.ReadFile(path)
 	if err != nil {
 		return err
 	}
 	s := string(data)
 	start := strings.Index(s, listMarker)
 	if start == -1 {
-		return fmt.Errorf("could not find Writing list in index.html")
+		return fmt.Errorf("could not find Writing list in %s", filepath.Base(path))
 	}
 	afterStart := start + len(listMarker)
 	end := strings.Index(s[afterStart:], "</ul>")
 	if end == -1 {
-		return fmt.Errorf("could not find closing </ul> in index.html")
+		return fmt.Errorf("could not find closing </ul> in %s", filepath.Base(path))
 	}
 	end = afterStart + end
-	out := s[:afterStart] + "\n" + buildIndexWritingList(posts) + "\n      " + s[end:]
-	return os.WriteFile(indexPath, []byte(out), 0644)
+	out := s[:afterStart] + "\n" + buildWritingListItems(posts) + "\n      " + s[end:]
+	return os.WriteFile(path, []byte(out), 0644)
 }
 
 func buildFeedItems(posts []post) (string, error) {
@@ -320,7 +319,10 @@ func rebuildSite(root string) error {
 	if err != nil {
 		return err
 	}
-	if err := rebuildIndex(root, posts); err != nil {
+	if err := rebuildHTMLList(filepath.Join(root, "index.html"), posts); err != nil {
+		return err
+	}
+	if err := rebuildHTMLList(filepath.Join(root, "writing.html"), posts); err != nil {
 		return err
 	}
 	return rebuildFeed(root, posts)
@@ -634,9 +636,8 @@ var listTmplSrc = `<!DOCTYPE html>
       {{range .}}
       <li>
         <h2 class="post-title">
-          <span class="post-date">{{.DisplayDate}}</span>
           <a href="/edit/{{.Slug}}">{{.Title}}</a>
-          {{if .Draft}}<span style="font-size:0.72em; color:#8a8078; font-family:var(--mono); margin-left:0.5em;">draft</span>{{end}}
+          <span style="font-size:0.78em; color:var(--text-secondary); font-family:var(--mono); margin-left:0.5em;">{{.DisplayDate}}{{if .Draft}} · draft{{end}}</span>
         </h2>
       </li>
       {{end}}

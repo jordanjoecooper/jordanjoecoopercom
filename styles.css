@@ -159,27 +159,25 @@ nav a:hover {
 
 .post-list li {
   margin: 0;
-  padding: 0.75em 0;
+  padding: 0.75em 0.5em;
   border-bottom: 1px dotted var(--border);
+  border-left: 2px solid transparent;
+  margin-left: -0.5em;
+  transition: border-left-color 0.15s;
 }
 
 .post-list li:last-child {
   border-bottom: none;
 }
 
-/* Two-column grid: date gets its own column, title wraps within the second */
+.post-list li:hover {
+  border-left-color: var(--accent);
+}
+
 .post-title {
   font-size: 1em;
   font-weight: normal;
   margin: 0;
-  display: grid;
-  grid-template-columns: max-content 1fr;
-  gap: 0 0.75em;
-  align-items: baseline;
-}
-
-.post-title.no-date {
-  grid-template-columns: 1fr;
 }
 
 .post-title a {
@@ -191,27 +189,6 @@ nav a:hover {
 .post-title a:hover {
   color: var(--accent);
   text-decoration: none;
-}
-
-.post-date {
-  font-size: 0.85em;
-  color: var(--text-secondary);
-  font-weight: normal;
-}
-
-.post-category {
-  display: block;
-  font-size: 0.7rem;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--text-secondary);
-  margin-bottom: 0.15rem;
-}
-
-.post-description {
-  margin: 0.2rem 0 0.4rem 0;
-  color: var(--text-secondary);
-  font-size: 0.9rem;
 }
 
 
@@ -291,8 +268,12 @@ nav a:hover {
   transition: border-color 0.2s;
 }
 
+/* TODO: replace with JS-deferred hover swap to avoid eager 61 KB fetch (see perf.md)
 .profile-image:hover {
   content: url(images/dphover.png);
+  border-color: var(--accent);
+} */
+.profile-image:hover {
   border-color: var(--accent);
 }
 
@@ -315,8 +296,7 @@ nav a:hover {
   .profile-image,
   .profile-image:hover,
   .timeline-logo img,
-  .timeline-logo-multiple img,
-  .footer-image {
+  .timeline-logo-multiple img {
     display: none;
   }
   .timeline-logo,
@@ -325,16 +305,6 @@ nav a:hover {
   }
 }
 
-.footer-image {
-  width: 120px;
-  height: 120px;
-  border-radius: 50%;
-  object-fit: cover;
-  margin-bottom: 1em;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-}
 
 .current-role-section {
   background: var(--surface);
@@ -375,81 +345,6 @@ nav a:hover {
   text-decoration: underline;
 }
 
-.projects-section {
-  margin: 2em 0;
-}
-
-.project-list-simple {
-  list-style: none;
-  padding: 0;
-}
-
-.project-list-simple li {
-  padding: 0.75em 0;
-  border-bottom: 1px dotted var(--border);
-  line-height: 1.6;
-}
-
-.project-list-simple li:last-child {
-  border-bottom: none;
-}
-
-.project-list {
-  list-style: none;
-  padding: 0;
-  margin: 1.5em 0 0 0;
-}
-
-.project-item {
-  display: flex;
-  gap: 1.5em;
-  margin-bottom: 2em;
-  padding-bottom: 2em;
-  border-bottom: 1px solid var(--border);
-}
-
-.project-item:last-child {
-  border-bottom: none;
-  margin-bottom: 0;
-  padding-bottom: 0;
-}
-
-.project-emoji {
-  font-size: 3em;
-  width: 80px;
-  height: 80px;
-  flex-shrink: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  line-height: 1;
-}
-
-.project-content {
-  flex: 1;
-}
-
-.project-content h3 {
-  margin: 0 0 0.5em 0;
-  font-size: 1.2em;
-}
-
-.project-content h3 a {
-  color: var(--heading);
-  text-decoration: none;
-}
-
-.project-content h3 a:hover {
-  color: var(--accent);
-  text-decoration: underline;
-}
-
-.project-content p {
-  margin: 0;
-  color: var(--text-secondary);
-  font-size: 0.95em;
-  line-height: 1.6;
-}
 
 /* Same width as rest of page — no full-bleed, avoids overflow/scrollbar issues */
 .writing-section {
