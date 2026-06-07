@@ -156,6 +156,29 @@
         color: #c47a2a;
       }
 
+      .cv-company-group {
+        margin-bottom: 2em;
+      }
+
+      .cv-company-name {
+        font-size: 0.88em;
+        font-weight: 600;
+        color: #7a7268;
+        margin: 0 0 0.8em 0;
+      }
+
+      .cv-company-tenure {
+        font-weight: normal;
+        font-size: 0.85em;
+        color: #9a9088;
+      }
+
+      .cv-company-group .cv-role {
+        margin-left: 0.8em;
+        padding-left: 1em;
+        border-left: 2px solid #ddd5ca;
+      }
+
       @media (prefers-color-scheme: dark) {
         .cv-header { border-bottom-color: #333028 !important; }
         .cv-header h2 { color: #ece5da !important; }
@@ -170,6 +193,9 @@
         .cv-expertise-line { color: #dcd5ca !important; }
         .cv-version-link { color: #8a8078 !important; border-bottom-color: #333028 !important; }
         .cv-download { border-color: #333028 !important; color: #8a8078 !important; }
+        .cv-company-name { color: #8a8078 !important; }
+        .cv-company-tenure { color: #8a8078 !important; }
+        .cv-company-group .cv-role { border-left-color: #333028 !important; }
       }
 
       @media print {
@@ -223,8 +249,14 @@
         .cv-section-label,
         .cv-role-dates,
         .cv-version-link,
-        .cv-header-sub {
+        .cv-header-sub,
+        .cv-company-name,
+        .cv-company-tenure {
           color: #555 !important;
+        }
+
+        .cv-company-group .cv-role {
+          border-left-color: #ccc !important;
         }
 
         /* Force single column in print so highlights fit cleanly */
@@ -249,7 +281,7 @@
 
     <div class="cv-print-header" style="display:none;">
       <h2 style="margin:0 0 0.1em 0; font-size:18pt; font-family:monospace;">Jordan Cooper</h2>
-      <p style="margin:0 0 0.2em 0; color:#555; font-size:10pt; font-family:monospace;">Head of Engineering &nbsp;·&nbsp; Acting CTO &nbsp;·&nbsp; Fintech, Payments &amp; Open Banking</p>
+      <p style="margin:0 0 0.2em 0; color:#555; font-size:10pt; font-family:monospace;">Engineering Manager &nbsp;·&nbsp; Technical Leader</p>
       <p style="margin:0; color:#555; font-size:10pt;">jordancooper@hey.com &nbsp;·&nbsp; jordanjoecooper.com &nbsp;·&nbsp; github.com/jordanjoecooper &nbsp;·&nbsp; linkedin.com/in/jordanjoecooper</p>
     </div>
 
@@ -257,7 +289,7 @@
 
       <div class="cv-header">
         <h2>Jordan Cooper</h2>
-        <p class="cv-header-sub">Head of Engineering &nbsp;·&nbsp; Acting CTO &nbsp;·&nbsp; Fintech, Payments &amp; Open Banking</p>
+        <p class="cv-header-sub">Engineering Manager &nbsp;·&nbsp; Technical Leader</p>
         <p class="cv-contact">
           <a href="mailto:jordancooper@hey.com">jordancooper@hey.com</a> &nbsp;·&nbsp;
           <a href="https://jordanjoecooper.com">jordanjoecooper.com</a> &nbsp;·&nbsp;
@@ -268,26 +300,25 @@
 
       <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:2em;">
         <button class="cv-download" onclick="const t=document.title;document.title='Jordan Cooper';window.print();document.title=t;">Save as PDF</button>
-        <span class="cv-version-link-wrap"><a href="cv.html" class="cv-version-link">View full CV →</a></span>
+        <span class="cv-version-link-wrap"><a href="cv.html" class="cv-version-link">Full CV →</a></span>
       </div>
 
       <div class="cv-section">
         <span class="cv-section-label">Summary</span>
-        <p class="cv-summary-text">Engineering leader with experience building products, teams and technology organisations from zero to scale. Currently Head of Engineering &amp; Technology (Acting CTO) at Zumi. Previously held engineering leadership, architecture and management roles at Moneyhub during a period of significant company growth.</p>
+        <p class="cv-summary-text">Software engineer turned engineering manager with 10+ years of hands-on technical experience across distributed systems, cloud platforms and fintech. Led engineering teams at Zumi and Moneyhub while remaining actively involved in architecture, code reviews and technical delivery. Experienced in open banking, payments, AI systems and high-scale consumer platforms.</p>
       </div>
 
       <div class="cv-section cv-highlights">
         <span class="cv-section-label">Highlights</span>
         <ul>
-          <li>Built engineering organisations from scratch at two companies</li>
-          <li>Built and scaled engineering function from 0→8 engineers at Zumi</li>
-          <li>Participated in recruitment and development of 25+ hires</li>
-          <li>Conducted 50+ interviews across engineering, QA, product and consulting</li>
-          <li>Managed teams supporting products used by 1.2M+ consumers</li>
-          <li>Supported onboarding and delivery for 10+ enterprise customers</li>
-          <li>Worked with tier-one financial institutions, pension providers and API partners</li>
-          <li>Established security and compliance frameworks from scratch</li>
-          <li>Partnered with founders, investors and board stakeholders</li>
+          <li>Architected distributed payment infrastructure on Node.js and TypeScript serving tier-one financial institutions</li>
+          <li>Designed cloud platform on Google Cloud Run and Terraform from scratch at Zumi</li>
+          <li>Shipped AI-integrated products using OpenAI and Claude APIs</li>
+          <li>Rebuilt CI/CD pipelines, reducing deployment cycle from 3 weeks to 2 days</li>
+          <li>Built ETL pipelines and Open Banking integrations supporting 1.2M+ consumers</li>
+          <li>Remained hands-on throughout leadership: code reviews, pair programming, architectural decisions and technical mentoring</li>
+          <li>Scaled engineering team from 0 to 8 while maintaining technical quality bar</li>
+          <li>Delivered open banking payment systems for tier-one banks and pension providers</li>
         </ul>
       </div>
 
@@ -296,32 +327,60 @@
 
         <div class="cv-role">
           <div class="cv-role-header">
-            <span class="cv-role-title">Head of Engineering &amp; Technology (Acting CTO)</span>
+            <span class="cv-role-title">Head of Engineering &amp; Technology</span>
             <span class="cv-role-dates">2024 – Present</span>
           </div>
           <div style="font-size:0.88em; color:#9a9088; margin-bottom:0.35em;">Zumi / DVx Ventures</div>
           <ul>
-            <li>Most senior technology leader in the business, reporting directly to founders</li>
-            <li>Built engineering organisation from 0 to 8 engineers</li>
-            <li>Owned technology strategy, architecture, security, compliance and delivery</li>
-            <li>Led hiring across engineering, product and design functions</li>
-            <li>Partnered with founders, investors and board stakeholders on strategy and fundraising</li>
+            <li>Employee #1 — designed and built the initial platform on TypeScript, Node.js, React, PostgreSQL (Cloud SQL), Docker, Cloud Run and Terraform</li>
+            <li>Remained hands-on as the team grew: led architecture reviews, pair programmed with engineers, drove technical design decisions and maintained code quality standards</li>
+            <li>Architected and shipped AI-integrated product features using OpenAI and Claude APIs</li>
+            <li>Led product pivots across AI, integrations and data platforms while maintaining delivery velocity</li>
+            <li>Scaled engineering team from 0 to 8; established hiring process, engineering standards and review culture from scratch</li>
           </ul>
         </div>
 
-        <div class="cv-role">
-          <div class="cv-role-header">
-            <span class="cv-role-title">Engineering Manager, Tech Lead &amp; Solutions Architect</span>
-            <span class="cv-role-dates">2020 – 2024</span>
+        <div class="cv-company-group">
+          <p class="cv-company-name">
+            Moneyhub
+            <span class="cv-company-tenure">Feb 2020 – Apr 2024</span>
+          </p>
+
+          <div class="cv-role">
+            <div class="cv-role-header">
+              <span class="cv-role-title">Tech Lead &amp; Engineering Manager – Payments</span>
+              <span class="cv-role-dates">May 2023 – Apr 2024</span>
+            </div>
+            <ul>
+              <li>Architected distributed event-driven payment systems on Node.js and TypeScript, serving tier-one financial institutions in regulated open banking environments</li>
+              <li>Led technical design and architecture decisions across the payments platform, balancing regulatory compliance with delivery speed</li>
+              <li>Led a team of 5 engineers, 1 QA and 1 designer; mentored engineers and contributed to technical hiring</li>
+            </ul>
           </div>
-          <div style="font-size:0.88em; color:#9a9088; margin-bottom:0.35em;">Moneyhub</div>
-          <ul>
-            <li>Held engineering leadership, architecture and customer-facing roles during a period of significant company growth</li>
-            <li>Led teams supporting 1.2M+ consumers across 9 mobile applications and data platforms</li>
-            <li>Managed payments and open banking platforms serving tier-one financial institutions</li>
-            <li>Worked directly with enterprise customers, pension providers and API partners</li>
-            <li>Contributed to recruitment, hiring and development of 25+ engineers, QA specialists and product consultants</li>
-          </ul>
+
+          <div class="cv-role">
+            <div class="cv-role-header">
+              <span class="cv-role-title">Tech Lead &amp; Engineering Manager – Mobile Apps &amp; Data</span>
+              <span class="cv-role-dates">Jan 2022 – Dec 2022</span>
+            </div>
+            <ul>
+              <li>Led 9 mobile applications (React Native) and data services supporting 1.2M+ consumers across 10+ enterprise clients</li>
+              <li>Rebuilt CI/CD pipelines and standardised release processes, reducing deployment lead times from 3 weeks to 2 days</li>
+              <li>Led a multidisciplinary team of 6 engineers and 2 QA specialists</li>
+            </ul>
+          </div>
+
+          <div class="cv-role">
+            <div class="cv-role-header">
+              <span class="cv-role-title">Software Engineer</span>
+              <span class="cv-role-dates">Feb 2020 – Jan 2022</span>
+            </div>
+            <ul>
+              <li>Built ETL pipelines and Open Banking integrations on Node.js, TypeScript, PostgreSQL and MongoDB</li>
+              <li>Developed financial data solutions handling complex pension and financial institution data</li>
+              <li>Contributed across web, mobile (React Native) and API layers of the platform</li>
+            </ul>
+          </div>
         </div>
 
         <div class="cv-role">
@@ -331,7 +390,7 @@
           </div>
           <div style="font-size:0.88em; color:#9a9088; margin-bottom:0.35em;">Kappu &nbsp;·&nbsp; Nimble</div>
           <ul>
-            <li>First engineering hire at Kappu. Built product platform from scratch alongside founders</li>
+            <li>First permanent engineering hire at Kappu — built and launched the product from zero alongside founders; owned architecture, engineering and GDPR compliance</li>
             <li>Contributed across backend services, APIs and deployments at Nimble</li>
           </ul>
         </div>
@@ -351,7 +410,7 @@
 
       <div class="cv-section">
         <span class="cv-section-label">Expertise</span>
-        <p class="cv-expertise-line">Engineering Leadership &nbsp;·&nbsp; Organisation Design &nbsp;·&nbsp; Hiring &nbsp;·&nbsp; Fintech &nbsp;·&nbsp; Open Banking &nbsp;·&nbsp; Payments &nbsp;·&nbsp; Distributed Systems &nbsp;·&nbsp; SaaS &nbsp;·&nbsp; Security &amp; Compliance &nbsp;·&nbsp; AI &amp; Automation</p>
+        <p class="cv-expertise-line">TypeScript &nbsp;·&nbsp; Node.js &nbsp;·&nbsp; React &nbsp;·&nbsp; PostgreSQL &nbsp;·&nbsp; Cloud Run &nbsp;·&nbsp; Terraform &nbsp;·&nbsp; Open Banking &nbsp;·&nbsp; Distributed Systems &nbsp;·&nbsp; AI Systems &nbsp;·&nbsp; Engineering Leadership &nbsp;·&nbsp; Technical Mentoring</p>
       </div>
 
     </div>
