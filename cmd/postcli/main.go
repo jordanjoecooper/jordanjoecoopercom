@@ -110,6 +110,54 @@ func escapeHTML(s string) string {
 
 func escapeXML(s string) string { return escapeHTML(s) }
 
+// jsonStr returns s as the inner content of a JSON string (properly escaped, no outer quotes).
+func jsonStr(s string) string {
+	b, _ := json.Marshal(s)
+	return string(b[1 : len(b)-1])
+}
+
+// buildPostJSONLD returns the Article JSON-LD <script> block for a post.
+func buildPostJSONLD(slug, title, description, date string) string {
+	postURL := baseURL + "/posts/" + slug + ".html"
+	return fmt.Sprintf(`  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": "%s",
+    "description": "%s",
+    "url": "%s",
+    "datePublished": "%s",
+    "author": {
+      "@type": "Person",
+      "@id": "%s/#person",
+      "name": "Jordan Joe Cooper",
+      "url": "%s"
+    },
+    "publisher": {
+      "@type": "Person",
+      "@id": "%s/#person",
+      "name": "Jordan Joe Cooper"
+    },
+    "image": "%s/images/dp.jpg",
+    "isPartOf": {
+      "@type": "WebSite",
+      "@id": "%s/#website"
+    }
+  }
+  </script>`,
+		jsonStr(title), jsonStr(description), postURL, date,
+		baseURL, baseURL, baseURL, baseURL, baseURL)
+}
+
+// fileModDate returns a file's last modification date as YYYY-MM-DD.
+func fileModDate(path string) string {
+	info, err := os.Stat(path)
+	if err != nil {
+		return time.Now().Format("2006-01-02")
+	}
+	return info.ModTime().Format("2006-01-02")
+}
+
 func validateDate(s string) bool {
 	if len(s) != 10 || s[4] != '-' || s[7] != '-' {
 		return false
