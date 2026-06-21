@@ -16,9 +16,9 @@ He writes about technology, engineering leadership and the nature of work. He ha
 ## Writing
 <!-- LLMS-WRITING-START -->
 - [Programming & Jevons Paradox](https://jordanjoecooper.com/posts/programming-jeavons-paradox.html): Why cheaper code may lead to more programmers, not fewer (2026-06-01)
-- [Avoiding Persian Messenger Syndrome](https://jordanjoecooper.com/posts/avoiding-persian-messenger-syndrome.html): Many organisations have a news problem — good news is shared and bad news is buried, here's why and how to avoid it (2026-03-04)
-- [Work and artificial intelligence](https://jordanjoecooper.com/posts/work-and-artificial-intelligence.html): The modern printing press with speed boost — AI is changing what human work is and means (2026-02-23)
-- [Quotes / Aphorisms](https://jordanjoecooper.com/posts/aphorisms.html): Collection of quotes and aphorisms from books, conversations, and podcasts (2025-08-14)
+- [Avoiding Persian Messenger Syndrome](https://jordanjoecooper.com/posts/avoiding-persian-messenger-syndrome.html): Many organisations have a news problem, good news is shared and bad news is buried, here's why and how to avoid it. (2026-03-04)
+- [Work and artificial intelligence](https://jordanjoecooper.com/posts/work-and-artificial-intelligence.html): The modern printing press with speed boost. AI is changing what human work is and means. (2026-02-23)
+- [Quotes / Aphorisms](https://jordanjoecooper.com/posts/aphorisms.html): Collection of quotes and aphorisms from books, conversations, and podcasts. Wisdom from Charlie Munger, Warren Buffettt, Marcus Aurelius, and others. (2025-08-14)
 <!-- LLMS-WRITING-END -->
 
 ## Experience

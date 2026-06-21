@@ -158,6 +158,59 @@ func fileModDate(path string) string {
 	return info.ModTime().Format("2006-01-02")
 }
 
+func rebuildSitemap(root string, posts []post) error {
+	var b strings.Builder
+	b.WriteString("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n")
+	for _, entry := range []struct{ path, loc, priority string }{
+		{"index.html", baseURL + "/", "1.0"},
+		{"about.html", baseURL + "/about.html", "0.9"},
+		{"writing.html", baseURL + "/writing.html", "0.8"},
+		{"experience.html", baseURL + "/experience.html", "0.8"},
+	} {
+		mod := fileModDate(filepath.Join(root, entry.path))
+		fmt.Fprintf(&b, "  <url>\n    <loc>%s</loc>\n    <lastmod>%s</lastmod>\n    <priority>%s</priority>\n  </url>\n", entry.loc, mod, entry.priority)
+	}
+	for _, p := range posts {
+		if p.Slug == "" || p.Title == "" || p.Date == "" || p.Draft {
+			continue
+		}
+		fmt.Fprintf(&b, "  <url>\n    <loc>%s/posts/%s.html</loc>\n    <lastmod>%s</lastmod>\n    <priority>0.7</priority>\n  </url>\n", baseURL, p.Slug, p.Date)
+	}
+	b.WriteString("</urlset>\n")
+	return os.WriteFile(filepath.Join(root, "sitemap.xml"), []byte(b.String()), 0644)
+}
+
+const llmsWritingStart = "<!-- LLMS-WRITING-START -->"
+const llmsWritingEnd = "<!-- LLMS-WRITING-END -->"
+
+func rebuildLLMSTxt(root string, posts []post) error {
+	llmsPath := filepath.Join(root, "llms.txt")
+	data, err := os.ReadFile(llmsPath)
+	if err != nil {
+		return err
+	}
+	s := string(data)
+	start := strings.Index(s, llmsWritingStart)
+	end := strings.Index(s, llmsWritingEnd)
+	if start == -1 || end == -1 || end <= start {
+		return fmt.Errorf("could not find writing markers in llms.txt")
+	}
+	var items strings.Builder
+	for _, p := range posts {
+		if p.Slug == "" || p.Title == "" || p.Date == "" || p.Draft {
+			continue
+		}
+		desc := p.Description
+		if desc == "" {
+			desc = p.Title
+		}
+		fmt.Fprintf(&items, "- [%s](%s/posts/%s.html): %s (%s)\n", p.Title, baseURL, p.Slug, desc, p.Date)
+	}
+	afterStart := start + len(llmsWritingStart)
+	out := s[:afterStart] + "\n" + items.String() + s[end:]
+	return os.WriteFile(llmsPath, []byte(out), 0644)
+}
+
 func validateDate(s string) bool {
 	if len(s) != 10 || s[4] != '-' || s[7] != '-' {
 		return false
@@ -244,7 +297,7 @@ func getPosts(root string) ([]post, error) {
 	}
 	var posts []post
 	for _, e := range entries {
-		if e.IsDir() || !strings.HasSuffix(e.Name(), ".html") {
+		if e.IsDir() || !strings.HasSuffix(e.Name(), ".html") || e.Name() == "post-template.html" {
 			continue
 		}
 		fullPath := filepath.Join(postsDir, e.Name())
@@ -373,7 +426,13 @@ func rebuildSite(root string) error {
 	if err := rebuildHTMLList(filepath.Join(root, "writing.html"), posts); err != nil {
 		return err
 	}
-	return rebuildFeed(root, posts)
+	if err := rebuildFeed(root, posts); err != nil {
+		return err
+	}
+	if err := rebuildSitemap(root, posts); err != nil {
+		return err
+	}
+	return rebuildLLMSTxt(root, posts)
 }
 
 // --- Creating and updating post files ---
@@ -392,6 +451,8 @@ func newPostHTML(root, title, description, keywords, date, slug, body string, dr
 	s = strings.ReplaceAll(s, "POST_SLUG", slug)
 	s = strings.ReplaceAll(s, "YYYY-MM-DD", date)
 	s = strings.ReplaceAll(s, "DD/MM/YYYY", displayDate)
+	// Inject Article JSON-LD
+	s = strings.ReplaceAll(s, "<!-- POST_JSON_LD -->", buildPostJSONLD(slug, title, description, date))
 	// Replace the template's placeholder body with the real body
 	re := regexp.MustCompile(`(?s)(<div class="post-meta">.*?</div>)(.*?)(</article>)`)
 	s = re.ReplaceAllString(s, "${1}\n\n    "+strings.TrimSpace(body)+"\n\n  ${3}")
@@ -432,7 +493,7 @@ func newPostHTML(root, title, description, keywords, date, slug, body string, dr
 }
 
 // updatePostHTML updates metadata and body in an existing post HTML file.
-func updatePostHTML(original, title, description, keywords, date, body string, draft bool) string {
+func updatePostHTML(original, slug, title, description, keywords, date, body string, draft bool) string {
 	displayDate := formatDisplayDate(date)
 	s := original
 
@@ -460,6 +521,15 @@ func updatePostHTML(original, title, description, keywords, date, body string, d
 		s = strings.ReplaceAll(s, "\n  <meta name=\"status\" content=\"draft\">", "")
 		s = strings.ReplaceAll(s, "<meta name=\"status\" content=\"draft\">\n  ", "")
 		s = strings.ReplaceAll(s, "<meta name=\"status\" content=\"draft\">", "")
+	}
+
+	// Update or inject Article JSON-LD
+	ldRe := regexp.MustCompile(`(?s)<script type="application/ld\+json">.*?</script>`)
+	newLD := buildPostJSONLD(slug, title, description, date)
+	if ldRe.MatchString(s) {
+		s = ldRe.ReplaceAllString(s, newLD)
+	} else {
+		s = strings.Replace(s, "</head>", newLD+"\n</head>", 1)
 	}
 
 	// Update article: h1, post-meta time, and body
@@ -619,7 +689,7 @@ func handleSave(root string) http.HandlerFunc {
 				json.NewEncoder(w).Encode(saveResponse{Error: "post not found: " + slug})
 				return
 			}
-			fileContent = updatePostHTML(string(existing), req.Title, req.Description, req.Keywords, req.Date, req.Body, req.Draft)
+			fileContent = updatePostHTML(string(existing), req.Slug, req.Title, req.Description, req.Keywords, req.Date, req.Body, req.Draft)
 		}
 
 		if err := os.WriteFile(outPath, []byte(fileContent), 0644); err != nil {
