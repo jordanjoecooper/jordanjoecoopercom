@@ -1,0 +1,23 @@
+{
+  "name": "jordanjoecoopercom-astro",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "generate:github-activity": "node scripts/generate-github-contributions.mjs",
+    "validate:content": "node scripts/validate-content.mjs",
+    "new:post": "node scripts/new-post.mjs",
+    "prebuild": "npm run validate:content && npm run generate:github-activity",
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview"
+  },
+  "dependencies": {
+    "@astrojs/rss": "^4.0.12",
+    "@astrojs/sitemap": "^3.3.0",
+    "astro": "^5.13.10"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.4",
+    "typescript": "^5.8.3"
+  }
+}

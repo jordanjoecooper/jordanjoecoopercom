@@ -1,0 +1,47 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const legacyPages = import.meta.glob('../../../{about,experience,cv,cv-short,advisory}.html', {
+  query: '?raw',
+  import: 'default',
+  eager: true,
+});
+
+const metadata: Record<string, { title: string; description: string; type?: 'profile' }> = {
+  about: { title: 'About - Jordan Joe Cooper', description: 'About Jordan Joe Cooper. Builder, reader, runner.', type: 'profile' },
+  experience: { title: 'Experience - Jordan Joe Cooper', description: 'Work experience and career history of Jordan Joe Cooper.' },
+  cv: { title: 'CV - Jordan Joe Cooper', description: 'Curriculum vitae for Jordan Joe Cooper.' },
+  'cv-short': { title: 'Short CV - Jordan Joe Cooper', description: 'A short curriculum vitae for Jordan Joe Cooper.' },
+  advisory: { title: 'Advisory - Jordan Joe Cooper', description: 'Advisory work by Jordan Joe Cooper.' },
+};
+
+export function getStaticPaths() {
+  return ['about', 'experience', 'cv', 'cv-short', 'advisory'].map((page) => ({ params: { page } }));
+}
+
+const page = Astro.params.page!;
+const meta = metadata[page];
+const raw = Object.entries(legacyPages).find(([path]) => path.endsWith(`/${page}.html`))?.[1] as string;
+const legacyBody = raw
+  .replace(/^[\s\S]*?<body[^>]*>/i, '')
+  .replace(/<footer class="site-footer">[\s\S]*$/i, '')
+  .replace(/<div class="profile-header">[\s\S]*?<\/nav>\s*<\/div>/i, '')
+  .replaceAll('src="images/', 'src="/')
+  .replaceAll('href="images/', 'href="/')
+  .replace(/\s+onerror="[^"]*"/g, '');
+const body = page === 'experience'
+  ? legacyBody.replace('2024 - Now', '2024 - Jun 2026')
+  : legacyBody;
+const linkedBody = body
+  .replaceAll('href="index.html"', 'href="/"')
+  .replaceAll('href="writing.html"', 'href="/writing/"')
+  .replaceAll('href="about.html"', 'href="/about/"')
+  .replaceAll('href="experience.html"', 'href="/experience/"')
+  .replaceAll('href="cv.html"', 'href="/cv/"')
+  .replaceAll('href="cv-short.html"', 'href="/cv-short/"')
+  .replaceAll('href="advisory.html"', 'href="/advisory/"');
+---
+
+<BaseLayout title={meta.title} description={meta.description} type={meta.type}>
+  <Fragment set:html={linkedBody} />
+</BaseLayout>

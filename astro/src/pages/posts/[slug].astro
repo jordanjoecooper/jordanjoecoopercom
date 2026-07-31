@@ -1,0 +1,21 @@
+---
+import { getCollection, render } from 'astro:content';
+import { Image } from 'astro:assets';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+
+export async function getStaticPaths() {
+  return (await getCollection('posts', ({ data }) => !data.draft)).map((post) => ({ params: { slug: post.id.replace(/\.md$/, '') }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await render(post);
+---
+
+<BaseLayout title={`${post.data.title} - Jordan Joe Cooper`} description={post.data.description} type="article" publishedTime={post.data.pubDate} keywords={post.data.keywords} image={post.data.heroImage}>
+  <article class="post-content">
+    <h1>{post.data.title}</h1>
+    <div class="post-meta"><time datetime={post.data.pubDate.toISOString().slice(0, 10)}>{post.data.pubDate.toLocaleDateString('en-GB')}</time></div>
+    {post.data.heroImage && <Image class="post-hero-image" src={post.data.heroImage} alt={post.data.heroAlt} widths={[720, 1440]} sizes="(max-width: 760px) 100vw, 760px" />}
+    <Content />
+  </article>
+</BaseLayout>

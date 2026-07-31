@@ -1,0 +1,46 @@
+---
+const { priority = false } = Astro.props;
+---
+
+<header class="profile-header">
+  <div class="profile-identity-bar">
+    <div class="profile-identity">
+    <a href="/"><img src="/dp.jpg" alt="Jordan Joe Cooper" class="profile-image" width="54" height="54" loading={priority ? undefined : 'lazy'} fetchpriority={priority ? 'high' : undefined} /></a>
+    <div class="profile-intro">
+      <p class="profile-name">Jordan Joe Cooper</p>
+    </div>
+    </div>
+    <div class="profile-meta">
+      <p class="profile-location">UK</p>
+      <button class="theme-toggle" type="button" aria-label="Switch to dark mode" aria-pressed="false">
+        <span class="theme-toggle-icon" aria-hidden="true">☾</span>
+      </button>
+    </div>
+  </div>
+  <div class="site-controls">
+    <nav class="main-nav" aria-label="Main navigation">
+      <a href="/">Home</a>
+      <a href="/writing/">Writing</a>
+      <a href="/about/">About</a>
+    </nav>
+  </div>
+</header>
+
+<script is:inline>
+  const themeToggle = document.querySelector('.theme-toggle');
+  const setTheme = (theme) => {
+    document.documentElement.dataset.theme = theme;
+    const isDark = theme === 'dark';
+    themeToggle?.setAttribute('aria-pressed', String(isDark));
+    themeToggle?.setAttribute('aria-label', `Switch to ${isDark ? 'light' : 'dark'} mode`);
+    const icon = themeToggle?.querySelector('.theme-toggle-icon');
+    if (icon) icon.textContent = isDark ? '☀' : '☾';
+  };
+
+  setTheme(document.documentElement.dataset.theme === 'dark' ? 'dark' : 'light');
+  themeToggle?.addEventListener('click', () => {
+    const nextTheme = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+    setTheme(nextTheme);
+    try { localStorage.setItem('theme', nextTheme); } catch {}
+  });
+</script>

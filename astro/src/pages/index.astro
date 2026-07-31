@@ -1,0 +1,56 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { hasGithubContributionCalendar } from '../generated/github-contributions';
+
+const publishedPosts = (await getCollection('posts', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+;
+const posts = [
+  ...publishedPosts.filter((post) => post.data.pinned),
+  ...publishedPosts.filter((post) => !post.data.pinned),
+].slice(0, 4);
+---
+
+<BaseLayout title="Jordan Joe Cooper – Engineering Leader, Builder & Operator" description="Engineering leader with experience building teams, products and technology organisations from zero to scale. Background across fintech, payments, AI and enterprise software." keywords="Jordan Joe Cooper, engineering leadership, operator, builder, technology, product development, zero to one">
+  <main class="home-page">
+    <section class="home-intro" aria-labelledby="home-title">
+      <h1 id="home-title">Engineer.</h1>
+      <p class="home-detail">Into the messy work of making useful things.</p>
+    </section>
+
+    <div class="home-index">
+      <section class="home-column" aria-labelledby="projects-heading">
+        <p id="projects-heading" class="home-section-label"><span>#</span> Projects</p>
+        <ul class="home-list home-project-list">
+          <li>
+            <a href="https://github.com/jordanjoecooper/the-algorithm" target="_blank" rel="noopener"><strong>The Algorithm</strong><span>A set of skills to rethink how you solve problems</span><em>Open source ↗</em></a>
+          </li>
+          <li>
+            <a href="https://whenyoufree.app" target="_blank" rel="noopener"><strong>whenyoufree?</strong><span>Simple group scheduling without the back-and-forth</span><em>Live ↗</em></a>
+          </li>
+          <li>
+            <a href="https://www.etsy.com/shop/PlanahShop" target="_blank" rel="noopener"><strong>PlanahShop</strong><span>Practical digital planners made to print, adjust and reuse</span><em>Shop ↗</em></a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="home-column" aria-labelledby="writing-heading">
+        <p id="writing-heading" class="home-section-label"><span>#</span> Writing</p>
+        <ul class="home-list home-writing-list">
+          {posts.map((post) => <li><a href={`/posts/${post.id.replace(/\.md$/, '')}/`}><strong>{post.data.title}</strong><em>{post.data.pubDate.toLocaleDateString('en-GB', { month: 'short', year: 'numeric' })}</em></a></li>)}
+        </ul>
+        <p class="home-all-writing"><a href="/writing/">All writing →</a></p>
+      </section>
+    </div>
+
+    {hasGithubContributionCalendar && (
+      <section class="github-activity" aria-labelledby="github-activity-heading">
+        <p id="github-activity-heading" class="home-section-label"><span>#</span> Activity</p>
+        <a href="https://github.com/jordanjoecooper" target="_blank" rel="noopener" aria-label="View Jordan Joe Cooper's GitHub profile">
+          <img src="/github-contributions.svg" alt="Jordan Joe Cooper's GitHub contribution activity" loading="lazy" />
+        </a>
+      </section>
+    )}
+  </main>
+</BaseLayout>
