@@ -1,5 +1,7 @@
 # Local notes / audits
 perf.md
+CONTENT.md
+linkedin/
 
 # Dependencies
 node_modules/
@@ -27,3 +29,5 @@ npm-debug.log*
 
 # Local Claude Code instructions
 CLAUDE.md
+dist/
+.astro/

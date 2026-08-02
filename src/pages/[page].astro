@@ -1,7 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 
-const legacyPages = import.meta.glob('../../../{about,experience,cv,cv-short,advisory}.html', {
+const legacyPages = import.meta.glob('../../archive/{about,experience,cv,cv-short,advisory}.html', {
   query: '?raw',
   import: 'default',
   eager: true,

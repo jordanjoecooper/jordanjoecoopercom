@@ -4,7 +4,7 @@ import sitemap from '@astrojs/sitemap';
 export default defineConfig({
   site: 'https://jordanjoecooper.com',
   output: 'static',
-  // Reuse the existing image directory while this migration lives alongside the legacy site.
-  publicDir: '../images',
+  // Legacy assets stay available while the remaining static pages are migrated.
+  publicDir: 'archive/images',
   integrations: [sitemap()],
 });

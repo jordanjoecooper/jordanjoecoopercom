@@ -1,38 +1,40 @@
 # jordanjoecooper.com
 
-Personal website for Jordan Joe Cooper. Fully static HTML — no build process, no dependencies, no frameworks.
+Personal site for Jordan Joe Cooper, built as a static Astro site and deployed to GitHub Pages.
 
 ## Architecture
 
-- Pure static HTML + CSS
-- No JavaScript
-- Hosted on GitHub Pages
-- No build step — edit files directly
+- Astro 5 static output; no server runtime
+- GitHub Actions runs `npm ci`, then `npm run build`, then deploys `dist/`
+- Legacy HTML, images, Go post CLI, and historical feeds live in `archive/`
+- The Astro app is the repository root; do not add new site work to `archive/`
 
 ## Key files
 
-- `index.html` — Homepage
-- `experience.html` — Work experience timeline
-- `posts/` — Blog posts (each is a standalone HTML file)
-- `post-template.html` — Template for new posts
-- `styles.css` — All styles, uses CSS custom properties for theming and dark mode
-- `feed.xml` — RSS feed (updated by post CLI when adding posts)
-- `cmd/postcli/` — Go CLI for posts (no external deps). Build: **`go build -o postcli ./cmd/postcli`**. Run from repo root.
+- `src/pages/index.astro` — Homepage
+- `src/pages/writing.astro` — Writing index
+- `src/pages/posts/[slug].astro` — Post route
+- `src/content/posts/` — Markdown posts and front matter
+- `src/content.config.ts` — Post schema
+- `src/layouts/BaseLayout.astro` — Shared SEO, canonical, social, and structured data
+- `src/styles/global.css` — Astro styling layer; it imports legacy CSS from `archive/styles.css` while transitional pages remain
+- `docs/MIGRATION.md` — Cutover and legacy-site migration notes
 
-## Adding a new post
+## Adding a post
 
-**Using the CLI (recommended)** — From repo root:
-- **`./postcli`** or **`go run ./cmd/postcli`** — interactive menu (New / Edit / List / Quit).
-- **`./postcli new`** — create a new post (prompts for title, description, keywords, date, slug). Creates the file and updates index.html + feed.xml.
-- **`./postcli edit`** — list posts, pick one to open in **$EDITOR** (default `nano`).
-- **`./postcli edit <slug>`** — open that post directly.
-- **`./postcli list`** — list all posts.
-- **`./postcli update-links posts/your-post.html`** — add a manually created post to the homepage and feed.
+From the repository root:
+
+- `npm run new:post` — create a guided draft and optional image folder
+- Write the post in `src/content/posts/<slug>.md`
+- Put post images in `src/assets/posts/<slug>/`
+- Set `draft: false` only when the article is ready
+- Run `npm run build` before committing; it validates content and generates RSS, sitemap, SEO metadata, and the static site
+
+Posts can use `heroImage` and `heroAlt` front matter. Hero images are optimized and used in social metadata. See `README.md` for the exact front matter and inline-image syntax.
 
 ## Important reminders
 
-- **Run the CLI when publishing a new post** so the homepage and RSS stay in sync. `postcli new` updates index and feed automatically. If you add a post file manually, run **`postcli update-links posts/your-post.html`** once.
-- Styles use CSS custom properties (`:root` variables) — update these for theme changes rather than editing individual colour values throughout the file.
-- The site supports automatic dark mode via `prefers-color-scheme` media query.
-- The accent colour is a warm terracotta (`#b05a3a` light / `#d4775a` dark). To change it, update the `--accent` and `--accent-hover` values in both the `:root` and dark mode blocks in `styles.css`.
-- Every HTML page should include `<link rel="alternate" type="application/rss+xml" ...>` in the `<head>` for RSS discovery.
+- Do not manually edit generated `dist/` output.
+- Keep legacy `.html` post compatibility endpoints in `src/pages/posts/[slug].html.ts` until existing links and search indexing have migrated.
+- Do not remove files from `archive/` until the corresponding wrapped legacy pages have been converted.
+- The GitHub Actions workflow is `.github/workflows/deploy-pages.yml`; it assumes the Astro app lives at the repository root.

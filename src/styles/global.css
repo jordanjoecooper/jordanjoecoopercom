@@ -1,4 +1,4 @@
-@import '../../../styles.css';
+@import '../../archive/styles.css';
 
 /* Keep the site in its light palette regardless of the visitor's system preference. */
 :root {

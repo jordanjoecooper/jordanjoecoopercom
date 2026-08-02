@@ -1,6 +1,6 @@
 # Migrating jordanjoecooper.com to Astro
 
-This guide covers the move from the repository-root static site to the Astro site in `astro/`. The target is a static GitHub Pages deployment with the same custom domain, content URLs that are easy to author, and SEO generated as part of every build.
+This guide covers the move from the legacy static site, retained in `archive/`, to the Astro site at the repository root. The target is a static GitHub Pages deployment with the same custom domain, content URLs that are easy to author, and SEO generated as part of every build.
 
 ## What the new site already does
 
@@ -22,19 +22,19 @@ The root site is an HTML/CSS site. It has a good small footprint, but content an
 | Blog posts | `posts/*.html` | `src/content/posts/*.md` | Migrate body copy and front matter; publish only completed posts. |
 | Existing post URLs | `/posts/<slug>.html` | `/posts/<slug>/` | Keep the generated compatibility pages during cutover. |
 | Non-blog pages | Root HTML | Astro wrapper imports the legacy body | Leave the wrapper in place initially; convert a page only when changing it. |
-| Images | Root `images/` | Existing directory is reused; new post images go in `src/assets/posts/` | Do not delete `images/` until non-blog pages are fully converted. |
-| CSS | Root `styles.css` | Imported by `src/styles/global.css`, then extended | Keep shared CSS until the last legacy page is converted. |
+| Images | `archive/images/` | Existing directory is reused; new post images go in `src/assets/posts/` | Do not delete archived images until non-blog pages are fully converted. |
+| CSS | `archive/styles.css` | Imported by `src/styles/global.css`, then extended | Keep shared CSS until the last legacy page is converted. |
 
 ### Findings to carry into the cutover
 
 - **Content drift is already visible.** The legacy `writing.html`, `feed.xml`, and `sitemap.xml` list four posts, while the `posts/` directory contains newer article files such as `career-blindness.html` and `moving-fast-vs-looking-fast.html`. Astro derives its writing list, feed, and sitemap from the same collection, so they cannot get out of sync.
 - **Metadata is duplicated per post.** Each legacy post carries its own title, canonical URL, social fields, and RSS link. The Astro layout owns those fields once, with per-post front matter supplying only the content that changes.
 - **The current deployment has two URL conventions.** Legacy links end in `.html`; Astro uses trailing slashes. The generated compatibility endpoints preserve existing shared links during the move.
-- **The remaining static pages are transitional.** `about`, `experience`, both CV pages, and `advisory` are wrapped rather than rewritten. This is safe for cutover, but their original HTML and the root `images/` directory remain deployment dependencies.
+- **The remaining static pages are transitional.** `about`, `experience`, both CV pages, and `advisory` are wrapped rather than rewritten. This is safe for cutover, but their archived HTML and images remain deployment dependencies.
 
 ## How to publish a post
 
-1. Run `npm run new:post` from `astro/`.
+1. Run `npm run new:post` from the repository root.
 2. Write the draft in `src/content/posts/<slug>.md`.
 3. For a hero image, copy the image to `src/assets/posts/<slug>/`, add `heroImage` and meaningful `heroAlt` front matter, then use normal Markdown for inline images.
 4. Run `npm run build`. It refuses empty published posts and produces the exact static site GitHub Pages will serve.
@@ -42,7 +42,7 @@ The root site is an HTML/CSS site. It has a good small footprint, but content an
 
 ## Cutover checklist
 
-1. Commit the `astro/` directory and `.github/workflows/deploy-pages.yml`. They are currently the deployment implementation, so an uncommitted migration cannot reach GitHub Pages.
+1. Commit the repository-root Astro files, `archive/`, and `.github/workflows/deploy-pages.yml`. An uncommitted migration cannot reach GitHub Pages.
 2. In GitHub repository settings, set Pages source to **GitHub Actions**.
 3. Add `GITHUB_CONTRIBUTIONS_TOKEN` as an Actions secret if the activity calendar should be published. The build succeeds without it and simply omits that section.
 4. Push to `main` and confirm the Actions deployment completes.
