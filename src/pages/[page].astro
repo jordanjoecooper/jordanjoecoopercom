@@ -40,8 +40,19 @@ const linkedBody = body
   .replaceAll('href="cv.html"', 'href="/cv/"')
   .replaceAll('href="cv-short.html"', 'href="/cv-short/"')
   .replaceAll('href="advisory.html"', 'href="/advisory/"');
+const pageBody = page === 'about'
+  ? linkedBody
+    .replace('<div class="post-content">\n      <h2>About</h2>', `<main class="writing-page about-page">
+    <section class="page-intro" aria-labelledby="about-title">
+      <p class="home-section-label"><span>#</span> About</p>
+      <h1 id="about-title">About</h1>
+      <p>Builder, reader, runner.</p>
+    </section>
+    <div class="post-content">`)
+    .replace(/\n    <\/div>\s*$/, '\n    </div>\n  </main>')
+  : linkedBody;
 ---
 
 <BaseLayout title={meta.title} description={meta.description} type={meta.type}>
-  <Fragment set:html={linkedBody} />
+  <Fragment set:html={pageBody} />
 </BaseLayout>
