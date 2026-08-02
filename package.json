@@ -9,6 +9,7 @@
     "prebuild": "npm run validate:content && npm run generate:github-activity",
     "dev": "astro dev",
     "build": "astro check && astro build",
+    "postbuild": "node scripts/verify-writing-index.mjs",
     "preview": "astro preview"
   },
   "dependencies": {
