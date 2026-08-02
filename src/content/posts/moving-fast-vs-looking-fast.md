@@ -2,7 +2,7 @@
 title: "Moving Fast vs Looking Fast"
 description: "Nothing slows a team down quite like someone trying to look fast."
 pubDate: 2026-06-01
-draft: false
+draft: true
 keywords: ""
 ---
 

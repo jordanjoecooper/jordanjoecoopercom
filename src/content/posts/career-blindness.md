@@ -2,7 +2,7 @@
 title: "Career Blindness"
 description: "Be wary of the boxes you and society place yourself within."
 pubDate: 2026-06-01
-draft: false
+draft: true
 keywords: ""
 ---
 
