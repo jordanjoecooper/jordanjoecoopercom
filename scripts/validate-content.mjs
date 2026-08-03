@@ -25,6 +25,7 @@ for (const name of await readdir(postsDirectory)) {
   if (!get('description')) failures.push(`${name}: missing description`);
   if (!get('pubDate')) failures.push(`${name}: missing pubDate`);
   if (!isDraft && !readableBody) failures.push(`${name}: published posts need body content (set draft: true until ready)`);
+  if (/^(?: {4}|\t)<\/?blockquote\b/m.test(body)) failures.push(`${name}: blockquote HTML must not be indented, or Markdown renders it as code`);
 }
 
 if (failures.length) {
