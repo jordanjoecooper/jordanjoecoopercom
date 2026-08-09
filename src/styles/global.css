@@ -184,8 +184,19 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
-.page-intro .home-section-label {
+.page-kicker {
   margin-bottom: 1.25em;
+  color: var(--text-secondary);
+  font-family: var(--mono);
+  font-size: 0.78em;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.page-kicker span {
+  margin-right: 0.45em;
+  color: var(--accent);
 }
 
 .page-intro h1 {
