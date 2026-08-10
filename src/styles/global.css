@@ -266,6 +266,13 @@ body {
   border-bottom: 1px solid var(--border);
 }
 
+.home-intro-layout {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2.5rem;
+}
+
 .visually-hidden {
   position: absolute;
   width: 1px;
@@ -317,11 +324,57 @@ body {
 .home-statement em::after {
   position: absolute;
   right: 0;
-  bottom: 0;
+  bottom: -0.08em;
   left: 0;
   height: 0.16em;
   background: var(--accent);
   content: '';
+}
+
+.clarity-mark {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 10.5rem;
+  height: 4.25rem;
+  flex: 0 0 auto;
+}
+
+.clarity-stack {
+  position: relative;
+  width: 4.2rem;
+  height: 3.3rem;
+}
+
+.clarity-stack i {
+  position: absolute;
+  width: 2.65rem;
+  height: 2.65rem;
+  border: 1px solid var(--text-secondary);
+  opacity: 0.42;
+  box-shadow: 0 0 0.55rem color-mix(in srgb, var(--text-secondary) 20%, transparent);
+}
+
+.clarity-stack i:nth-child(1) { top: 0; left: 0.3rem; }
+.clarity-stack i:nth-child(2) { top: 0.42rem; left: 0.8rem; }
+.clarity-stack i:nth-child(3) { top: 0.18rem; left: 1.25rem; }
+.clarity-stack i:nth-child(4) { top: 0.64rem; left: 0; }
+
+.clarity-arrow {
+  color: var(--heading);
+  font-family: var(--mono);
+  font-size: 1.15rem;
+  line-height: 1;
+}
+
+.clarity-box {
+  width: 2.65rem;
+  height: 2.65rem;
+  border: 2px solid var(--accent);
+}
+
+.clarity-stack i {
+  font-style: normal;
 }
 
 .home-lede {
@@ -468,6 +521,16 @@ body {
 
   .home-intro h1 {
     font-size: 2.35rem;
+  }
+
+  .home-intro-layout {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.25rem;
+  }
+
+  .clarity-mark {
+    margin-left: 0.15rem;
   }
 
   .writing-index a {
