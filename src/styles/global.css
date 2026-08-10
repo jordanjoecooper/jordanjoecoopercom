@@ -178,6 +178,229 @@ body {
   max-width: 900px;
 }
 
+.cv-page {
+  max-width: 900px;
+}
+
+.cv-hero {
+  margin-bottom: 3.5rem;
+  padding-bottom: 2.5rem;
+  border-bottom: 1px solid var(--border);
+}
+
+.cv-hero .page-kicker {
+  margin-bottom: 1.1rem;
+}
+
+.cv-hero-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 2rem;
+}
+
+.cv-hero h1 {
+  margin: 0;
+  color: var(--heading);
+  font-size: clamp(2.25rem, 5vw, 3.8rem);
+  letter-spacing: -0.075em;
+  line-height: 1;
+}
+
+.cv-role-line,
+.cv-location,
+.cv-contact,
+.cv-expertise {
+  color: var(--text-secondary);
+  font-family: var(--mono);
+}
+
+.cv-role-line {
+  margin: 0.8rem 0 0;
+  font-size: clamp(0.8rem, 1.8vw, 1rem);
+  line-height: 1.5;
+}
+
+.cv-role-line span,
+.cv-location span,
+.cv-contact span,
+.cv-expertise span {
+  margin: 0 0.35em;
+  color: var(--accent);
+}
+
+.cv-location {
+  margin: 1.15rem 0 0;
+  font-size: 0.85rem;
+}
+
+.cv-contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.3rem;
+  margin: 0.7rem 0 0;
+  font-size: 0.78rem;
+}
+
+.cv-contact a {
+  color: inherit;
+}
+
+.cv-contact a:hover {
+  color: var(--accent);
+}
+
+.cv-download {
+  flex: 0 0 auto;
+  margin-top: 0.2rem;
+  padding: 0.65rem 0.8rem;
+  border: 1px solid var(--heading);
+  color: var(--heading);
+  font-family: var(--mono);
+  font-size: 0.77rem;
+  text-decoration: none;
+}
+
+.cv-download:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.cv-section {
+  margin: 0 0 3.25rem;
+}
+
+.cv-section h2 {
+  margin: 0 0 1.2rem;
+  padding-bottom: 0.55rem;
+  border-bottom: 1px solid var(--border);
+  color: var(--text-secondary);
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.cv-summary {
+  max-width: 780px;
+  color: var(--text);
+  font-size: 1rem;
+  line-height: 1.75;
+}
+
+.cv-summary p,
+.cv-two-column p {
+  margin: 0 0 1rem;
+}
+
+.cv-summary p:last-child,
+.cv-two-column p:last-child {
+  margin-bottom: 0;
+}
+
+.cv-list {
+  display: grid;
+  gap: 0.7rem;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.cv-list li {
+  position: relative;
+  padding-left: 1.25rem;
+  color: var(--text);
+  font-size: 0.94rem;
+  line-height: 1.65;
+}
+
+.cv-list li::before {
+  position: absolute;
+  top: 0.67em;
+  left: 0;
+  width: 0.4rem;
+  height: 1px;
+  background: var(--accent);
+  content: '';
+}
+
+.cv-job {
+  margin-bottom: 2.5rem;
+}
+
+.cv-job:last-child {
+  margin-bottom: 0;
+}
+
+.cv-job-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.cv-job h3 {
+  margin: 0;
+  color: var(--heading);
+  font-size: 1.1rem;
+  font-weight: 600;
+}
+
+.cv-job h3 span {
+  color: var(--text-secondary);
+  font-weight: 400;
+}
+
+.cv-job-header p,
+.cv-job-header time {
+  margin: 0.2rem 0 0;
+  color: var(--text-secondary);
+  font-family: var(--mono);
+  font-size: 0.8rem;
+}
+
+.cv-job-header time {
+  flex: 0 0 auto;
+  white-space: nowrap;
+}
+
+.cv-two-column {
+  display: grid;
+  grid-template-columns: 1.25fr 0.75fr;
+  gap: clamp(2rem, 8vw, 6rem);
+}
+
+.cv-two-column p {
+  color: var(--text);
+  font-size: 0.92rem;
+  line-height: 1.65;
+}
+
+.cv-two-column strong {
+  color: var(--heading);
+}
+
+.cv-expertise {
+  max-width: 800px;
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.8;
+}
+
+.timeline-item-vertical .timeline-logo.timeline-logo-tbc {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+  color: var(--text-secondary);
+  font-family: var(--mono);
+  font-size: 1.35rem;
+}
+
 .page-intro {
   max-width: 720px;
   padding-bottom: 2.75em;
@@ -521,6 +744,21 @@ body {
 
   .home-intro h1 {
     font-size: 2.35rem;
+  }
+
+  .cv-hero-heading,
+  .cv-job-header {
+    flex-direction: column;
+    gap: 0.85rem;
+  }
+
+  .cv-download {
+    margin-top: 0;
+  }
+
+  .cv-two-column {
+    grid-template-columns: 1fr;
+    gap: 2.5rem;
   }
 
   .home-intro-layout {

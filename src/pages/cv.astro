@@ -1,0 +1,88 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+
+const achievements = [
+  'Built and led Zumi\'s engineering organisation from scratch, growing it to 10 engineers and contractors while establishing hiring, coaching, delivery, security and engineering standards.',
+  'Designed reliable production AI capabilities including agents, custom MCP servers, secure user-scoped API access, evaluation frameworks and observability.',
+  'Designed backend services and distributed systems supporting OAuth 2.0 authentication and authorisation, Open Banking, payment initiation and secure financial data access.',
+  'Delivered AI capabilities and multi-tenant SaaS products from concept to production.',
+  'Built Open Banking and payment products used by more than 1.6 million UK consumers, including one of the UK\'s first white-labelled Open Banking payment widgets.',
+  'Worked with founders, VC investors, enterprise customers and distributed teams across the UK, US, EU and Middle East to shape product and engineering direction.',
+];
+
+const zumi = [
+  'Joined as employee #1 and built the engineering function, platform architecture and engineering operating model from zero.',
+  'Built and led a 10-person engineering team, with responsibility for hiring, coaching, career development, performance and delivery.',
+  'Worked with founders, enterprise customers and distributed teams across the UK, US and Middle East through multiple company pivots spanning hospitality, payments, AI and data.',
+  'Designed backend services, APIs and multi-tenant SaaS platforms using TypeScript, PostgreSQL, Terraform, Docker and Google Cloud.',
+  'Led production AI development including agents, custom MCP servers, LLM middleware, secure user-scoped API access, request tracking, observability, evaluations and multi-model routing.',
+  'Built integrations with payments, CRM, loyalty, reservations, PMS and POS systems.',
+  'Led multiple products from concept to production, balancing customer needs, technical trade-offs and long-term platform investment.',
+  'Established engineering practices covering architecture, code review, CI/CD, incident response, operational excellence and production reliability.',
+  'Partnered with founders, product leaders, investors and enterprise customers on roadmaps, architecture and technical strategy.',
+];
+
+const moneyhub = [
+  'Progressed through four engineering leadership roles during a period of rapid company growth.',
+  'Led engineering teams building payments, mobile applications and Open Banking capabilities supporting more than 1.6 million UK consumers.',
+  'Managed engineers across multiple teams, supporting hiring, coaching, technical direction and performance development.',
+  'Designed backend services, APIs and distributed systems supporting OAuth 2.0 authentication and authorisation, payment initiation and secure financial data access.',
+  'Led development of one of the UK\'s first white-labelled Open Banking payment widgets for major financial institutions.',
+  'Worked with product, compliance, commercial and executive stakeholders to deliver secure, regulated financial products with strong governance and compliance requirements.',
+  'Balanced customer needs, regulatory requirements and long-term technical strategy whilst delivering production systems at scale.',
+];
+---
+
+<BaseLayout title="CV - Jordan Cooper" description="CV for Jordan Cooper, Engineering Leader specialising in AI agents, platform engineering, fintech and payments.">
+  <main class="cv-page">
+    <header class="cv-hero">
+      <p class="page-kicker"><span>#</span> Curriculum vitae</p>
+      <div class="cv-hero-heading">
+        <div>
+          <h1>Jordan Cooper</h1>
+          <p class="cv-role-line">Engineering Leader <span>·</span> AI Agents <span>·</span> Backend &amp; Platform Engineering</p>
+        </div>
+        <a class="cv-download" href="/Jordan-Cooper-CV.pdf" download>Download CV <span aria-hidden="true">↓</span></a>
+      </div>
+      <p class="cv-location">London Area, UK <span>·</span> Open to remote &amp; hybrid opportunities</p>
+      <p class="cv-contact"><a href="mailto:jordancooper@hey.com">jordancooper@hey.com</a><span>·</span><a href="https://jordanjoecooper.com">jordanjoecooper.com</a><span>·</span><a href="https://github.com/jordanjoecooper" target="_blank" rel="noopener">github.com/jordanjoecooper</a><span>·</span><a href="https://linkedin.com/in/jordanjoecooper" target="_blank" rel="noopener">linkedin.com/in/jordanjoecooper</a></p>
+    </header>
+
+    <section class="cv-section" aria-labelledby="summary-heading">
+      <h2 id="summary-heading">Summary</h2>
+      <div class="cv-summary">
+        <p>Engineering leader with 10+ years of experience building backend platforms, customer-facing products and engineering teams across fintech, payments and AI.</p>
+        <p>Most recently Head of Engineering at Zumi, joining as employee #1 to build the engineering organisation from the ground up whilst remaining hands-on with architecture and delivery. Led production AI work spanning agents, custom Model Context Protocol (MCP) servers, secure user-scoped API integrations and multi-tenant SaaS platforms.</p>
+        <p>Previously at Moneyhub, I built Open Banking APIs and payment products used by more than 1.6 million UK consumers, progressing through Software Engineer, Tech Lead, Engineering Manager and Solutions Architect roles.</p>
+        <p>I enjoy building high-performing teams, staying close to the technology and developing reliable platforms that balance product delivery, long-term engineering investment and enterprise trust.</p>
+      </div>
+    </section>
+
+    <section class="cv-section" aria-labelledby="achievements-heading">
+      <h2 id="achievements-heading">Selected achievements</h2>
+      <ul class="cv-list">{achievements.map((achievement) => <li>{achievement}</li>)}</ul>
+    </section>
+
+    <section class="cv-section" aria-labelledby="experience-heading">
+      <h2 id="experience-heading">Experience</h2>
+      <article class="cv-job">
+        <header class="cv-job-header"><div><h3>Zumi <span>(DVx Ventures)</span></h3><p>Head of Engineering</p></div><time>Mar 2024 - Jul 2026</time></header>
+        <ul class="cv-list">{zumi.map((item) => <li>{item}</li>)}</ul>
+      </article>
+      <article class="cv-job">
+        <header class="cv-job-header"><div><h3>Moneyhub</h3><p>Software Engineer → Solutions Architect → Tech Lead / EM</p></div><time>2020 - 2024</time></header>
+        <ul class="cv-list">{moneyhub.map((item) => <li>{item}</li>)}</ul>
+      </article>
+    </section>
+
+    <section class="cv-section cv-two-column">
+      <div><h2>Earlier experience</h2><p><strong>Nimble</strong> - Software Developer (2018-2020). Built frontend applications, backend services, APIs and integrations for an e-learning platform.</p><p><strong>Kappu</strong> - Software Developer &amp; Data Protection Officer (2017-2018). First engineering hire. Built the platform alongside the founders whilst establishing engineering processes and delivery practices.</p></div>
+      <div><h2>Education</h2><p><strong>BSc (Hons) Computing (2:1), FdSc Computing</strong><br />Canterbury Christ Church University</p></div>
+    </section>
+
+    <section class="cv-section" aria-labelledby="expertise-heading">
+      <h2 id="expertise-heading">Core expertise</h2>
+      <p class="cv-expertise">Engineering Leadership <span>•</span> AI Platforms <span>•</span> AI Agents <span>•</span> MCP <span>•</span> Backend &amp; Platform Engineering <span>•</span> Distributed Systems <span>•</span> OAuth 2.0 <span>•</span> APIs &amp; Enterprise Integrations <span>•</span> Open Banking <span>•</span> Multi-tenant SaaS <span>•</span> TypeScript <span>•</span> PostgreSQL <span>•</span> GCP <span>•</span> Terraform</p>
+    </section>
+  </main>
+</BaseLayout>

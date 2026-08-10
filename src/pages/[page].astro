@@ -16,7 +16,7 @@ const metadata: Record<string, { title: string; description: string; type?: 'pro
 };
 
 export function getStaticPaths() {
-  return ['about', 'experience', 'cv', 'cv-short', 'advisory'].map((page) => ({ params: { page } }));
+  return ['about', 'experience', 'cv-short', 'advisory'].map((page) => ({ params: { page } }));
 }
 
 const page = Astro.params.page!;
@@ -29,8 +29,19 @@ const legacyBody = raw
   .replaceAll('src="images/', 'src="/')
   .replaceAll('href="images/', 'href="/')
   .replace(/\s+onerror="[^"]*"/g, '');
+const upcomingExperience = `<div class="timeline-item-vertical">
+          <div class="timeline-logo timeline-logo-tbc">?</div>
+          <div class="timeline-content-vertical">
+            <div class="timeline-year-vertical">Aug 2026 - ???</div>
+            <h3>TBC</h3>
+            <p class="timeline-description">Details to be confirmed.</p>
+          </div>
+        </div>`;
 const body = page === 'experience'
-  ? legacyBody.replace('2024 - Now', '2024 - Jul 2026')
+  ? legacyBody
+    .replace('2024 - Now', '2024 - Jul 2026')
+    .replace('<div class="timeline-container-vertical">', `<div class="timeline-container-vertical">
+        ${upcomingExperience}`)
   : legacyBody;
 const linkedBody = body
   .replaceAll('href="index.html"', 'href="/"')
