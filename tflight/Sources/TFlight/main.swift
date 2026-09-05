@@ -129,6 +129,7 @@ struct Note: Identifiable, Hashable, Codable {
         for level in 1...6 { value = value.replacingOccurrences(of: "(?is)<h\(level)[^>]*>(.*?)</h\(level)>", with: String(repeating: "#", count: level) + " $1\n\n", options: .regularExpression) }
         value = value.replacingOccurrences(of: "(?is)<img[^>]*alt=[\"']([^\"']*)[\"'][^>]*src=[\"']([^\"']+)[\"'][^>]*>", with: "![$1]($2)\n\n", options: .regularExpression)
         value = value.replacingOccurrences(of: "(?is)<img[^>]*src=[\"']([^\"']+)[\"'][^>]*>", with: "![]($1)\n\n", options: .regularExpression)
+        value = value.replacingOccurrences(of: "(?is)<a[^>]*href=[\"']([^\"']+)[\"'][^>]*>(.*?)</a>", with: "[$2]($1)", options: .regularExpression)
         value = value.replacingOccurrences(of: "(?is)<(strong|b)[^>]*>", with: "**", options: .regularExpression).replacingOccurrences(of: "(?is)</(strong|b)>", with: "**", options: .regularExpression)
         value = value.replacingOccurrences(of: "(?is)<(em|i)[^>]*>", with: "*", options: .regularExpression).replacingOccurrences(of: "(?is)</(em|i)>", with: "*", options: .regularExpression)
         value = value.replacingOccurrences(of: "(?is)<li[^>]*>", with: "- ", options: .regularExpression).replacingOccurrences(of: "(?is)</li>", with: "\n", options: .regularExpression)
