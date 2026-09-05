@@ -65,7 +65,7 @@ struct Note: Identifiable, Hashable {
 
     func exportCurrent() { guard let selected else { return }; write(selected); message = "Exported to Astro · ready for Git" }
 
-    func attachImage() {
+    func attachImage(asHero: Bool = false) {
         guard var note = selected, let root = repositoryURL else { return }
         if note.id.hasPrefix("note-"), !note.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { write(note); note = selected ?? note }
         let panel = NSOpenPanel(); panel.allowedContentTypes = [.image]; panel.allowsMultipleSelection = false; panel.prompt = "Add to note"
@@ -75,7 +75,11 @@ struct Note: Identifiable, Hashable {
         let folder = root.appendingPathComponent("src/assets/posts/\(finalSlug)"); try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         let destination = folder.appendingPathComponent(source.lastPathComponent)
         try? FileManager.default.copyItem(at: source, to: destination)
-        var updated = note; updated.body += "\n\n![\(source.deletingPathExtension().lastPathComponent)](../../assets/posts/\(finalSlug)/\(source.lastPathComponent))\n"; update(updated); message = "Image added · remember to export"
+        var updated = note
+        let relativePath = "../../assets/posts/\(finalSlug)/\(source.lastPathComponent)"
+        if asHero { updated.heroImage = relativePath; updated.heroAlt = source.deletingPathExtension().lastPathComponent.replacingOccurrences(of: "-", with: " ") }
+        else { updated.body += "\n\n![\(source.deletingPathExtension().lastPathComponent)](\(relativePath))\n" }
+        update(updated); message = asHero ? "Hero image set · remember to export" : "Image added · remember to export"
     }
 
     private func read(_ url: URL) -> Note? {
@@ -123,7 +127,7 @@ struct Editor: View {
     @State private var showPreview = true
     var note: Note { library.selected ?? Note(id: "empty") }
     var body: some View { VStack(spacing: 0) {
-        HStack { TextField("Untitled note", text: Binding(get: { note.title }, set: { var n = note; n.title = $0; n.dirty = true; library.update(n) })).textFieldStyle(.plain).font(.system(size: 26, design: .serif)); Spacer(); Picker("Font", selection: $font) { Text("New York").tag("New York"); Text("Avenir").tag("Avenir"); Text("Mono").tag("Menlo") }.frame(width: 130); Button("Add image") { library.attachImage() }; Button(showPreview ? "Hide preview" : "Preview") { showPreview.toggle() }; Button("Export") { library.exportCurrent() }.buttonStyle(.borderedProminent).tint(.orange) }.padding(.horizontal, 28).padding(.vertical, 16)
+        HStack { TextField("Untitled note", text: Binding(get: { note.title }, set: { var n = note; n.title = $0; n.dirty = true; library.update(n) })).textFieldStyle(.plain).font(.system(size: 26, design: .serif)); Spacer(); Picker("Font", selection: $font) { Text("New York").tag("New York"); Text("Avenir").tag("Avenir"); Text("Mono").tag("Menlo") }.frame(width: 130); Button("Add image") { library.attachImage() }; Button("Set hero") { library.attachImage(asHero: true) }; Button(showPreview ? "Hide preview" : "Preview") { showPreview.toggle() }; Button("Export") { library.exportCurrent() }.buttonStyle(.borderedProminent).tint(.orange) }.padding(.horizontal, 28).padding(.vertical, 16)
         Divider()
         HStack(spacing: 0) { FormPane(note: note, library: library, font: font); if showPreview { Divider(); PreviewPane(note: note) } }
     } }
@@ -137,4 +141,4 @@ struct StructureBar: View { let note: Note; @ObservedObject var library: Library
     private func insert(_ value: String) { var updated = note; updated.body += (updated.body.isEmpty ? "" : "\n\n") + value; updated.dirty = true; library.update(updated) }
 }
 
-struct PreviewPane: View { let note: Note; var body: some View { ScrollView { VStack(alignment: .leading, spacing: 18) { Text(note.title.isEmpty ? "Untitled note" : note.title).font(.system(size: 40, design: .serif)); Text(note.description).foregroundStyle(.secondary); Divider(); Text(note.body).font(.system(size: 17, design: .serif)).lineSpacing(7) }.padding(42).frame(maxWidth: .infinity, alignment: .leading) }.background(Color(nsColor: .textBackgroundColor)) } }
+struct PreviewPane: View { let note: Note; var body: some View { ScrollView { VStack(alignment: .leading, spacing: 18) { Text(note.title.isEmpty ? "Untitled note" : note.title).font(.system(size: 40, design: .serif)); Text(note.description).foregroundStyle(.secondary); Divider(); if let rendered = try? AttributedString(markdown: note.body) { Text(rendered).font(.system(size: 17, design: .serif)).lineSpacing(7) } else { Text(note.body).font(.system(size: 17, design: .serif)).lineSpacing(7) } }.padding(42).frame(maxWidth: .infinity, alignment: .leading) }.background(Color(nsColor: .textBackgroundColor)) } }
