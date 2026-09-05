@@ -89,15 +89,30 @@ struct Note: Identifiable, Hashable, Codable {
         let finalSlug = slug.isEmpty ? note.id : slug
         let folder = root.appendingPathComponent("src/assets/posts/\(finalSlug)"); try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
         let filename = source.lastPathComponent.lowercased().replacingOccurrences(of: "[^a-z0-9._-]+", with: "-", options: .regularExpression)
-        let destination = folder.appendingPathComponent(filename)
+        let destination = uniqueMediaURL(in: folder, filename: filename)
         do { try FileManager.default.copyItem(at: source, to: destination) }
         catch { message = "Could not copy media: \(error.localizedDescription)"; return }
+        let storedFilename = destination.lastPathComponent
         var updated = note
-        let relativePath = "../../assets/posts/\(finalSlug)/\(filename)"
+        let relativePath = "../../assets/posts/\(finalSlug)/\(storedFilename)"
         if asHero { updated.heroImage = relativePath; updated.heroAlt = source.deletingPathExtension().lastPathComponent.replacingOccurrences(of: "-", with: " ") }
         else if UTType(filenameExtension: source.pathExtension)?.conforms(to: .image) == true { updated.body += "\n\n![\(source.deletingPathExtension().lastPathComponent)](\(relativePath))\n" }
-        else { updated.body += "\n\n[\(filename)](\(relativePath))\n" }
+        else { updated.body += "\n\n[\(storedFilename)](\(relativePath))\n" }
         update(updated); message = asHero ? "Hero image set · remember to export" : "Image added · remember to export"
+    }
+
+    private func uniqueMediaURL(in folder: URL, filename: String) -> URL {
+        let fileManager = FileManager.default
+        let candidate = folder.appendingPathComponent(filename)
+        guard fileManager.fileExists(atPath: candidate.path) else { return candidate }
+        let base = candidate.deletingPathExtension().lastPathComponent
+        let ext = candidate.pathExtension
+        var number = 2
+        while true {
+            let numbered = folder.appendingPathComponent("\(base)-\(number).\(ext)")
+            if !fileManager.fileExists(atPath: numbered.path) { return numbered }
+            number += 1
+        }
     }
 
     private var workingCopyKey: String { "tflight.working-copies.\(repositoryURL?.path ?? "unconnected")" }
@@ -147,12 +162,16 @@ struct Note: Identifiable, Hashable, Codable {
         let slug = note.id.hasPrefix("note-") ? note.title.lowercased().replacingOccurrences(of: "[^a-z0-9]+", with: "-", options: .regularExpression).trimmingCharacters(in: CharacterSet(charactersIn: "-")) : note.id
         let finalSlug = slug.isEmpty ? note.id : slug
         let posts = root.appendingPathComponent("src/content/posts"); try? FileManager.default.createDirectory(at: posts, withIntermediateDirectories: true)
+        let destination = posts.appendingPathComponent(finalSlug + ".md")
+        if note.id.hasPrefix("note-"), FileManager.default.fileExists(atPath: destination.path) { message = "A post already uses the slug \(finalSlug)"; return false }
         let formatter = ISO8601DateFormatter(); formatter.formatOptions = [.withFullDate]
-        let imageLine = note.heroImage.isEmpty ? "" : "heroImage: \(note.heroImage)\nheroAlt: \"\(note.heroAlt.replacingOccurrences(of: "\"", with: "\\\""))\"\n"
-        let yaml = "---\ntitle: \"\(note.title.replacingOccurrences(of: "\"", with: "\\\""))\"\ndescription: \"\(note.description.replacingOccurrences(of: "\"", with: "\\\""))\"\npubDate: \(formatter.string(from: note.date))\ndraft: \(note.draft)\npinned: \(note.pinned)\nkeywords: \"\(note.keywords)\"\n\(imageLine)---\n\n\(note.body.trimmingCharacters(in: .whitespacesAndNewlines))\n"
-        do { try yaml.write(to: posts.appendingPathComponent(finalSlug + ".md"), atomically: true, encoding: .utf8) }
+        func yamlQuote(_ value: String) -> String { "\"\(value.replacingOccurrences(of: "\\", with: "\\\\").replacingOccurrences(of: "\"", with: "\\\"").replacingOccurrences(of: "\n", with: " "))\"" }
+        let imageLine = note.heroImage.isEmpty ? "" : "heroImage: \(note.heroImage)\nheroAlt: \(yamlQuote(note.heroAlt))\n"
+        let yaml = "---\ntitle: \(yamlQuote(note.title))\ndescription: \(yamlQuote(note.description))\npubDate: \(formatter.string(from: note.date))\ndraft: \(note.draft)\npinned: \(note.pinned)\nkeywords: \(yamlQuote(note.keywords))\n\(imageLine)---\n\n\(note.body.trimmingCharacters(in: .whitespacesAndNewlines))\n"
+        do { try yaml.write(to: destination, atomically: true, encoding: .utf8) }
         catch { message = "Could not write Astro post: \(error.localizedDescription)"; return false }
-        if finalSlug != note.id { if let index = notes.firstIndex(where: { $0.id == note.id }) { notes[index].id = finalSlug; selectedID = finalSlug } }
+        if let index = notes.firstIndex(where: { $0.id == note.id }) { notes[index].id = finalSlug; notes[index].dirty = false; selectedID = finalSlug }
+        persistWorkingCopies()
         return true
     }
 }
@@ -208,6 +227,41 @@ struct RichMarkdownCanvas: NSViewRepresentable {
         guard let storage = view.textStorage else { return }; let full = NSRange(location: 0, length: (view.string as NSString).length); let base = NSFont(name: fontName, size: 17) ?? .systemFont(ofSize: 17)
         storage.beginEditing(); storage.setAttributes([.font: base, .foregroundColor: NSColor.textColor], range: full)
         for pattern in ["(?m)^#{1,6}\\s+", "(?m)^>\\s?", "(?m)^[-*]\\s+", "\\*{1,3}", "`{1,3}"] { let expression = try? NSRegularExpression(pattern: pattern); expression?.enumerateMatches(in: view.string, range: full) { match, _, _ in if let match { storage.addAttribute(.foregroundColor, value: NSColor.clear, range: match.range) } } }
+        if let headings = try? NSRegularExpression(pattern: "(?m)^(#{1,6})\\s+.+$") {
+            headings.enumerateMatches(in: view.string, range: full) { match, _, _ in
+                guard let match, let marker = Range(match.range(at: 1), in: view.string) else { return }
+                let level = view.string[marker].count
+                let sizes: [CGFloat] = [0, 30, 25, 21, 19, 18, 17]
+                let contentRange = NSRange(location: match.range.location + level + 1, length: max(0, match.range.length - level - 1))
+                let headingFont = NSFont(name: fontName, size: sizes[level]) ?? .systemFont(ofSize: sizes[level], weight: level < 3 ? .semibold : .medium)
+                storage.addAttribute(.font, value: headingFont, range: contentRange)
+                storage.addAttribute(.foregroundColor, value: NSColor.labelColor, range: contentRange)
+            }
+        }
+        if let quotes = try? NSRegularExpression(pattern: "(?m)^>.*$") {
+            quotes.enumerateMatches(in: view.string, range: full) { match, _, _ in
+                guard let match else { return }
+                let paragraph = NSMutableParagraphStyle(); paragraph.firstLineHeadIndent = 16; paragraph.headIndent = 16
+                storage.addAttribute(.paragraphStyle, value: paragraph, range: match.range)
+                storage.addAttribute(.foregroundColor, value: NSColor.secondaryLabelColor, range: match.range)
+            }
+        }
+        if let lists = try? NSRegularExpression(pattern: "(?m)^[ ]*(?:[-*]|\\d+\\.)\\s+.+$") {
+            lists.enumerateMatches(in: view.string, range: full) { match, _, _ in
+                guard let match else { return }
+                let paragraph = NSMutableParagraphStyle(); paragraph.firstLineHeadIndent = 18; paragraph.headIndent = 28
+                storage.addAttribute(.paragraphStyle, value: paragraph, range: match.range)
+            }
+        }
+        if let code = try? NSRegularExpression(pattern: "(?ms)^```[^\\n]*\\n.*?^```[ ]*$") {
+            code.enumerateMatches(in: view.string, range: full) { match, _, _ in
+                guard let match else { return }
+                let codeFont = NSFont(name: "Menlo", size: 14) ?? .monospacedSystemFont(ofSize: 14, weight: .regular)
+                storage.addAttribute(.font, value: codeFont, range: match.range)
+                storage.addAttribute(.foregroundColor, value: NSColor.textColor, range: match.range)
+                storage.addAttribute(.backgroundColor, value: NSColor.controlBackgroundColor, range: match.range)
+            }
+        }
         for pattern in ["!\\[[^\\]]*\\]\\([^)]*\\)", "\\[[^]]+\\]\\([^)]*\\)"] {
             guard let expression = try? NSRegularExpression(pattern: pattern) else { continue }
             expression.enumerateMatches(in: view.string, range: full) { match, _, _ in
@@ -215,6 +269,7 @@ struct RichMarkdownCanvas: NSViewRepresentable {
                 guard let open = token.firstIndex(of: "["), let close = token.lastIndex(of: ")") else { return }
                 let start = token.distance(from: token.startIndex, to: open); let end = token.distance(from: token.startIndex, to: close) + 1
                 storage.addAttribute(.foregroundColor, value: NSColor.clear, range: NSRange(location: match.range.location, length: start)); storage.addAttribute(.foregroundColor, value: NSColor.clear, range: NSRange(location: match.range.location + end, length: match.range.length - end))
+                if !token.hasPrefix("!") { storage.addAttribute(.underlineStyle, value: NSUnderlineStyle.single.rawValue, range: NSRange(location: match.range.location + 1, length: max(0, end - 2)) ) }
             }
         }
         storage.endEditing()
