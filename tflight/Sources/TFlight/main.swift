@@ -160,11 +160,12 @@ struct Editor: View {
     @ObservedObject var library: Library
     @State private var font = "New York"
     @State private var showPreview = true
+    @State private var focusMode = false
     var note: Note { library.selected ?? Note(id: "empty") }
     var body: some View { VStack(spacing: 0) {
-        HStack { TextField("Untitled note", text: Binding(get: { note.title }, set: { var n = note; n.title = $0; n.dirty = true; library.update(n) })).textFieldStyle(.plain).font(.system(size: 26, design: .serif)); Spacer(); Picker("Font", selection: $font) { Text("New York").tag("New York"); Text("Avenir").tag("Avenir"); Text("Mono").tag("Menlo") }.frame(width: 130); Button("Add media") { library.attachImage() }; Button("Set hero") { library.attachImage(asHero: true) }; Button(showPreview ? "Hide preview" : "Preview") { showPreview.toggle() }; Button("Export") { library.exportCurrent() }.buttonStyle(.borderedProminent).tint(.orange) }.padding(.horizontal, 28).padding(.vertical, 16)
+        HStack { TextField("Untitled note", text: Binding(get: { note.title }, set: { var n = note; n.title = $0; n.dirty = true; library.update(n) })).textFieldStyle(.plain).font(.system(size: 26, design: .serif)); Spacer(); Picker("Font", selection: $font) { Text("New York").tag("New York"); Text("Avenir").tag("Avenir"); Text("Mono").tag("Menlo") }.frame(width: 130); Button("Add media") { library.attachImage() }; Button("Set hero") { library.attachImage(asHero: true) }; Button(focusMode ? "Exit focus" : "Focus") { focusMode.toggle() }; if !focusMode { Button(showPreview ? "Hide preview" : "Preview") { showPreview.toggle() } }; Button("Export") { library.exportCurrent() }.buttonStyle(.borderedProminent).tint(.orange) }.padding(.horizontal, 28).padding(.vertical, 16)
         Divider()
-        HStack(spacing: 0) { FormPane(note: note, library: library, font: font); if showPreview { Divider(); PreviewPane(note: note) } }
+        HStack(spacing: 0) { if focusMode { RichMarkdownCanvas(text: Binding(get: { note.body }, set: { var n = note; n.body = $0; n.dirty = true; library.update(n) }), fontName: font).frame(minHeight: 500).padding(36) } else { FormPane(note: note, library: library, font: font); if showPreview { Divider(); PreviewPane(note: note) } } }
     } }
 }
 
