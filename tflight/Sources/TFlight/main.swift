@@ -158,8 +158,8 @@ struct Welcome: View { @ObservedObject var library: Library; var body: some View
 
 struct Editor: View {
     @ObservedObject var library: Library
-    @State private var font = "New York"
-    @State private var showPreview = true
+    @AppStorage("tflight.editorFont") private var font = "New York"
+    @AppStorage("tflight.showPreview") private var showPreview = true
     @State private var focusMode = false
     var note: Note { library.selected ?? Note(id: "empty") }
     var body: some View { VStack(spacing: 0) {
