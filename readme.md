@@ -79,6 +79,16 @@ npm run build
 
 The deployment workflow already runs `npm run build`, so content validation, sitemap generation, RSS generation, canonical tags, social metadata, and structured data are all included in every production deployment.
 
+### Local writing studio
+
+For a visual local editor, run:
+
+```sh
+npm run editor
+```
+
+Then open `http://127.0.0.1:4322`. The studio edits the Markdown files and post asset folders in this repository directly. It is intentionally local-only; use Git to review, commit, and publish changes. Drop an image into the editor to upload it to the current post's asset folder and insert the correct Markdown.
+
 ## Migration
 
 See [the migration guide](docs/MIGRATION.md) for the legacy-site audit, compatibility plan, and cutover checklist.
