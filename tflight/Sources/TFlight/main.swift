@@ -278,7 +278,7 @@ struct RichMarkdownCanvas: NSViewRepresentable {
 }
 
 struct FormatBar: View {
-    var body: some View { HStack(spacing: 4) { Text("FORMAT").font(.caption2).foregroundStyle(.secondary); Button("Bold") { wrap("**", "**") }; Button("Italic") { wrap("*", "*") }; Button("Code") { wrap("`", "`") }; Button("Link") { wrap("[", "](https://)") } }.buttonStyle(.bordered).controlSize(.small) }
+    var body: some View { ScrollView(.horizontal, showsIndicators: false) { HStack(spacing: 6) { Text("FORMAT").font(.caption2).foregroundStyle(.secondary).fixedSize(); Button("Bold") { wrap("**", "**") }; Button("Italic") { wrap("*", "*") }; Button("Code") { wrap("`", "`") }; Button("Link") { wrap("[", "](https://)") } }.buttonStyle(.bordered).controlSize(.small).padding(.vertical, 1) } }
     private func wrap(_ prefix: String, _ suffix: String) {
         guard let root = NSApp.keyWindow?.contentView, let view = findTextView(in: root) else { return }
         let range = view.selectedRange(); let selected = (view.string as NSString).substring(with: range)
@@ -288,7 +288,7 @@ struct FormatBar: View {
 }
 
 struct StructureBar: View { let note: Note; @ObservedObject var library: Library
-    var body: some View { HStack(spacing: 6) { Text("STRUCTURE").font(.caption2).foregroundStyle(.secondary); Button("Heading") { insert("## ") }; Button("Quote") { insert("> ") }; Button("List") { insert("- ") }; Button("Callout") { insert("> **Note:** ") }; Button("Code block") { insert("```\n\n```") }; Button("Divider") { insert("\n---\n") } }.buttonStyle(.bordered).controlSize(.small) }
+    var body: some View { ScrollView(.horizontal, showsIndicators: false) { HStack(spacing: 6) { Text("STRUCTURE").font(.caption2).foregroundStyle(.secondary).fixedSize(); Button("Heading") { insert("## ") }; Button("Quote") { insert("> ") }; Button("List") { insert("- ") }; Button("Callout") { insert("> **Note:** ") }; Button("Code block") { insert("```\n\n```") }; Button("Divider") { insert("\n---\n") } }.buttonStyle(.bordered).controlSize(.small).padding(.vertical, 1) } }
     private func insert(_ value: String) { var updated = note; updated.body += (updated.body.isEmpty ? "" : "\n\n") + value; updated.dirty = true; library.update(updated) }
 }
 
