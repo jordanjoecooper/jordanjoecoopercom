@@ -63,6 +63,11 @@ struct Note: Identifiable, Hashable, Codable {
 
     func update(_ note: Note) { selected = note; persistWorkingCopies() }
 
+    func discardLocalDraft() {
+        guard let selected, selected.id.hasPrefix("note-") else { message = "Repository posts are protected"; return }
+        notes.removeAll { $0.id == selected.id }; selectedID = notes.first?.id; persistWorkingCopies(); message = "Local draft discarded"
+    }
+
     func saveCurrent() { guard let selected else { return }; if write(selected) { message = "Saved just now" } }
 
     func exportCurrent() {
@@ -145,7 +150,7 @@ struct Sidebar: View {
         Button { library.newNote() } label: { Label("New note", systemImage: "plus") }.buttonStyle(.borderedProminent).tint(.orange).keyboardShortcut("n")
         HStack { Text("NOTES").font(.caption).foregroundStyle(.secondary); Spacer(); Text("\(library.notes.count)").font(.caption).foregroundStyle(.secondary) }
         List(selection: $library.selectedID) { ForEach(library.notes) { note in VStack(alignment: .leading, spacing: 4) { Text(note.title.isEmpty ? "Untitled note" : note.title).lineLimit(1); Text(note.draft ? "Draft" : "Published") .font(.caption2).foregroundStyle(.secondary) }.tag(note.id) } }.listStyle(.sidebar)
-        Spacer(); Button { library.chooseRepository() } label: { Label(library.repositoryURL == nil ? "Connect Astro site" : "Change site", systemImage: "folder") }.buttonStyle(.plain).foregroundStyle(.secondary); Text(library.message).font(.caption2).foregroundStyle(.secondary).lineLimit(2)
+        Spacer(); if library.selected?.id.hasPrefix("note-") == true { Button { library.discardLocalDraft() } label: { Label("Discard local draft", systemImage: "trash") }.buttonStyle(.plain).foregroundStyle(.secondary) }; Button { library.chooseRepository() } label: { Label(library.repositoryURL == nil ? "Connect Astro site" : "Change site", systemImage: "folder") }.buttonStyle(.plain).foregroundStyle(.secondary); Text(library.message).font(.caption2).foregroundStyle(.secondary).lineLimit(2)
     }.padding(18) }
 }
 
