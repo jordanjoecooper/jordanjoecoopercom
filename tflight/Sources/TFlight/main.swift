@@ -174,8 +174,8 @@ struct RichMarkdownCanvas: NSViewRepresentable {
     func makeNSView(context: Context) -> NSScrollView {
         let view = NSTextView()
         view.delegate = context.coordinator; view.string = text; view.font = .init(name: fontName, size: 17) ?? .systemFont(ofSize: 17)
-        view.isRichText = false; view.usesFontPanel = false; view.drawsBackground = false; view.textContainerInset = NSSize(width: 4, height: 8); view.autoresizingMask = [.width]
-        let scroll = NSScrollView(); scroll.drawsBackground = false; scroll.hasVerticalScroller = true; scroll.documentView = view; return scroll
+        view.isRichText = false; view.isEditable = true; view.isSelectable = true; view.usesFontPanel = false; view.drawsBackground = false; view.textContainerInset = NSSize(width: 4, height: 8); view.autoresizingMask = [.width, .height]
+        let scroll = NSScrollView(); scroll.drawsBackground = false; scroll.hasVerticalScroller = true; scroll.hasHorizontalScroller = false; scroll.borderType = .noBorder; scroll.documentView = view; return scroll
     }
     func updateNSView(_ scroll: NSScrollView, context: Context) { guard let view = scroll.documentView as? NSTextView else { return }; if view.string != text { view.string = text }; view.font = .init(name: fontName, size: 17) ?? .systemFont(ofSize: 17) }
     final class Coordinator: NSObject, NSTextViewDelegate { var parent: RichMarkdownCanvas; init(_ parent: RichMarkdownCanvas) { self.parent = parent }; func textDidChange(_ notification: Notification) { guard let view = notification.object as? NSTextView else { return }; parent.text = view.string } }
