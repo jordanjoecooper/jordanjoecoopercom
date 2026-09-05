@@ -77,17 +77,21 @@ struct Note: Identifiable, Hashable, Codable {
     func attachImage(asHero: Bool = false) {
         guard var note = selected, let root = repositoryURL else { return }
         if note.id.hasPrefix("note-"), !note.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { write(note); note = selected ?? note }
-        let panel = NSOpenPanel(); panel.allowedContentTypes = [.image]; panel.allowsMultipleSelection = false; panel.prompt = "Add to note"
+        let panel = NSOpenPanel(); panel.allowedContentTypes = [.image, .audio, .movie]; panel.allowsMultipleSelection = false; panel.prompt = asHero ? "Choose hero image" : "Add to note"
         guard panel.runModal() == .OK, let source = panel.url else { return }
+        guard !asHero || UTType(filenameExtension: source.pathExtension)?.conforms(to: .image) == true else { message = "Hero images must be image files"; return }
         let slug = note.id.hasPrefix("note-") ? note.title.lowercased().replacingOccurrences(of: "[^a-z0-9]+", with: "-", options: .regularExpression).trimmingCharacters(in: CharacterSet(charactersIn: "-")) : note.id
         let finalSlug = slug.isEmpty ? note.id : slug
         let folder = root.appendingPathComponent("src/assets/posts/\(finalSlug)"); try? FileManager.default.createDirectory(at: folder, withIntermediateDirectories: true)
-        let destination = folder.appendingPathComponent(source.lastPathComponent)
-        try? FileManager.default.copyItem(at: source, to: destination)
+        let filename = source.lastPathComponent.lowercased().replacingOccurrences(of: "[^a-z0-9._-]+", with: "-", options: .regularExpression)
+        let destination = folder.appendingPathComponent(filename)
+        do { try FileManager.default.copyItem(at: source, to: destination) }
+        catch { message = "Could not copy media: \(error.localizedDescription)"; return }
         var updated = note
-        let relativePath = "../../assets/posts/\(finalSlug)/\(source.lastPathComponent)"
+        let relativePath = "../../assets/posts/\(finalSlug)/\(filename)"
         if asHero { updated.heroImage = relativePath; updated.heroAlt = source.deletingPathExtension().lastPathComponent.replacingOccurrences(of: "-", with: " ") }
-        else { updated.body += "\n\n![\(source.deletingPathExtension().lastPathComponent)](\(relativePath))\n" }
+        else if UTType(filenameExtension: source.pathExtension)?.conforms(to: .image) == true { updated.body += "\n\n![\(source.deletingPathExtension().lastPathComponent)](\(relativePath))\n" }
+        else { updated.body += "\n\n[\(filename)](\(relativePath))\n" }
         update(updated); message = asHero ? "Hero image set · remember to export" : "Image added · remember to export"
     }
 
@@ -153,7 +157,7 @@ struct Editor: View {
     @State private var showPreview = true
     var note: Note { library.selected ?? Note(id: "empty") }
     var body: some View { VStack(spacing: 0) {
-        HStack { TextField("Untitled note", text: Binding(get: { note.title }, set: { var n = note; n.title = $0; n.dirty = true; library.update(n) })).textFieldStyle(.plain).font(.system(size: 26, design: .serif)); Spacer(); Picker("Font", selection: $font) { Text("New York").tag("New York"); Text("Avenir").tag("Avenir"); Text("Mono").tag("Menlo") }.frame(width: 130); Button("Add image") { library.attachImage() }; Button("Set hero") { library.attachImage(asHero: true) }; Button(showPreview ? "Hide preview" : "Preview") { showPreview.toggle() }; Button("Export") { library.exportCurrent() }.buttonStyle(.borderedProminent).tint(.orange) }.padding(.horizontal, 28).padding(.vertical, 16)
+        HStack { TextField("Untitled note", text: Binding(get: { note.title }, set: { var n = note; n.title = $0; n.dirty = true; library.update(n) })).textFieldStyle(.plain).font(.system(size: 26, design: .serif)); Spacer(); Picker("Font", selection: $font) { Text("New York").tag("New York"); Text("Avenir").tag("Avenir"); Text("Mono").tag("Menlo") }.frame(width: 130); Button("Add media") { library.attachImage() }; Button("Set hero") { library.attachImage(asHero: true) }; Button(showPreview ? "Hide preview" : "Preview") { showPreview.toggle() }; Button("Export") { library.exportCurrent() }.buttonStyle(.borderedProminent).tint(.orange) }.padding(.horizontal, 28).padding(.vertical, 16)
         Divider()
         HStack(spacing: 0) { FormPane(note: note, library: library, font: font); if showPreview { Divider(); PreviewPane(note: note) } }
     } }
