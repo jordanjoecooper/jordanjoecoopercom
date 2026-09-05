@@ -192,7 +192,7 @@ struct FormatBar: View {
 }
 
 struct StructureBar: View { let note: Note; @ObservedObject var library: Library
-    var body: some View { HStack(spacing: 6) { Text("STRUCTURE").font(.caption2).foregroundStyle(.secondary); Button("Heading") { insert("## ") }; Button("Quote") { insert("> ") }; Button("List") { insert("- ") }; Button("Divider") { insert("\n---\n") } }.buttonStyle(.bordered).controlSize(.small) }
+    var body: some View { HStack(spacing: 6) { Text("STRUCTURE").font(.caption2).foregroundStyle(.secondary); Button("Heading") { insert("## ") }; Button("Quote") { insert("> ") }; Button("List") { insert("- ") }; Button("Callout") { insert("> **Note:** ") }; Button("Code block") { insert("```\n\n```") }; Button("Divider") { insert("\n---\n") } }.buttonStyle(.bordered).controlSize(.small) }
     private func insert(_ value: String) { var updated = note; updated.body += (updated.body.isEmpty ? "" : "\n\n") + value; updated.dirty = true; library.update(updated) }
 }
 
