@@ -63,9 +63,16 @@ struct Note: Identifiable, Hashable, Codable {
 
     func update(_ note: Note) { selected = note; persistWorkingCopies() }
 
-    func saveCurrent() { guard let selected else { return }; write(selected); message = "Saved just now" }
+    func saveCurrent() { guard let selected else { return }; if write(selected) { message = "Saved just now" } }
 
-    func exportCurrent() { guard let selected else { return }; write(selected); message = "Exported to Astro · ready for Git" }
+    func exportCurrent() {
+        guard let selected else { return }
+        let title = selected.title.trimmingCharacters(in: .whitespacesAndNewlines)
+        guard !title.isEmpty else { message = "Add a title before exporting"; return }
+        guard !selected.body.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { message = "Write something before exporting"; return }
+        guard selected.heroImage.isEmpty || !selected.heroAlt.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { message = "Add hero image alt text before exporting"; return }
+        if write(selected) { message = "Exported to Astro · ready for Git" }
+    }
 
     func attachImage(asHero: Bool = false) {
         guard var note = selected, let root = repositoryURL else { return }
@@ -107,16 +114,18 @@ struct Note: Identifiable, Hashable, Codable {
         return Note(id: url.deletingPathExtension().lastPathComponent, title: value("title"), description: value("description"), date: formatter.date(from: value("pubDate")) ?? Date(), draft: value("draft") != "false", pinned: value("pinned") == "true", keywords: value("keywords"), body: body.trimmingCharacters(in: .whitespacesAndNewlines), heroImage: value("heroImage"), heroAlt: value("heroAlt"))
     }
 
-    private func write(_ note: Note) {
-        guard let root = repositoryURL else { return }
+    @discardableResult private func write(_ note: Note) -> Bool {
+        guard let root = repositoryURL else { message = "Connect an Astro site first"; return false }
         let slug = note.id.hasPrefix("note-") ? note.title.lowercased().replacingOccurrences(of: "[^a-z0-9]+", with: "-", options: .regularExpression).trimmingCharacters(in: CharacterSet(charactersIn: "-")) : note.id
         let finalSlug = slug.isEmpty ? note.id : slug
         let posts = root.appendingPathComponent("src/content/posts"); try? FileManager.default.createDirectory(at: posts, withIntermediateDirectories: true)
         let formatter = ISO8601DateFormatter(); formatter.formatOptions = [.withFullDate]
         let imageLine = note.heroImage.isEmpty ? "" : "heroImage: \(note.heroImage)\nheroAlt: \"\(note.heroAlt.replacingOccurrences(of: "\"", with: "\\\""))\"\n"
         let yaml = "---\ntitle: \"\(note.title.replacingOccurrences(of: "\"", with: "\\\""))\"\ndescription: \"\(note.description.replacingOccurrences(of: "\"", with: "\\\""))\"\npubDate: \(formatter.string(from: note.date))\ndraft: \(note.draft)\npinned: \(note.pinned)\nkeywords: \"\(note.keywords)\"\n\(imageLine)---\n\n\(note.body.trimmingCharacters(in: .whitespacesAndNewlines))\n"
-        try? yaml.write(to: posts.appendingPathComponent(finalSlug + ".md"), atomically: true, encoding: .utf8)
+        do { try yaml.write(to: posts.appendingPathComponent(finalSlug + ".md"), atomically: true, encoding: .utf8) }
+        catch { message = "Could not write Astro post: \(error.localizedDescription)"; return false }
         if finalSlug != note.id { if let index = notes.firstIndex(where: { $0.id == note.id }) { notes[index].id = finalSlug; selectedID = finalSlug } }
+        return true
     }
 }
 

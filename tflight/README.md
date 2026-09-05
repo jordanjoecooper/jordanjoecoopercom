@@ -10,6 +10,13 @@ From the repository root:
 swift run --package-path tflight
 ```
 
+To create a launchable macOS application bundle:
+
+```sh
+sh scripts/package-tflight.sh
+open tflight/dist/TFlight.app
+```
+
 The first launch asks you to choose the site folder. It expects `src/content/posts/` and writes exported posts there. Keep images in `src/assets/posts/<slug>/` and reference them from the Markdown body or front matter using the relative paths documented in the site README.
 
 ## Current workflow
