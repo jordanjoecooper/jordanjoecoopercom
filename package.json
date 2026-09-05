@@ -7,6 +7,7 @@
     "validate:content": "node scripts/validate-content.mjs",
     "new:post": "node scripts/new-post.mjs",
     "editor": "node scripts/editor-server.mjs",
+    "verify:tflight": "sh scripts/verify-tflight.sh",
     "prebuild": "npm run validate:content && npm run generate:github-activity",
     "dev": "astro dev",
     "build": "astro check && astro build",
