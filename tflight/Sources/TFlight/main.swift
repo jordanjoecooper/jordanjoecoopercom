@@ -13,12 +13,12 @@ struct TFlightApp: App {
         }
         .commands {
             CommandGroup(replacing: .newItem) { Button("New Note") { library.newNote() }.keyboardShortcut("n") }
-            CommandGroup(after: .saveItem) { Button("Export to Astro…") { library.exportCurrent() }.keyboardShortcut("e", modifiers: [.command, .shift]) }
+            CommandGroup(after: .saveItem) { Button("Save working copy") { library.saveCurrent() }.keyboardShortcut("s"); Button("Export to Astro…") { library.exportCurrent() }.keyboardShortcut("e", modifiers: [.command, .shift]) }
         }
     }
 }
 
-struct Note: Identifiable, Hashable {
+struct Note: Identifiable, Hashable, Codable {
     var id: String
     var title = "Untitled note"
     var description = ""
@@ -53,13 +53,15 @@ struct Note: Identifiable, Hashable {
     func open(_ root: URL) {
         let posts = root.appendingPathComponent("src/content/posts")
         guard FileManager.default.fileExists(atPath: posts.path) else { message = "That folder is not an Astro site with src/content/posts"; return }
-        repositoryURL = root; notes = (try? FileManager.default.contentsOfDirectory(at: posts, includingPropertiesForKeys: nil).filter { $0.pathExtension == "md" }.compactMap(read))?.sorted { $0.date > $1.date } ?? []
+        repositoryURL = root
+        let loaded = (try? FileManager.default.contentsOfDirectory(at: posts, includingPropertiesForKeys: nil).filter { $0.pathExtension == "md" }.compactMap(read))?.sorted { $0.date > $1.date } ?? []
+        notes = restoreWorkingCopies(over: loaded)
         selectedID = notes.first?.id; message = "Ready · \(notes.count) notes"
     }
 
-    func newNote() { let note = Note(id: "note-\(Int(Date().timeIntervalSince1970))"); notes.insert(note, at: 0); selectedID = note.id }
+    func newNote() { let note = Note(id: "note-\(Int(Date().timeIntervalSince1970))"); notes.insert(note, at: 0); selectedID = note.id; persistWorkingCopies() }
 
-    func update(_ note: Note) { selected = note }
+    func update(_ note: Note) { selected = note; persistWorkingCopies() }
 
     func saveCurrent() { guard let selected else { return }; write(selected); message = "Saved just now" }
 
@@ -80,6 +82,21 @@ struct Note: Identifiable, Hashable {
         if asHero { updated.heroImage = relativePath; updated.heroAlt = source.deletingPathExtension().lastPathComponent.replacingOccurrences(of: "-", with: " ") }
         else { updated.body += "\n\n![\(source.deletingPathExtension().lastPathComponent)](\(relativePath))\n" }
         update(updated); message = asHero ? "Hero image set · remember to export" : "Image added · remember to export"
+    }
+
+    private var workingCopyKey: String { "tflight.working-copies.\(repositoryURL?.path ?? "unconnected")" }
+
+    private func persistWorkingCopies() {
+        guard let data = try? JSONEncoder().encode(notes) else { return }
+        UserDefaults.standard.set(data, forKey: workingCopyKey)
+    }
+
+    private func restoreWorkingCopies(over loaded: [Note]) -> [Note] {
+        guard let data = UserDefaults.standard.data(forKey: workingCopyKey), let cached = try? JSONDecoder().decode([Note].self, from: data) else { return loaded }
+        let byID = Dictionary(uniqueKeysWithValues: cached.map { ($0.id, $0) })
+        var restored = loaded.map { byID[$0.id] ?? $0 }
+        restored.insert(contentsOf: cached.filter { $0.id.hasPrefix("note-") }, at: 0)
+        return restored.sorted { $0.date > $1.date }
     }
 
     private func read(_ url: URL) -> Note? {
