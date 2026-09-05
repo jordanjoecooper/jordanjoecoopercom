@@ -110,7 +110,7 @@ struct Note: Identifiable, Hashable, Codable {
     private func restoreWorkingCopies(over loaded: [Note]) -> [Note] {
         guard let data = UserDefaults.standard.data(forKey: workingCopyKey), let cached = try? JSONDecoder().decode([Note].self, from: data) else { return loaded }
         let byID = Dictionary(uniqueKeysWithValues: cached.map { ($0.id, $0) })
-        var restored = loaded.map { byID[$0.id] ?? $0 }
+        var restored = loaded.map { note -> Note in var value = byID[note.id] ?? note; value.body = normaliseBody(value.body); return value }
         restored.insert(contentsOf: cached.filter { $0.id.hasPrefix("note-") }, at: 0)
         return restored.sorted { $0.date > $1.date }
     }
@@ -120,7 +120,25 @@ struct Note: Identifiable, Hashable, Codable {
         let parts = source.components(separatedBy: "\n---\n"); let front = parts.first?.replacingOccurrences(of: "---\n", with: "") ?? ""; let body = parts.dropFirst().joined(separator: "\n---\n")
         func value(_ key: String) -> String { front.split(separator: "\n").first(where: { $0.hasPrefix(key + ":") }).map { String($0.dropFirst(key.count + 1)).trimmingCharacters(in: .whitespaces).trimmingCharacters(in: CharacterSet(charactersIn: "\"")) } ?? "" }
         let formatter = ISO8601DateFormatter(); formatter.formatOptions = [.withFullDate]
-        return Note(id: url.deletingPathExtension().lastPathComponent, title: value("title"), description: value("description"), date: formatter.date(from: value("pubDate")) ?? Date(), draft: value("draft") != "false", pinned: value("pinned") == "true", keywords: value("keywords"), body: body.trimmingCharacters(in: .whitespacesAndNewlines), heroImage: value("heroImage"), heroAlt: value("heroAlt"))
+        return Note(id: url.deletingPathExtension().lastPathComponent, title: value("title"), description: value("description"), date: formatter.date(from: value("pubDate")) ?? Date(), draft: value("draft") != "false", pinned: value("pinned") == "true", keywords: value("keywords"), body: normaliseBody(body), heroImage: value("heroImage"), heroAlt: value("heroAlt"))
+    }
+
+    private func normaliseBody(_ source: String) -> String {
+        guard source.range(of: "<[^>]+>", options: .regularExpression) != nil else { return source.trimmingCharacters(in: .whitespacesAndNewlines) }
+        var value = source
+        for level in 1...6 { value = value.replacingOccurrences(of: "(?is)<h\(level)[^>]*>(.*?)</h\(level)>", with: String(repeating: "#", count: level) + " $1\n\n", options: .regularExpression) }
+        value = value.replacingOccurrences(of: "(?is)<img[^>]*alt=[\"']([^\"']*)[\"'][^>]*src=[\"']([^\"']+)[\"'][^>]*>", with: "![$1]($2)\n\n", options: .regularExpression)
+        value = value.replacingOccurrences(of: "(?is)<img[^>]*src=[\"']([^\"']+)[\"'][^>]*>", with: "![]($1)\n\n", options: .regularExpression)
+        value = value.replacingOccurrences(of: "(?is)<(strong|b)[^>]*>", with: "**", options: .regularExpression).replacingOccurrences(of: "(?is)</(strong|b)>", with: "**", options: .regularExpression)
+        value = value.replacingOccurrences(of: "(?is)<(em|i)[^>]*>", with: "*", options: .regularExpression).replacingOccurrences(of: "(?is)</(em|i)>", with: "*", options: .regularExpression)
+        value = value.replacingOccurrences(of: "(?is)<li[^>]*>", with: "- ", options: .regularExpression).replacingOccurrences(of: "(?is)</li>", with: "\n", options: .regularExpression)
+        value = value.replacingOccurrences(of: "(?is)<blockquote[^>]*>", with: "> ", options: .regularExpression).replacingOccurrences(of: "(?is)</blockquote>", with: "\n\n", options: .regularExpression)
+        value = value.replacingOccurrences(of: "(?is)<br\\s*/?>", with: "\n", options: .regularExpression)
+        value = value.replacingOccurrences(of: "(?is)</?(p|div|ul|ol)[^>]*>", with: "\n\n", options: .regularExpression)
+        value = value.replacingOccurrences(of: "<[^>]+>", with: "", options: .regularExpression)
+        value = value.replacingOccurrences(of: "&nbsp;", with: " ").replacingOccurrences(of: "&amp;", with: "&").replacingOccurrences(of: "&quot;", with: "\"").replacingOccurrences(of: "&#39;", with: "'").replacingOccurrences(of: "&lt;", with: "<").replacingOccurrences(of: "&gt;", with: ">")
+        value = value.replacingOccurrences(of: "(?m)^\\*{1,3}\\s*$", with: "", options: .regularExpression)
+        return value.replacingOccurrences(of: "\n{3,}", with: "\n\n", options: .regularExpression).trimmingCharacters(in: .whitespacesAndNewlines)
     }
 
     @discardableResult private func write(_ note: Note) -> Bool {
@@ -169,7 +187,7 @@ struct Editor: View {
     } }
 }
 
-struct FormPane: View { let note: Note; @ObservedObject var library: Library; let font: String; var body: some View { VStack(alignment: .leading, spacing: 16) { TextField("A short description for search and sharing", text: Binding(get: { note.description }, set: { var n = note; n.description = $0; library.update(n) })).textFieldStyle(.plain).foregroundStyle(.secondary); TextField("Keywords · comma separated", text: Binding(get: { note.keywords }, set: { var n = note; n.keywords = $0; library.update(n) })).textFieldStyle(.plain).font(.caption).foregroundStyle(.secondary); if !note.heroImage.isEmpty { HStack(spacing: 8) { Image(systemName: "photo").foregroundStyle(.orange); TextField("Hero image alt text", text: Binding(get: { note.heroAlt }, set: { var n = note; n.heroAlt = $0; library.update(n) })).textFieldStyle(.plain); Image(systemName: note.heroAlt.isEmpty ? "exclamationmark.triangle" : "checkmark.circle").foregroundStyle(note.heroAlt.isEmpty ? .red : .green) } }; Divider(); HStack { DatePicker("", selection: Binding(get: { note.date }, set: { var n = note; n.date = $0; library.update(n) }), displayedComponents: .date).labelsHidden(); Toggle("Draft", isOn: Binding(get: { note.draft }, set: { var n = note; n.draft = $0; library.update(n) })); Toggle("Pinned", isOn: Binding(get: { note.pinned }, set: { var n = note; n.pinned = $0; library.update(n) })) }; HStack(spacing: 6) { FormatBar(); StructureBar(note: note, library: library) }; RichMarkdownCanvas(text: Binding(get: { note.body }, set: { var n = note; n.body = $0; n.dirty = true; library.update(n) }), fontName: font).frame(minHeight: 500); HStack { Text("\(note.body.split(whereSeparator: \.isWhitespace).count) words"); Spacer(); Text("Markdown export · ⌘⇧E"); }.font(.caption).foregroundStyle(.secondary) }.padding(28).frame(maxWidth: .infinity, alignment: .leading) }
+struct FormPane: View { let note: Note; @ObservedObject var library: Library; let font: String; var body: some View { VStack(alignment: .leading, spacing: 16) { TextField("A short description for search and sharing", text: Binding(get: { note.description }, set: { var n = note; n.description = $0; library.update(n) })).textFieldStyle(.plain).foregroundStyle(.secondary); TextField("Keywords · comma separated", text: Binding(get: { note.keywords }, set: { var n = note; n.keywords = $0; library.update(n) })).textFieldStyle(.plain).font(.caption).foregroundStyle(.secondary); if !note.heroImage.isEmpty { HStack(spacing: 8) { Image(systemName: "photo").foregroundStyle(.orange); TextField("Hero image alt text", text: Binding(get: { note.heroAlt }, set: { var n = note; n.heroAlt = $0; library.update(n) })).textFieldStyle(.plain); Image(systemName: note.heroAlt.isEmpty ? "exclamationmark.triangle" : "checkmark.circle").foregroundStyle(note.heroAlt.isEmpty ? .red : .green) } }; Divider(); HStack { DatePicker("", selection: Binding(get: { note.date }, set: { var n = note; n.date = $0; library.update(n) }), displayedComponents: .date).labelsHidden(); Toggle("Draft", isOn: Binding(get: { note.draft }, set: { var n = note; n.draft = $0; library.update(n) })); Toggle("Pinned", isOn: Binding(get: { note.pinned }, set: { var n = note; n.pinned = $0; library.update(n) })) }; VStack(alignment: .leading, spacing: 10) { FormatBar(); StructureBar(note: note, library: library) }; RichMarkdownCanvas(text: Binding(get: { note.body }, set: { var n = note; n.body = $0; n.dirty = true; library.update(n) }), fontName: font).frame(minHeight: 500); HStack { Text("\(note.body.split(whereSeparator: \.isWhitespace).count) words"); Spacer(); Text("Markdown export · ⌘⇧E"); }.font(.caption).foregroundStyle(.secondary) }.padding(28).frame(maxWidth: .infinity, alignment: .leading) }
 }
 
 struct RichMarkdownCanvas: NSViewRepresentable {
@@ -181,9 +199,25 @@ struct RichMarkdownCanvas: NSViewRepresentable {
         let view = NSTextView()
         view.delegate = context.coordinator; view.string = text; view.font = .init(name: fontName, size: 17) ?? .systemFont(ofSize: 17)
         view.isRichText = false; view.isEditable = true; view.isSelectable = true; view.usesFontPanel = false; view.drawsBackground = false; view.textContainerInset = NSSize(width: 4, height: 8); view.autoresizingMask = [.width, .height]
+        style(view, fontName: fontName)
         let scroll = NSScrollView(); scroll.drawsBackground = false; scroll.hasVerticalScroller = true; scroll.hasHorizontalScroller = false; scroll.borderType = .noBorder; scroll.documentView = view; return scroll
     }
-    func updateNSView(_ scroll: NSScrollView, context: Context) { guard let view = scroll.documentView as? NSTextView else { return }; if view.string != text { view.string = text }; view.font = .init(name: fontName, size: 17) ?? .systemFont(ofSize: 17) }
+    func updateNSView(_ scroll: NSScrollView, context: Context) { guard let view = scroll.documentView as? NSTextView else { return }; if view.string != text { view.string = text }; view.font = .init(name: fontName, size: 17) ?? .systemFont(ofSize: 17); style(view, fontName: fontName) }
+    private func style(_ view: NSTextView, fontName: String) {
+        guard let storage = view.textStorage else { return }; let full = NSRange(location: 0, length: (view.string as NSString).length); let base = NSFont(name: fontName, size: 17) ?? .systemFont(ofSize: 17)
+        storage.beginEditing(); storage.setAttributes([.font: base, .foregroundColor: NSColor.textColor], range: full)
+        for pattern in ["(?m)^#{1,6}\\s+", "(?m)^>\\s?", "(?m)^[-*]\\s+", "\\*{1,3}", "`{1,3}"] { let expression = try? NSRegularExpression(pattern: pattern); expression?.enumerateMatches(in: view.string, range: full) { match, _, _ in if let match { storage.addAttribute(.foregroundColor, value: NSColor.clear, range: match.range) } } }
+        for pattern in ["!\\[[^\\]]*\\]\\([^)]*\\)", "\\[[^]]+\\]\\([^)]*\\)"] {
+            guard let expression = try? NSRegularExpression(pattern: pattern) else { continue }
+            expression.enumerateMatches(in: view.string, range: full) { match, _, _ in
+                guard let match else { return }; let token = (view.string as NSString).substring(with: match.range)
+                guard let open = token.firstIndex(of: "["), let close = token.lastIndex(of: ")") else { return }
+                let start = token.distance(from: token.startIndex, to: open); let end = token.distance(from: token.startIndex, to: close) + 1
+                storage.addAttribute(.foregroundColor, value: NSColor.clear, range: NSRange(location: match.range.location, length: start)); storage.addAttribute(.foregroundColor, value: NSColor.clear, range: NSRange(location: match.range.location + end, length: match.range.length - end))
+            }
+        }
+        storage.endEditing()
+    }
     final class Coordinator: NSObject, NSTextViewDelegate { var parent: RichMarkdownCanvas; init(_ parent: RichMarkdownCanvas) { self.parent = parent }; func textDidChange(_ notification: Notification) { guard let view = notification.object as? NSTextView else { return }; parent.text = view.string } }
 }
 
