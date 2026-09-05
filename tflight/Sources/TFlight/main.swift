@@ -163,7 +163,32 @@ struct Editor: View {
     } }
 }
 
-struct FormPane: View { let note: Note; @ObservedObject var library: Library; let font: String; var body: some View { ScrollView { VStack(alignment: .leading, spacing: 16) { TextField("A short description for search and sharing", text: Binding(get: { note.description }, set: { var n = note; n.description = $0; library.update(n) })).textFieldStyle(.plain).foregroundStyle(.secondary); Divider(); HStack { DatePicker("", selection: Binding(get: { note.date }, set: { var n = note; n.date = $0; library.update(n) }), displayedComponents: .date).labelsHidden(); Toggle("Draft", isOn: Binding(get: { note.draft }, set: { var n = note; n.draft = $0; library.update(n) })); Toggle("Pinned", isOn: Binding(get: { note.pinned }, set: { var n = note; n.pinned = $0; library.update(n) })) }; StructureBar(note: note, library: library); TextEditor(text: Binding(get: { note.body }, set: { var n = note; n.body = $0; n.dirty = true; library.update(n) })).font(.custom(font, size: 17)).scrollContentBackground(.hidden).frame(minHeight: 500); HStack { Text("\(note.body.split(whereSeparator: \.isWhitespace).count) words"); Spacer(); Text("Markdown export · ⌘⇧E"); }.font(.caption).foregroundStyle(.secondary) }.padding(28).frame(maxWidth: .infinity, alignment: .leading) } }
+struct FormPane: View { let note: Note; @ObservedObject var library: Library; let font: String; var body: some View { ScrollView { VStack(alignment: .leading, spacing: 16) { TextField("A short description for search and sharing", text: Binding(get: { note.description }, set: { var n = note; n.description = $0; library.update(n) })).textFieldStyle(.plain).foregroundStyle(.secondary); Divider(); HStack { DatePicker("", selection: Binding(get: { note.date }, set: { var n = note; n.date = $0; library.update(n) }), displayedComponents: .date).labelsHidden(); Toggle("Draft", isOn: Binding(get: { note.draft }, set: { var n = note; n.draft = $0; library.update(n) })); Toggle("Pinned", isOn: Binding(get: { note.pinned }, set: { var n = note; n.pinned = $0; library.update(n) })) }; HStack(spacing: 6) { FormatBar(); StructureBar(note: note, library: library) }; RichMarkdownCanvas(text: Binding(get: { note.body }, set: { var n = note; n.body = $0; n.dirty = true; library.update(n) }), fontName: font).frame(minHeight: 500); HStack { Text("\(note.body.split(whereSeparator: \.isWhitespace).count) words"); Spacer(); Text("Markdown export · ⌘⇧E"); }.font(.caption).foregroundStyle(.secondary) }.padding(28).frame(maxWidth: .infinity, alignment: .leading) } }
+}
+
+struct RichMarkdownCanvas: NSViewRepresentable {
+    @Binding var text: String
+    let fontName: String
+
+    func makeCoordinator() -> Coordinator { Coordinator(self) }
+    func makeNSView(context: Context) -> NSScrollView {
+        let view = NSTextView()
+        view.delegate = context.coordinator; view.string = text; view.font = .init(name: fontName, size: 17) ?? .systemFont(ofSize: 17)
+        view.isRichText = false; view.usesFontPanel = false; view.drawsBackground = false; view.textContainerInset = NSSize(width: 4, height: 8); view.autoresizingMask = [.width]
+        let scroll = NSScrollView(); scroll.drawsBackground = false; scroll.hasVerticalScroller = true; scroll.documentView = view; return scroll
+    }
+    func updateNSView(_ scroll: NSScrollView, context: Context) { guard let view = scroll.documentView as? NSTextView else { return }; if view.string != text { view.string = text }; view.font = .init(name: fontName, size: 17) ?? .systemFont(ofSize: 17) }
+    final class Coordinator: NSObject, NSTextViewDelegate { var parent: RichMarkdownCanvas; init(_ parent: RichMarkdownCanvas) { self.parent = parent }; func textDidChange(_ notification: Notification) { guard let view = notification.object as? NSTextView else { return }; parent.text = view.string } }
+}
+
+struct FormatBar: View {
+    var body: some View { HStack(spacing: 4) { Text("FORMAT").font(.caption2).foregroundStyle(.secondary); Button("Bold") { wrap("**", "**") }; Button("Italic") { wrap("*", "*") }; Button("Code") { wrap("`", "`") }; Button("Link") { wrap("[", "](https://)") } }.buttonStyle(.bordered).controlSize(.small) }
+    private func wrap(_ prefix: String, _ suffix: String) {
+        guard let root = NSApp.keyWindow?.contentView, let view = findTextView(in: root) else { return }
+        let range = view.selectedRange(); let selected = (view.string as NSString).substring(with: range)
+        view.insertText(prefix + (selected.isEmpty ? "text" : selected) + suffix, replacementRange: range); view.window?.makeFirstResponder(view)
+    }
+    private func findTextView(in view: NSView) -> NSTextView? { if let textView = view as? NSTextView { return textView }; for child in view.subviews { if let found = findTextView(in: child) { return found } }; return nil }
 }
 
 struct StructureBar: View { let note: Note; @ObservedObject var library: Library
