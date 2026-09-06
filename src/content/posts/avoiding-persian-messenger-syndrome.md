@@ -4,6 +4,8 @@ description: "Many organisations have a news problem, good news is shared and ba
 pubDate: 2026-03-04
 draft: false
 keywords: ""
+heroImage: ../../assets/posts/avoiding-persian-messenger-syndrome/hero.png
+heroAlt: "Editorial diagram of a messenger safely delivering a warning to a welcoming leader"
 ---
 
 There is an old English saying that “bad news travels fast.” In many cases that’s true. Except, perhaps, in companies and ancient Persia.
