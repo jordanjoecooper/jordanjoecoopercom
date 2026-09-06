@@ -31,3 +31,5 @@ npm-debug.log*
 CLAUDE.md
 dist/
 .astro/
+tflight/.build/
+tflight/dist/
