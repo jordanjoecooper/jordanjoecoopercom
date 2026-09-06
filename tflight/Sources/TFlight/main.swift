@@ -81,7 +81,11 @@ struct Note: Identifiable, Hashable, Codable {
 
     func attachImage(asHero: Bool = false) {
         guard var note = selected, let root = repositoryURL else { return }
-        if note.id.hasPrefix("note-"), !note.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty { write(note); note = selected ?? note }
+        if note.id.hasPrefix("note-") {
+            guard !note.title.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty else { message = "Add a title before adding media"; return }
+            guard write(note) else { return }
+            note = selected ?? note
+        }
         let panel = NSOpenPanel(); panel.allowedContentTypes = [.image, .audio, .movie]; panel.allowsMultipleSelection = false; panel.prompt = asHero ? "Choose hero image" : "Add to note"
         guard panel.runModal() == .OK, let source = panel.url else { return }
         guard !asHero || UTType(filenameExtension: source.pathExtension)?.conforms(to: .image) == true else { message = "Hero images must be image files"; return }
@@ -201,9 +205,9 @@ struct Editor: View {
     @State private var focusMode = false
     var note: Note { library.selected ?? Note(id: "empty") }
     var body: some View { VStack(spacing: 0) {
-        HStack { TextField("Untitled note", text: Binding(get: { note.title }, set: { var n = note; n.title = $0; n.dirty = true; library.update(n) })).textFieldStyle(.plain).font(.system(size: 26, design: .serif)); Spacer(); Picker("Font", selection: $font) { Text("New York").tag("New York"); Text("Avenir").tag("Avenir"); Text("Mono").tag("Menlo") }.frame(width: 130); Button("Add media") { library.attachImage() }; Button("Set hero") { library.attachImage(asHero: true) }; Button(focusMode ? "Exit focus" : "Focus") { focusMode.toggle() }; if !focusMode { Button(showPreview ? "Hide preview" : "Preview") { showPreview.toggle() } }; Button("Export") { library.exportCurrent() }.buttonStyle(.borderedProminent).tint(.orange) }.padding(.horizontal, 28).padding(.vertical, 16)
+        HStack { TextField("Untitled note", text: Binding(get: { note.title }, set: { var n = note; n.title = $0; n.dirty = true; library.update(n) })).textFieldStyle(.plain).font(.system(size: 26, design: .serif)).frame(minWidth: 220, maxWidth: 410, alignment: .leading); Spacer(minLength: 12); Picker("Font", selection: $font) { Text("New York").tag("New York"); Text("Avenir").tag("Avenir"); Text("Mono").tag("Menlo") }.frame(width: 130); Button("Add media") { library.attachImage() }; Button("Set hero") { library.attachImage(asHero: true) }; Button(focusMode ? "Exit focus" : "Focus") { focusMode.toggle() }; if !focusMode { Button(showPreview ? "Hide preview" : "Preview") { showPreview.toggle() } }; Button("Export") { library.exportCurrent() }.buttonStyle(.borderedProminent).tint(.orange) }.padding(.horizontal, 28).padding(.top, 22).padding(.bottom, 16)
         Divider()
-        HStack(spacing: 0) { if focusMode { RichMarkdownCanvas(text: Binding(get: { note.body }, set: { var n = note; n.body = $0; n.dirty = true; library.update(n) }), fontName: font).frame(minHeight: 500).padding(36) } else { FormPane(note: note, library: library, font: font); if showPreview { Divider(); PreviewPane(note: note) } } }
+        HStack(spacing: 0) { if focusMode { RichMarkdownCanvas(text: Binding(get: { note.body }, set: { var n = note; n.body = $0; n.dirty = true; library.update(n) }), fontName: font).frame(minHeight: 500).padding(36) } else { FormPane(note: note, library: library, font: font); if showPreview { Divider(); PreviewPane(note: note, repositoryURL: library.repositoryURL) } } }
     } }
 }
 
@@ -292,4 +296,66 @@ struct StructureBar: View { let note: Note; @ObservedObject var library: Library
     private func insert(_ value: String) { var updated = note; updated.body += (updated.body.isEmpty ? "" : "\n\n") + value; updated.dirty = true; library.update(updated) }
 }
 
-struct PreviewPane: View { let note: Note; var body: some View { ScrollView { VStack(alignment: .leading, spacing: 18) { Text(note.title.isEmpty ? "Untitled note" : note.title).font(.system(size: 40, design: .serif)); Text(note.description).foregroundStyle(.secondary); Divider(); if let rendered = try? AttributedString(markdown: note.body) { Text(rendered).font(.system(size: 17, design: .serif)).lineSpacing(7) } else { Text(note.body).font(.system(size: 17, design: .serif)).lineSpacing(7) } }.padding(42).frame(maxWidth: .infinity, alignment: .leading) }.background(Color(nsColor: .textBackgroundColor)) } }
+struct PreviewPane: View {
+    let note: Note
+    let repositoryURL: URL?
+
+    var body: some View {
+        ScrollView {
+            VStack(alignment: .leading, spacing: 18) {
+                Text(note.title.isEmpty ? "Untitled note" : note.title).font(.system(size: 40, design: .serif))
+                if !note.description.isEmpty { Text(note.description).foregroundStyle(.secondary) }
+                if let hero = localMediaURL(note.heroImage), let image = NSImage(contentsOf: hero) {
+                    Image(nsImage: image).resizable().scaledToFit().clipShape(RoundedRectangle(cornerRadius: 10)).accessibilityLabel(note.heroAlt)
+                }
+                Divider()
+                if let rendered = try? AttributedString(markdown: note.body) { Text(rendered).font(.system(size: 17, design: .serif)).lineSpacing(7) } else { Text(note.body).font(.system(size: 17, design: .serif)).lineSpacing(7) }
+                let media = inlineMedia()
+                if !media.isEmpty {
+                    VStack(alignment: .leading, spacing: 10) {
+                        Text("ATTACHED MEDIA").font(.caption2).foregroundStyle(.secondary)
+                        ForEach(Array(media.enumerated()), id: \.offset) { _, item in MediaAttachment(label: item.0, url: item.1) }
+                    }
+                }
+            }.padding(42).frame(maxWidth: .infinity, alignment: .leading)
+        }.background(Color(nsColor: .textBackgroundColor))
+    }
+
+    private func localMediaURL(_ path: String) -> URL? {
+        guard !path.isEmpty, !path.hasPrefix("http://"), !path.hasPrefix("https://"), let repositoryURL else { return nil }
+        let postsURL = repositoryURL.appendingPathComponent("src/content/posts")
+        let sourceURL = postsURL.appendingPathComponent(note.id).appendingPathExtension("md")
+        return URL(fileURLWithPath: path, relativeTo: sourceURL.deletingLastPathComponent()).standardizedFileURL
+    }
+
+    private func inlineMedia() -> [(String, URL)] {
+        guard let expression = try? NSRegularExpression(pattern: "!\\[([^\\]]*)\\]\\(([^)]+)\\)|\\[([^\\]]+)\\]\\(([^)]+)\\)") else { return [] }
+        let range = NSRange(location: 0, length: (note.body as NSString).length)
+        var results: [(String, URL)] = []
+        expression.enumerateMatches(in: note.body, range: range) { match, _, _ in
+            guard let match else { return }
+            let labelRange = match.range(at: 1).location == NSNotFound ? match.range(at: 3) : match.range(at: 1)
+            let pathRange = match.range(at: 2).location == NSNotFound ? match.range(at: 4) : match.range(at: 2)
+            let label = (note.body as NSString).substring(with: labelRange)
+            let path = (note.body as NSString).substring(with: pathRange)
+            if let url = localMediaURL(path) { results.append((label.isEmpty ? url.lastPathComponent : label, url)) }
+        }
+        return results
+    }
+}
+
+struct MediaAttachment: View {
+    let label: String
+    let url: URL
+
+    var body: some View {
+        Button { NSWorkspace.shared.open(url) } label: {
+            HStack(spacing: 10) {
+                if let image = NSImage(contentsOf: url) { Image(nsImage: image).resizable().scaledToFill().frame(width: 54, height: 40).clipped().clipShape(RoundedRectangle(cornerRadius: 6)) }
+                else { Image(systemName: "play.rectangle").frame(width: 54, height: 40).font(.title2).foregroundStyle(.orange) }
+                VStack(alignment: .leading, spacing: 2) { Text(label).lineLimit(1); Text("Open \(url.pathExtension.uppercased())").font(.caption2).foregroundStyle(.secondary) }
+                Spacer(); Image(systemName: "arrow.up.right.square").foregroundStyle(.secondary)
+            }.contentShape(Rectangle())
+        }.buttonStyle(.plain).foregroundStyle(.primary)
+    }
+}
